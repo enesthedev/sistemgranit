@@ -11,14 +11,16 @@
     "prefix": ""
   },
   "iconLibrary": "lucide",
+  "menuColor": "inverted",
+  "menuAccent": "subtle",
   "aliases": {
     "components": "@/app/components",
-    "utils": "@/utils",
+    "utils": "@/lib/utils",
     "ui": "@/app/components/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
   },
-  "menuColor": "inverted",
-  "menuAccent": "subtle",
-  "registries": {}
+  "registries": {
+    "@supabase": "https://supabase.com/ui/r/{name}.json"
+  }
 }
