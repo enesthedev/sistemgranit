@@ -1,24 +1,12 @@
 import { createServerClient } from "@supabase/ssr";
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 import { isProtectedRoute } from "@/lib/routes";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { env } from "@/lib/env";
 
 async function checkHasUsers(): Promise<boolean> {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
-
-    if (!supabaseUrl || !supabaseSecretKey) {
-      return true;
-    }
-
-    const adminClient = createClient(supabaseUrl, supabaseSecretKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    });
-
+    const adminClient = createAdminClient();
     const { data, error } = await adminClient.auth.admin.listUsers({
       page: 1,
       perPage: 1,
@@ -37,7 +25,6 @@ async function checkHasUsers(): Promise<boolean> {
 }
 
 export async function supabaseProxy(request: NextRequest) {
-  console.log("b");
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -45,8 +32,8 @@ export async function supabaseProxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_OR_ANON_KEY!,
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_OR_ANON_KEY,
     {
       cookies: {
         getAll() {
