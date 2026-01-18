@@ -60,7 +60,7 @@ export function Form({
               displayName: values.fullName,
               role: "admin", // Explicitly marking as admin context if needed by policies
             },
-            emailRedirectTo: `${window.location.origin}/protected`,
+            emailRedirectTo: `${window.location.origin}/`,
           },
         });
 

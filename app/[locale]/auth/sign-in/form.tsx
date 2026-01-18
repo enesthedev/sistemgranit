@@ -1,29 +1,42 @@
-'use client';
+"use client";
 
-import { Button } from '@/app/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
-import { Input } from '@/app/components/ui/input';
-import { Label } from '@/app/components/ui/label';
-import { createClient } from '@/lib/supabase/browser';
-import { cn } from '@/utils';
-import { useFormik } from 'formik';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import * as Yup from 'yup';
+import { Button } from "@/app/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/app/components/ui/card";
+import { Input } from "@/app/components/ui/input";
+import { Label } from "@/app/components/ui/label";
+import { createClient } from "@/lib/supabase/browser";
+import { cn } from "@/utils";
+import { useFormik } from "formik";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import * as Yup from "yup";
 
 const validationSchema = Yup.object({
-  email: Yup.string().email('Geçerli bir e-posta adresi girin').required('E-posta adresi gerekli'),
-  password: Yup.string().min(6, 'Şifre en az 6 karakter olmalı').required('Şifre gerekli'),
+  email: Yup.string()
+    .email("Geçerli bir e-posta adresi girin")
+    .required("E-posta adresi gerekli"),
+  password: Yup.string()
+    .min(6, "Şifre en az 6 karakter olmalı")
+    .required("Şifre gerekli"),
 });
 
-export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function LoginForm({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -37,20 +50,22 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
         if (error) throw error;
 
-        toast.success('Giriş başarılı!');
-        router.push('/protected');
+        toast.success("Giriş başarılı!");
+        router.push("/");
       } catch (error: unknown) {
-        toast.error(error instanceof Error ? error.message : 'Bir hata oluştu');
+        toast.error(error instanceof Error ? error.message : "Bir hata oluştu");
       }
     },
   });
 
   return (
-    <div className={cn('flex flex-col gap-6', className)} {...props}>
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Giriş Yap</CardTitle>
-          <CardDescription>Hesabınıza giriş yapmak için bilgilerinizi girin</CardDescription>
+          <CardDescription>
+            Hesabınıza giriş yapmak için bilgilerinizi girin
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={formik.handleSubmit}>
@@ -66,12 +81,17 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                {formik.touched.email && formik.errors.email && <p className="text-sm text-red-500">{formik.errors.email}</p>}
+                {formik.touched.email && formik.errors.email && (
+                  <p className="text-sm text-red-500">{formik.errors.email}</p>
+                )}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Şifre</Label>
-                  <Link href="/auth/forgot-password" className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
+                  <Link
+                    href="/auth/forgot-password"
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
                     Şifrenizi mi unuttunuz?
                   </Link>
                 </div>
@@ -83,15 +103,26 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                {formik.touched.password && formik.errors.password && <p className="text-sm text-red-500">{formik.errors.password}</p>}
+                {formik.touched.password && formik.errors.password && (
+                  <p className="text-sm text-red-500">
+                    {formik.errors.password}
+                  </p>
+                )}
               </div>
-              <Button type="submit" className="w-full" disabled={formik.isSubmitting}>
-                {formik.isSubmitting ? 'Giriş yapılıyor...' : 'Giriş Yap'}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={formik.isSubmitting}
+              >
+                {formik.isSubmitting ? "Giriş yapılıyor..." : "Giriş Yap"}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
-              Hesabınız yok mu?{' '}
-              <Link href="/auth/sign-up" className="underline underline-offset-4">
+              Hesabınız yok mu?{" "}
+              <Link
+                href="/auth/sign-up"
+                className="underline underline-offset-4"
+              >
                 Kayıt ol
               </Link>
             </div>
