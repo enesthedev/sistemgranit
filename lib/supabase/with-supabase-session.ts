@@ -32,14 +32,23 @@ export const withSupabaseSession: ProxyFactory = (next) => {
       },
     );
 
-    const { data } = await supabase.auth.getClaims();
-    const user = data?.claims;
+    let user = null;
+
+    try {
+      const { data, error } = await supabase.auth.getClaims();
+      if (!error) {
+        user = data?.claims;
+      }
+    } catch {
+      user = null;
+    }
 
     if (
       request.nextUrl.pathname !== "/" &&
       !user &&
       !request.nextUrl.pathname.startsWith("/login") &&
-      !request.nextUrl.pathname.startsWith("/auth")
+      !request.nextUrl.pathname.startsWith("/auth") &&
+      !request.nextUrl.pathname.startsWith("/onboarding")
     ) {
       const url = request.nextUrl.clone();
       url.pathname = "/auth/login";

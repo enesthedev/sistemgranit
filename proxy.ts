@@ -1,8 +1,9 @@
 import { chain } from "@/lib/proxy-chain";
-import { withSupabaseSession } from "@/lib/supabase/proxy";
+import { withOnboarding } from "@/lib/auth/with-onboarding";
+import { withSupabaseSession } from "@/lib/supabase/with-supabase-session";
 import { type NextFetchEvent, type NextRequest } from "next/server";
 
-const proxies = [withSupabaseSession];
+const proxies = [withOnboarding, withSupabaseSession];
 
 export async function proxy(request: NextRequest, event: NextFetchEvent) {
   return chain(proxies)(request, event);
