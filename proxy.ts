@@ -1,5 +1,6 @@
 import { chain } from "@/lib/proxy-chain";
 import {
+  with18n,
   withOnboarding,
   withSupabaseSession,
   withGuestGuard,
@@ -8,6 +9,7 @@ import {
 import { type NextFetchEvent, type NextRequest } from "next/server";
 
 const proxies = [
+  with18n,
   withOnboarding,
   withSupabaseSession,
   withGuestGuard,
@@ -19,7 +21,5 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/((?!api|trpc|_next|_vercel|.*\\..*).*)"],
 };

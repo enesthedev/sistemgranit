@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import { hasEnvVars } from "@/utils";
 import { ProxyFactory } from "@/lib/proxy-chain/types";
-import { isGuestRoute } from "@/lib/guards/routes";
+import { isGuestRoute } from "@/utils";
 
 export const withGuestGuard: ProxyFactory = (next) => {
   return async (request, event) => {
