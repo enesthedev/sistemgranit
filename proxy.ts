@@ -1,8 +1,18 @@
 import { chain } from "@/lib/proxy-chain";
-import { withOnboarding, withSupabaseSession } from "@/proxies";
+import {
+  withOnboarding,
+  withSupabaseSession,
+  withGuestGuard,
+  withAuthGuard,
+} from "@/proxies";
 import { type NextFetchEvent, type NextRequest } from "next/server";
 
-const proxies = [withOnboarding, withSupabaseSession];
+const proxies = [
+  withOnboarding,
+  withSupabaseSession,
+  withGuestGuard,
+  withAuthGuard,
+];
 
 export async function proxy(request: NextRequest, event: NextFetchEvent) {
   return chain(proxies)(request, event);

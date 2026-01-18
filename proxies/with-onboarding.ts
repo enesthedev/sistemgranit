@@ -1,40 +1,9 @@
 import { NextResponse } from "next/server";
 import { hasEnvVars } from "@/utils";
 import { ProxyFactory } from "@/lib/proxy-chain/types";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { getUsersCount } from "@/actions";
 
 const ONBOARDING_PATH = "/onboarding";
-
-let cachedHasUsers: boolean | null = null;
-let cacheTimestamp = 0;
-const CACHE_DURATION_MS = 60 * 1000;
-
-async function checkHasUsers(): Promise<boolean> {
-  const now = Date.now();
-
-  if (cachedHasUsers !== null && now - cacheTimestamp < CACHE_DURATION_MS) {
-    return cachedHasUsers;
-  }
-
-  try {
-    const supabaseAdmin = createAdminClient();
-    const { data, error } = await supabaseAdmin.auth.admin.listUsers({
-      perPage: 1,
-    });
-
-    if (error) {
-      console.error("Error checking users:", error.message);
-      return true;
-    }
-
-    cachedHasUsers = data?.users && data.users.length > 0;
-    cacheTimestamp = now;
-
-    return cachedHasUsers;
-  } catch {
-    return true;
-  }
-}
 
 export const withOnboarding: ProxyFactory = (next) => {
   return async (request, event) => {
@@ -46,12 +15,21 @@ export const withOnboarding: ProxyFactory = (next) => {
       return next(request, event);
     }
 
-    const hasUsers = await checkHasUsers();
+    const usersCount = await getUsersCount();
 
-    if (!hasUsers) {
+    if (usersCount === 0) {
       const url = request.nextUrl.clone();
       url.pathname = ONBOARDING_PATH;
-      return NextResponse.redirect(url);
+
+      const response = NextResponse.redirect(url);
+
+      request.cookies.getAll().forEach((cookie) => {
+        if (cookie.name.startsWith("sb-")) {
+          response.cookies.delete(cookie.name);
+        }
+      });
+
+      return response;
     }
 
     return next(request, event);

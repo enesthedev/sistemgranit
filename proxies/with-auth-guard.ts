@@ -2,10 +2,17 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import { hasEnvVars } from "@/utils";
 import { ProxyFactory } from "@/lib/proxy-chain/types";
+import { isGuestRoute, isPublicRoute } from "@/lib/guards/routes";
 
-export const withSupabaseSession: ProxyFactory = (next) => {
+export const withAuthGuard: ProxyFactory = (next) => {
   return async (request, event) => {
     if (!hasEnvVars) {
+      return next(request, event);
+    }
+
+    const pathname = request.nextUrl.pathname;
+
+    if (isPublicRoute(pathname) || isGuestRoute(pathname)) {
       return next(request, event);
     }
 
@@ -32,15 +39,22 @@ export const withSupabaseSession: ProxyFactory = (next) => {
       },
     );
 
+    let user = null;
+
     try {
-      // Just call getClaims to trigger session refresh if needed
-      await supabase.auth.getClaims();
+      const { data, error } = await supabase.auth.getClaims();
+      if (!error) {
+        user = data?.claims;
+      }
     } catch {
-      // ignore
+      user = null;
     }
 
-    // This middleware is responsible for refreshing the session.
-    // The actual authentication checks are done in with-auth-guard.ts and with-guest-guard.ts
+    if (!user) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/auth/login";
+      return NextResponse.redirect(url);
+    }
 
     const response = await next(request, event);
 
