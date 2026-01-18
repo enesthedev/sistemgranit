@@ -1,0 +1,30 @@
+[00:13:50.121] Server  ERROR   PageNotFoundError: Cannot find module for page: /proxy
+[00:13:50.165] Server  ERROR   ⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/router-server.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/start-server.js
+[00:13:50.188] Server  ERROR   Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/router-server.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/start-server.js
+[00:13:50.206] Server  ERROR   PageNotFoundError: Cannot find module for page: /proxy
+[00:13:50.245] Server  ERROR   ⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/router-server.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/start-server.js
+[00:13:50.271] Server  ERROR   Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/router-server.js
+- /Users/enesbayraktar/Workspace/sistemgranit/node_modules/next/dist/server/lib/start-server.js
