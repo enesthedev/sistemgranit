@@ -1,6 +1,5 @@
 import { DeployButton } from "@/app/components/deploy-button";
 import { Hero } from "@/app/components/hero";
-import { ThemeSwitcher } from "@/app/components/theme-switcher";
 import Link from "next/link";
 
 export default function Home() {
