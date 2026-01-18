@@ -1,8 +1,8 @@
 // https://reacthustle.com/blog/how-to-chain-multiple-middleware-functions-in-nextjs
 // https://github.com/jmarioste/next-middleware-guide/
 
-import { NextResponse } from "next/server";
-import { ChainableProxy, ProxyFactory as ProxyFactory } from "./types";
+import { NextResponse } from 'next/server';
+import { ChainableProxy, ProxyFactory } from './types';
 
 /**
  * Helper to compose multiple MiddlewareFactory instances together.
@@ -22,10 +22,7 @@ import { ChainableProxy, ProxyFactory as ProxyFactory } from "./types";
  * by earlier layers) will be properly passed on to the Next.js request
  * handlers: page components, server actions and route handlers.
  */
-export function chain(
-  functions: ProxyFactory[] = [],
-  index = 0,
-): ChainableProxy {
+export function chain(functions: ProxyFactory[] = [], index = 0): ChainableProxy {
   const current = functions[index];
   if (current) {
     const next = chain(functions, index + 1);

@@ -1,10 +1,10 @@
 import { chain } from "@/lib/proxy-chain";
 import {
   with18n,
+  withAuthGuard,
+  withGuestGuard,
   withOnboarding,
   withSupabaseSession,
-  withGuestGuard,
-  withAuthGuard,
 } from "@/proxies";
 import { type NextFetchEvent, type NextRequest } from "next/server";
 

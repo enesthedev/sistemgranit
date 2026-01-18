@@ -1,4 +1,4 @@
-import { UpdatePasswordForm } from "./form";
+import { UpdatePasswordForm } from './form';
 
 export default function Page() {
   return (

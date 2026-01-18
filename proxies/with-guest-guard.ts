@@ -1,15 +1,10 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse } from "next/server";
-import { hasEnvVars } from "@/utils";
-import { ProxyFactory } from "@/lib/proxy-chain/types";
-import { isGuestRoute } from "@/utils";
+import { ProxyFactory } from '@/lib/proxy-chain/types';
+import { isGuestRoute } from '@/utils';
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse } from 'next/server';
 
 export const withGuestGuard: ProxyFactory = (next) => {
   return async (request, event) => {
-    if (!hasEnvVars) {
-      return next(request, event);
-    }
-
     const pathname = request.nextUrl.pathname;
 
     if (!isGuestRoute(pathname)) {
@@ -18,26 +13,18 @@ export const withGuestGuard: ProxyFactory = (next) => {
 
     let supabaseResponse = NextResponse.next({ request });
 
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return request.cookies.getAll();
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) =>
-              request.cookies.set(name, value),
-            );
-            supabaseResponse = NextResponse.next({ request });
-            cookiesToSet.forEach(({ name, value, options }) =>
-              supabaseResponse.cookies.set(name, value, options),
-            );
-          },
+    const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          supabaseResponse = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) => supabaseResponse.cookies.set(name, value, options));
         },
       },
-    );
+    });
 
     let user = null;
 
@@ -52,7 +39,7 @@ export const withGuestGuard: ProxyFactory = (next) => {
 
     if (user) {
       const url = request.nextUrl.clone();
-      url.pathname = "/protected";
+      url.pathname = '/protected';
       return NextResponse.redirect(url);
     }
 

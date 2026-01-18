@@ -1,1 +1,1 @@
-export * from "./get-users-count";
+export * from './get-users-count';

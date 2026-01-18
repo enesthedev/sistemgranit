@@ -1,1 +1,1 @@
-export * from "./proxy-chain";
+export * from './proxy-chain';
