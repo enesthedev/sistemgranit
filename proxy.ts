@@ -1,6 +1,5 @@
 import { chain } from "@/lib/proxy-chain";
-import { withOnboarding } from "@/lib/auth/with-onboarding";
-import { withSupabaseSession } from "@/lib/supabase/with-supabase-session";
+import { withOnboarding, withSupabaseSession } from "@/proxies";
 import { type NextFetchEvent, type NextRequest } from "next/server";
 
 const proxies = [withOnboarding, withSupabaseSession];
