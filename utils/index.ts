@@ -1,3 +1,2 @@
-export * from './cn';
-export * from './is-guest-route';
-export * from './is-public-route';
+export * from "./cn";
+export { isGuestRoute, isPublicRoute, isProtectedRoute } from "@/lib/routes";

@@ -1,19 +1,11 @@
-import { defineRouting } from 'next-intl/routing';
+import { defineRouting } from "next-intl/routing";
+import { pathnames } from "@/lib/routes/pathnames";
 
 export const routing = defineRouting({
-  locales: ['tr'],
-  defaultLocale: 'tr',
-  pathnames: {
-    '/': '/',
-    '/onboarding': {
-      en: '/onboarding',
-      tr: '/karsilama',
-    },
-    '/sign-in': {
-      tr: '/giris-yap',
-    },
-  },
-  localePrefix: 'as-needed',
+  locales: ["tr"],
+  defaultLocale: "tr",
+  pathnames,
+  localePrefix: "as-needed",
 });
 
 export type Pathnames = typeof routing.pathnames;
