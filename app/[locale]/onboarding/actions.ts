@@ -18,7 +18,6 @@ export async function signUpAdmin(
   const password = formData.get("password") as string;
   const repeatPassword = formData.get("repeatPassword") as string;
 
-  // Basit validasyonlar
   if (!email || !password || !fullName) {
     return { error: "Lütfen tüm alanları doldurun." };
   }
