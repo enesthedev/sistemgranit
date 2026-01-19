@@ -11,7 +11,6 @@ import {
 } from "@/app/components/ui/card";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import { createClient } from "@/lib/supabase/browser";
 import { cn } from "@/utils";
 import { useFormik } from "formik";
 import { ArrowRight } from "lucide-react";
@@ -20,6 +19,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 import * as Yup from "yup";
+import { signUpAdmin } from "./actions";
 
 const validationSchema = Yup.object({
   fullName: Yup.string().required("Ad Soyad girin"),
@@ -50,56 +50,59 @@ export function Form({
     },
     validationSchema,
     onSubmit: async (values) => {
-      const supabase = createClient();
       try {
-        const { error } = await supabase.auth.signUp({
-          email: values.email,
-          password: values.password,
-          options: {
-            data: {
-              displayName: values.fullName,
-              role: "admin", // Explicitly marking as admin context if needed by policies
-            },
-            emailRedirectTo: `${window.location.origin}/`,
-          },
-        });
+        // Formik values -> FormData conversion for Server Action
+        const formData = new FormData();
+        formData.append("fullName", values.fullName);
+        formData.append("email", values.email);
+        formData.append("password", values.password);
+        formData.append("repeatPassword", values.repeatPassword);
 
-        if (error) throw error;
+        const result = await signUpAdmin(undefined, formData);
 
-        toast.success("Yönetici hesabı oluşturuldu! E-postanızı kontrol edin.");
-        router.push("/auth/sign-up-success");
-      } catch (error: unknown) {
-        toast.error(error instanceof Error ? error.message : "Bir hata oluştu");
+        if (result.error) {
+          toast.error(result.error);
+          return;
+        }
+
+        if (result.success) {
+          toast.success(
+            "Yönetici hesabı oluşturuldu! E-postanızı kontrol edin.",
+          );
+          router.push("/auth/sign-up-success");
+        }
+      } catch {
+        toast.error("Bir hata oluştu.");
       }
     },
   });
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden border-none bg-background shadow-none">
+      <Card className="bg-background overflow-hidden border-none shadow-none">
         {step === 1 && (
-          <div className="flex flex-col items-center justify-center space-y-10 py-8 text-center duration-500 animate-in fade-in zoom-in-95">
+          <div className="animate-in fade-in zoom-in-95 flex flex-col items-center justify-center space-y-10 py-8 text-center duration-500">
             <Image
               src="/sistem-catalog.png"
               alt="Sistem Katalog Logo"
-              height={75}
-              width={150}
+              height={100}
+              width={200}
               className="object-contain"
               priority
             />
 
             <div className="space-y-3 px-6">
-              <p className="text-sm leading-relaxed text-muted-foreground">
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 Dijital katalog yönetimine hoş geldiniz. Sisteminizi
                 yapılandırmak ve yönetici erişimi sağlamak için kuruluma
                 başlayın.
               </p>
             </div>
 
-            <div className="w-full px-8 pb-2 pt-2">
+            <div className="w-full px-8 pt-2 pb-2">
               <Button
                 size={"default"}
-                className="group h-12 w-full text-base font-medium shadow-lg transition-all hover:shadow-primary/20 active:scale-[0.98]"
+                className="group hover:shadow-primary/20 h-12 w-full text-base font-medium shadow-lg transition-all active:scale-[0.98]"
                 onClick={() => setStep(2)}
               >
                 Kuruluma Başla
@@ -110,7 +113,7 @@ export function Form({
         )}
 
         {step === 2 && (
-          <div className="duration-300 animate-in fade-in slide-in-from-right-4">
+          <div className="animate-in fade-in slide-in-from-right-4 duration-300">
             <CardHeader>
               <CardTitle className="text-xl">
                 Yönetici Hesabı Oluşturun
@@ -216,7 +219,7 @@ export function Form({
                     </Button>
                     <Button
                       type="submit"
-                      className="h-11 flex-[2]"
+                      className="h-11 flex-2"
                       disabled={formik.isSubmitting}
                     >
                       {formik.isSubmitting
