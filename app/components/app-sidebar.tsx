@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { IconInnerShadowTop } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
 
 import { NavDocuments } from "@/app/components/nav-documents";
 import { NavMain } from "@/app/components/nav-main";
@@ -29,6 +30,8 @@ const user = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const t = useTranslations();
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -40,7 +43,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <IconInnerShadowTop className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <span className="text-base font-semibold">Acme Inc</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

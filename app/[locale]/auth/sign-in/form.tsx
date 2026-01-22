@@ -13,25 +13,32 @@ import { Label } from "@/app/components/ui/label";
 import { createClient } from "@/lib/supabase/browser";
 import { cn } from "@/utils";
 import { useFormik } from "formik";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { toast } from "sonner";
 import * as Yup from "yup";
-
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .email("Geçerli bir e-posta adresi girin")
-    .required("E-posta adresi gerekli"),
-  password: Yup.string()
-    .min(6, "Şifre en az 6 karakter olmalı")
-    .required("Şifre gerekli"),
-});
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
+  const t = useTranslations();
+
+  const validationSchema = useMemo(
+    () =>
+      Yup.object({
+        email: Yup.string()
+          .email(t("Please enter a valid email address"))
+          .required(t("Email is required")),
+        password: Yup.string()
+          .min(6, t("Password must be at least 6 characters"))
+          .required(t("Password is required")),
+      }),
+    [t],
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -50,10 +57,12 @@ export function LoginForm({
 
         if (error) throw error;
 
-        toast.success("Giriş başarılı!");
+        toast.success(t("Login successful!"));
         router.push("/");
       } catch (error: unknown) {
-        toast.error(error instanceof Error ? error.message : "Bir hata oluştu");
+        toast.error(
+          error instanceof Error ? error.message : t("An error occurred"),
+        );
       }
     },
   });
@@ -62,16 +71,16 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Giriş Yap</CardTitle>
+          <CardTitle className="text-2xl">{t("Sign In")}</CardTitle>
           <CardDescription>
-            Hesabınıza giriş yapmak için bilgilerinizi girin
+            {t("Enter your credentials to access your account")}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={formik.handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">E-posta</Label>
+                <Label htmlFor="email">{t("Email")}</Label>
                 <Input
                   id="email"
                   name="email"
@@ -87,12 +96,12 @@ export function LoginForm({
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Şifre</Label>
+                  <Label htmlFor="password">{t("Password")}</Label>
                   <Link
                     href="/auth/forgot-password"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
-                    Şifrenizi mi unuttunuz?
+                    {t("Forgot your password?")}
                   </Link>
                 </div>
                 <Input
@@ -114,16 +123,16 @@ export function LoginForm({
                 className="w-full"
                 disabled={formik.isSubmitting}
               >
-                {formik.isSubmitting ? "Giriş yapılıyor..." : "Giriş Yap"}
+                {formik.isSubmitting ? t("Signing in...") : t("Sign In")}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
-              Hesabınız yok mu?{" "}
+              {t("Don't have an account?")}{" "}
               <Link
                 href="/auth/sign-up"
                 className="underline underline-offset-4"
               >
-                Kayıt ol
+                {t("Sign Up")}
               </Link>
             </div>
           </form>

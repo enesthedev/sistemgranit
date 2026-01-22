@@ -13,21 +13,28 @@ import { Label } from "@/app/components/ui/label";
 import { createClient } from "@/lib/supabase/browser";
 import { cn } from "@/utils";
 import { useFormik } from "formik";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { toast } from "sonner";
 import * as Yup from "yup";
-
-const validationSchema = Yup.object({
-  password: Yup.string()
-    .min(6, "Şifre en az 6 karakter olmalı")
-    .required("Yeni şifre gerekli"),
-});
 
 export function UpdatePasswordForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
+  const t = useTranslations();
+
+  const validationSchema = useMemo(
+    () =>
+      Yup.object({
+        password: Yup.string()
+          .min(6, t("Password must be at least 6 characters"))
+          .required(t("New password is required")),
+      }),
+    [t],
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -44,10 +51,12 @@ export function UpdatePasswordForm({
 
         if (error) throw error;
 
-        toast.success("Şifreniz başarıyla güncellendi!");
+        toast.success(t("Your password has been updated successfully!"));
         router.push("/");
       } catch (error: unknown) {
-        toast.error(error instanceof Error ? error.message : "Bir hata oluştu");
+        toast.error(
+          error instanceof Error ? error.message : t("An error occurred"),
+        );
       }
     },
   });
@@ -56,19 +65,21 @@ export function UpdatePasswordForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Şifrenizi Sıfırlayın</CardTitle>
-          <CardDescription>Lütfen yeni şifrenizi aşağıya girin</CardDescription>
+          <CardTitle className="text-2xl">{t("Reset Your Password")}</CardTitle>
+          <CardDescription>
+            {t("Please enter your new password below")}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={formik.handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="password">Yeni Şifre</Label>
+                <Label htmlFor="password">{t("New Password")}</Label>
                 <Input
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Yeni şifre"
+                  placeholder={t("New Password")}
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -84,9 +95,7 @@ export function UpdatePasswordForm({
                 className="w-full"
                 disabled={formik.isSubmitting}
               >
-                {formik.isSubmitting
-                  ? "Kaydediliyor..."
-                  : "Yeni şifreyi kaydet"}
+                {formik.isSubmitting ? t("Saving...") : t("Save New Password")}
               </Button>
             </div>
           </form>

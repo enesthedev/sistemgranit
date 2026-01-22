@@ -17,17 +17,25 @@ Uygulama genelinde hard-coded olarak bulunan tüm kullanıcı arayüzü metinler
 - ❌ Çoğu metin hard-coded
 
 ### Mevcut Mesaj Dosyaları
+✅ **Flat Key yapısıyla güncellenmiş** - Tüm çeviriler eklendi.
+
 ```json
-// messages/en.json
+// messages/en.json (örnek)
 {
-  "hello": "Hello"
+  "Email": "Email",
+  "Password": "Password",
+  "Sign In": "Sign In"
 }
 
-// messages/tr.json
+// messages/tr.json (örnek)
 {
-  "hello": "Merhaba"
+  "Email": "E-posta",
+  "Password": "Şifre",
+  "Sign In": "Giriş Yap"
 }
 ```
+
+**Yapı:** `"English String": "Translation"` - prefix yok, nested yapı yok.
 
 ---
 
