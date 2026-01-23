@@ -78,13 +78,13 @@ export function Form({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="bg-background overflow-hidden border-none shadow-none">
         {step === 1 && (
-          <div className="animate-in fade-in zoom-in-95 flex flex-col items-center justify-center space-y-10 py-8 text-center duration-500">
+          <div className="animate-in fade-in zoom-in-95 flex flex-col items-start justify-start space-y-10 py-8 text-left duration-500">
             <Image
               src="/sistem-catalog.png"
               alt="Sistem Katalog Logo"
-              height={100}
-              width={200}
-              className="object-contain"
+              height={75}
+              width={150}
+              className="object-contain px-6"
               priority
             />
 
@@ -96,14 +96,14 @@ export function Form({
               </p>
             </div>
 
-            <div className="w-full px-8 pt-2 pb-2">
+            <div className="w-full px-6 pt-2 pb-2">
               <Button
-                size={"default"}
-                className="group hover:shadow-primary/20 h-12 w-full text-base font-medium shadow-lg transition-all active:scale-[0.98]"
+                type="submit"
+                className="h-11 w-full flex-2"
                 onClick={() => setStep(2)}
               >
                 Kuruluma Başla
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-3 w-3 transition-transform group-hover:translate-x-1" />
               </Button>
             </div>
           </div>
