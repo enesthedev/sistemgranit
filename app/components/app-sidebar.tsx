@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { IconInnerShadowTop } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
 
 import { NavDocuments } from "@/app/components/nav-documents";
 import { NavMain } from "@/app/components/nav-main";
@@ -30,8 +29,6 @@ const user = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const t = useTranslations();
-
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>

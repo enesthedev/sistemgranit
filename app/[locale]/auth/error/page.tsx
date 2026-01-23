@@ -4,7 +4,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card";
-import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
 async function ErrorContent({
@@ -13,17 +12,16 @@ async function ErrorContent({
   searchParams: Promise<{ error: string }>;
 }) {
   const params = await searchParams;
-  const t = await getTranslations();
 
   return (
     <>
       {params?.error ? (
         <p className="text-muted-foreground text-sm">
-          {t("Code error: {error}", { error: params.error })}
+          Hata kodu: {params.error}
         </p>
       ) : (
         <p className="text-muted-foreground text-sm">
-          {t("An unspecified error occurred.")}
+          Belirtilmemiş bir hata oluştu.
         </p>
       )}
     </>
@@ -35,8 +33,6 @@ export default async function Page({
 }: {
   searchParams: Promise<{ error: string }>;
 }) {
-  const t = await getTranslations();
-
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -44,7 +40,7 @@ export default async function Page({
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">
-                {t("Sorry, something went wrong.")}
+                Üzgünüz, bir şeyler yanlış gitti.
               </CardTitle>
             </CardHeader>
             <CardContent>

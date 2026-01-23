@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { type Icon } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
 
 import {
   SidebarGroup,
@@ -22,8 +21,6 @@ export function NavSecondary({
     icon?: Icon;
   }[];
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
-  const t = useTranslations();
-
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
@@ -33,7 +30,7 @@ export function NavSecondary({
               <SidebarMenuButton asChild>
                 <a href={item.url}>
                   {item.icon && <item.icon />}
-                  <span>{t(item.title)}</span>
+                  <span>{item.title}</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>

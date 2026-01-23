@@ -1,7 +1,6 @@
 "use client";
 
 import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
 
 import { Badge } from "@/app/components/ui/badge";
 import {
@@ -14,13 +13,11 @@ import {
 } from "@/app/components/ui/card";
 
 export function SectionCards() {
-  const t = useTranslations();
-
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>{t("Total Revenue")}</CardDescription>
+          <CardDescription>Toplam Gelir</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             $1,250.00
           </CardTitle>
@@ -33,16 +30,14 @@ export function SectionCards() {
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            {t("Trending up this month")} <IconTrendingUp className="size-4" />
+            Bu ay yükseliş trendinde <IconTrendingUp className="size-4" />
           </div>
-          <div className="text-muted-foreground">
-            {t("Visitors for the last 6 months")}
-          </div>
+          <div className="text-muted-foreground">Son 6 aylık ziyaretçiler</div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>{t("New Customers")}</CardDescription>
+          <CardDescription>Yeni Müşteriler</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             1,234
           </CardTitle>
@@ -55,16 +50,16 @@ export function SectionCards() {
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            {t("Down 20% this period")} <IconTrendingDown className="size-4" />
+            Bu dönem %20 düşüş <IconTrendingDown className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            {t("Acquisition needs attention")}
+            Edinim dikkat gerektiriyor
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>{t("Active Accounts")}</CardDescription>
+          <CardDescription>Aktif Hesaplar</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             45,678
           </CardTitle>
@@ -77,16 +72,16 @@ export function SectionCards() {
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            {t("Strong user retention")} <IconTrendingUp className="size-4" />
+            Güçlü kullanıcı tutma <IconTrendingUp className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            {t("Engagement exceed targets")}
+            Etkileşim hedefleri aşıldı
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>{t("Growth Rate")}</CardDescription>
+          <CardDescription>Büyüme Oranı</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             4.5%
           </CardTitle>
@@ -99,11 +94,10 @@ export function SectionCards() {
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            {t("Steady performance increase")}{" "}
-            <IconTrendingUp className="size-4" />
+            İstikrarlı performans artışı <IconTrendingUp className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            {t("Meets growth projections")}
+            Büyüme projeksiyonlarını karşılıyor
           </div>
         </CardFooter>
       </Card>

@@ -12,38 +12,32 @@ import { Label } from "@/app/components/ui/label";
 import { cn } from "@/utils";
 import { useFormik } from "formik";
 import { ArrowRight } from "lucide-react";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import * as Yup from "yup";
 import { signUpAdmin } from "./actions";
+
+const validationSchema = Yup.object({
+  fullName: Yup.string().required("Ad Soyad girin"),
+  email: Yup.string()
+    .email("Geçerli bir e-posta adresi girin")
+    .required("E-posta adresi gerekli"),
+  password: Yup.string()
+    .min(6, "Şifre en az 6 karakter olmalı")
+    .required("Şifre gerekli"),
+  repeatPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Şifreler eşleşmiyor")
+    .required("Şifre tekrarı gerekli"),
+});
 
 export function Form({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
-  const t = useTranslations();
   const [step, setStep] = useState<1 | 2>(1);
-
-  const validationSchema = useMemo(
-    () =>
-      Yup.object({
-        fullName: Yup.string().required(t("Please enter your full name")),
-        email: Yup.string()
-          .email(t("Please enter a valid email address"))
-          .required(t("Email is required")),
-        password: Yup.string()
-          .min(6, t("Password must be at least 6 characters"))
-          .required(t("Password is required")),
-        repeatPassword: Yup.string()
-          .oneOf([Yup.ref("password")], t("Passwords do not match"))
-          .required(t("Password confirmation is required")),
-      }),
-    [t],
-  );
 
   const formik = useFormik({
     initialValues: {
@@ -69,11 +63,13 @@ export function Form({
         }
 
         if (result.success) {
-          toast.success(t("Admin account created! Please check your email."));
+          toast.success(
+            "Yönetici hesabı oluşturuldu! E-postanızı kontrol edin.",
+          );
           router.push("/auth/sign-up-success");
         }
       } catch {
-        toast.error(t("An error occurred"));
+        toast.error("Bir hata oluştu.");
       }
     },
   });
@@ -94,9 +90,9 @@ export function Form({
 
             <div className="space-y-3 px-6">
               <p className="text-muted-foreground text-sm leading-relaxed">
-                {t(
-                  "Welcome to digital catalog management. Start setup to configure your system and enable admin access.",
-                )}
+                Dijital katalog yönetimine hoş geldiniz. Sisteminizi
+                yapılandırmak ve yönetici erişimi sağlamak için kuruluma
+                başlayın.
               </p>
             </div>
 
@@ -106,7 +102,7 @@ export function Form({
                 className="group hover:shadow-primary/20 h-12 w-full text-base font-medium shadow-lg transition-all active:scale-[0.98]"
                 onClick={() => setStep(2)}
               >
-                {t("Start Setup")}
+                Kuruluma Başla
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </div>
@@ -117,7 +113,7 @@ export function Form({
           <div className="animate-in fade-in slide-in-from-right-4 duration-300">
             <CardHeader>
               <CardTitle className="text-xl">
-                {t("Create Admin Account")}
+                Yönetici Hesabı Oluşturun
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -125,13 +121,13 @@ export function Form({
                 <div className="flex flex-col gap-5">
                   <div className="grid gap-2">
                     <Label htmlFor="fullName" className="text-sm font-medium">
-                      {t("Full Name")}
+                      Ad Soyad
                     </Label>
                     <Input
                       id="fullName"
                       name="fullName"
                       type="text"
-                      placeholder={t("Full Name")}
+                      placeholder="Ad Soyad"
                       className="h-10"
                       value={formik.values.fullName}
                       onChange={formik.handleChange}
@@ -145,7 +141,7 @@ export function Form({
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="email" className="text-sm font-medium">
-                      {t("Email")}
+                      E-posta
                     </Label>
                     <Input
                       id="email"
@@ -165,7 +161,7 @@ export function Form({
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="password" className="text-sm font-medium">
-                      {t("Password")}
+                      Şifre
                     </Label>
                     <Input
                       id="password"
@@ -188,7 +184,7 @@ export function Form({
                       htmlFor="repeatPassword"
                       className="text-sm font-medium"
                     >
-                      {t("Repeat Password")}
+                      Şifre Tekrarı
                     </Label>
                     <Input
                       id="repeatPassword"
@@ -216,7 +212,7 @@ export function Form({
                       onClick={() => setStep(1)}
                       disabled={formik.isSubmitting}
                     >
-                      {t("Go Back")}
+                      Geri Dön
                     </Button>
                     <Button
                       type="submit"
@@ -224,8 +220,8 @@ export function Form({
                       disabled={formik.isSubmitting}
                     >
                       {formik.isSubmitting
-                        ? t("Creating...")
-                        : t("Create Admin")}
+                        ? "Oluşturuluyor..."
+                        : "Yöneticiyi Oluştur"}
                     </Button>
                   </div>
                 </div>

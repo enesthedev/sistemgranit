@@ -7,7 +7,6 @@ import {
   IconNotification,
   IconUserCircle,
 } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
 
 import {
   Avatar,
@@ -40,7 +39,6 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
-  const t = useTranslations();
 
   return (
     <SidebarMenu>
@@ -88,21 +86,21 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <IconUserCircle />
-                {t("Account")}
+                Hesap
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <IconCreditCard />
-                {t("Billing")}
+                Faturalandırma
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <IconNotification />
-                {t("Notifications")}
+                Bildirimler
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <IconLogout />
-              {t("Log out")}
+              Çıkış Yap
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

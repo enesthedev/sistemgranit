@@ -7,7 +7,6 @@ import {
   IconTrash,
   type Icon,
 } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
 
 import {
   DropdownMenu,
@@ -36,18 +35,17 @@ export function NavDocuments({
   }[];
 }) {
   const { isMobile } = useSidebar();
-  const t = useTranslations();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>{t("Documents")}</SidebarGroupLabel>
+      <SidebarGroupLabel>Belgeler</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
                 <item.icon />
-                <span>{t(item.name)}</span>
+                <span>{item.name}</span>
               </a>
             </SidebarMenuButton>
             <DropdownMenu>
@@ -57,7 +55,7 @@ export function NavDocuments({
                   className="data-[state=open]:bg-accent rounded-sm"
                 >
                   <IconDots />
-                  <span className="sr-only">{t("More")}</span>
+                  <span className="sr-only">Daha Fazla</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -67,16 +65,16 @@ export function NavDocuments({
               >
                 <DropdownMenuItem>
                   <IconFolder />
-                  <span>{t("Open")}</span>
+                  <span>Aç</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <IconShare3 />
-                  <span>{t("Share")}</span>
+                  <span>Paylaş</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem variant="destructive">
                   <IconTrash />
-                  <span>{t("Delete")}</span>
+                  <span>Sil</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -85,7 +83,7 @@ export function NavDocuments({
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
             <IconDots className="text-sidebar-foreground/70" />
-            <span>{t("More")}</span>
+            <span>Daha Fazla</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
