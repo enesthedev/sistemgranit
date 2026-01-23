@@ -3,10 +3,10 @@
 import * as React from "react";
 import { IconInnerShadowTop } from "@tabler/icons-react";
 
-import { NavDocuments } from "@/app/components/nav-documents";
-import { NavMain } from "@/app/components/nav-main";
-import { NavSecondary } from "@/app/components/nav-secondary";
-import { NavUser } from "@/app/components/nav-user";
+import { NavDocuments } from "./nav-documents";
+import { NavMain } from "./nav-main";
+import { NavSecondary } from "./nav-secondary";
+import { NavUser } from "./nav-user";
 import {
   Sidebar,
   SidebarContent,
