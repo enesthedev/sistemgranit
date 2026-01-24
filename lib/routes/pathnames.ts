@@ -4,7 +4,9 @@ export const pathnames = {
   [ROUTES.HOME]: "/",
 
   [ROUTES.AUTH.CONFIRM]: "/auth/confirm",
+
   [ROUTES.AUTH.ERROR]: "/auth/error",
+
   [ROUTES.AUTH.UPDATE_PASSWORD]: {
     en: "/auth/update-password",
     tr: "/auth/sifre-guncelle",
@@ -31,6 +33,22 @@ export const pathnames = {
     en: "/dashboard",
     tr: "/panel",
   },
+
+  [ROUTES.PRODUCTS.LIST]: {
+    en: "/dashboard/products",
+    tr: "/panel/urunler",
+  },
+
+  [ROUTES.PRODUCTS.NEW]: {
+    en: "/dashboard/products/new",
+    tr: "/panel/urunler/yeni",
+  },
+
+  [ROUTES.PRODUCTS.EDIT]: {
+    en: "/dashboard/products/[id]",
+    tr: "/panel/urunler/[id]",
+  },
+
   [ROUTES.ANALYTICS]: {
     en: "/analytics",
     tr: "/analitik",

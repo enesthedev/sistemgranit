@@ -1,0 +1,55 @@
+"use client";
+
+import { Checkbox } from "@/app/components/ui/checkbox";
+import { Label } from "@/app/components/ui/label";
+import { cn } from "@/utils";
+import { useField, useFormikContext } from "formik";
+
+interface FormCheckboxProps {
+  name: string;
+  label: string;
+  description?: string;
+  disabled?: boolean;
+  className?: string;
+}
+
+export function FormCheckbox({
+  name,
+  label,
+  description,
+  disabled = false,
+  className,
+}: FormCheckboxProps) {
+  const [field, meta] = useField(name);
+  const { setFieldValue } = useFormikContext();
+  const hasError = meta.touched && meta.error;
+
+  return (
+    <div className={cn("flex items-start gap-3", className)}>
+      <Checkbox
+        id={name}
+        checked={field.value}
+        onCheckedChange={(checked) => setFieldValue(name, checked)}
+        disabled={disabled}
+        aria-invalid={hasError ? "true" : undefined}
+      />
+      <div className="space-y-0.5 leading-none">
+        <Label
+          htmlFor={name}
+          className={cn(
+            "cursor-pointer text-sm font-medium",
+            hasError && "text-destructive",
+          )}
+        >
+          {label}
+        </Label>
+        {description && (
+          <p className="text-muted-foreground text-xs">{description}</p>
+        )}
+        {hasError && (
+          <p className="text-destructive text-xs font-medium">{meta.error}</p>
+        )}
+      </div>
+    </div>
+  );
+}

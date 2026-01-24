@@ -1,7 +1,7 @@
 "use server";
 
 import { getUsersCount } from "@/actions";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/supabase/server";
 import { headers } from "next/headers";
 
 export interface SignUpState {

@@ -10,7 +10,7 @@ import {
 } from "@/app/components/ui/card";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import { createClient } from "@/lib/supabase/browser";
+import { createClient } from "@/supabase/browser";
 import { cn } from "@/utils";
 import { useFormik } from "formik";
 import Link from "next/link";

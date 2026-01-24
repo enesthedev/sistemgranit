@@ -20,6 +20,12 @@ export const ROUTES = {
   TEAM: "/team",
   SETTINGS: "/settings",
 
+  PRODUCTS: {
+    LIST: "/dashboard/products",
+    NEW: "/dashboard/products/new",
+    EDIT: "/dashboard/products/[id]",
+  },
+
   DOCUMENTS: {
     DATA_LIBRARY: "/data-library",
     REPORTS: "/reports",

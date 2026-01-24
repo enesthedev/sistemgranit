@@ -9,6 +9,7 @@ import {
   IconFolder,
   IconHelp,
   IconListDetails,
+  IconPackage,
   IconReport,
   IconSearch,
   IconSettings,
@@ -39,6 +40,12 @@ export const mainNavigation: NavItem[] = [
     titleKey: "nav.dashboard",
     url: ROUTES.DASHBOARD,
     icon: IconDashboard,
+  },
+  {
+    title: "Ürünler",
+    titleKey: "nav.products",
+    url: ROUTES.PRODUCTS.LIST,
+    icon: IconPackage,
   },
   {
     title: "Lifecycle",

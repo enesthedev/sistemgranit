@@ -1,6 +1,6 @@
-'use server';
+"use server";
 
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient } from "@/supabase/admin";
 
 export async function getUsersCount(): Promise<number> {
   try {
@@ -11,7 +11,7 @@ export async function getUsersCount(): Promise<number> {
     });
 
     if (error) {
-      console.error('Error checking users:', error.message);
+      console.error("Error checking users:", error.message);
       return 0;
     }
 
