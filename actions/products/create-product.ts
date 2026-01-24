@@ -1,8 +1,8 @@
 "use server";
 
 import { createClient } from "@/supabase/server";
-import { createProductSchema } from "@/lib/validations/product";
-import { generateUniqueSlug } from "@/lib/utils/slug";
+import { createProductSchema } from "@/app/validations/product";
+import { generateUniqueSlug } from "@/app/utils/slug";
 import { revalidatePath } from "next/cache";
 
 interface ActionResult {

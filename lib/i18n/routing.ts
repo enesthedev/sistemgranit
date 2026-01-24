@@ -1,5 +1,5 @@
 import { defineRouting } from "next-intl/routing";
-import { pathnames } from "@/lib/routes/pathnames";
+import { pathnames } from "@/app/routes/pathnames";
 
 export const routing = defineRouting({
   locales: ["tr"],

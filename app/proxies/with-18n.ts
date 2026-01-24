@@ -1,12 +1,16 @@
-import { ProxyFactory } from '@/lib/proxy-chain/types';
-import createMiddleware from 'next-intl/middleware';
-import { routing } from '../lib/i18n/routing';
+import { ProxyFactory } from "@/lib/proxy-chain/types";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "@/lib/i18n/routing";
 
 export const with18n: ProxyFactory = (next) => {
   return async (request, event) => {
     const childResponse = await next(request, event);
 
-    if (childResponse.status >= 300 && childResponse.status < 400 && childResponse.headers.get('Location')) {
+    if (
+      childResponse.status >= 300 &&
+      childResponse.status < 400 &&
+      childResponse.headers.get("Location")
+    ) {
       return childResponse;
     }
 
@@ -14,7 +18,7 @@ export const with18n: ProxyFactory = (next) => {
     const intlResponse = await intlMiddleware(request);
 
     childResponse.headers.forEach((value, key) => {
-      if (key.toLowerCase() === 'set-cookie') return; // Cookies handled separately
+      if (key.toLowerCase() === "set-cookie") return; // Cookies handled separately
       intlResponse.headers.set(key, value);
     });
 

@@ -17,9 +17,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/app/components/ui/table";
-import { ROUTES } from "@/lib/routes";
+import { ROUTES } from "@/app/routes";
 import type { Product } from "@/types/product";
-import { PRODUCT_CATEGORIES, PRODUCT_STATUSES } from "@/types/product";
+import { PRODUCT_CATEGORIES, PRODUCT_STATUSES } from "@/app/constants";
 import { IconDotsVertical, IconEdit, IconTrash } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";

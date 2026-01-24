@@ -1,5 +1,5 @@
 import { ROUTES } from "./config";
-import { getLocalizedPaths } from "../i18n/utils/get-localized-paths";
+import { getLocalizedPaths } from "@/lib/i18n/utils/get-localized-paths";
 
 const GUEST_ROUTE_KEYS = [
   ROUTES.GUEST.SIGN_IN,

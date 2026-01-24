@@ -3,7 +3,7 @@
 import { Badge } from "@/app/components/ui/badge";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
-import { cn } from "@/utils";
+import { cn } from "@/app/utils";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import { useField, useFormikContext } from "formik";
 import { useState } from "react";

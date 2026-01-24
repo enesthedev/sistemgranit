@@ -11,7 +11,7 @@ import {
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
 import { createClient } from "@/supabase/browser";
-import { cn } from "@/utils";
+import { cn } from "@/app/utils";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

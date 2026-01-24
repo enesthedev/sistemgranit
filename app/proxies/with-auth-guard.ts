@@ -1,13 +1,13 @@
 import { ProxyFactory } from "@/lib/proxy-chain/types";
-import { isGuestRoute } from "@/utils";
+import { isGuestRoute, isPublicRoute } from "@/app/routes";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 
-export const withGuestGuard: ProxyFactory = (next) => {
+export const withAuthGuard: ProxyFactory = (next) => {
   return async (request, event) => {
     const pathname = request.nextUrl.pathname;
 
-    if (!isGuestRoute(pathname)) {
+    if (isPublicRoute(pathname) || isGuestRoute(pathname)) {
       return next(request, event);
     }
 
@@ -45,9 +45,9 @@ export const withGuestGuard: ProxyFactory = (next) => {
       user = null;
     }
 
-    if (user) {
+    if (!user) {
       const url = request.nextUrl.clone();
-      url.pathname = "/";
+      url.pathname = "/auth/sign-in";
       return NextResponse.redirect(url);
     }
 

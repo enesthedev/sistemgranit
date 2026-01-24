@@ -23,7 +23,7 @@ import {
   CardTitle,
 } from "@/app/components/ui/card";
 import { Separator } from "@/app/components/ui/separator";
-import { ROUTES } from "@/lib/routes";
+import { ROUTES } from "@/app/routes";
 import type { Product } from "@/types/product";
 import {
   CURRENCIES,
@@ -32,8 +32,8 @@ import {
   PRODUCT_FINISHES,
   PRODUCT_PATTERNS,
   PRODUCT_STATUSES,
-} from "@/types/product";
-import { cn } from "@/utils";
+} from "@/app/constants";
+import { cn } from "@/app/utils";
 import {
   IconArrowLeft,
   IconCheck,

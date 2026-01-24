@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/app/components/ui/input";
-import { cn } from "@/utils";
+import { cn } from "@/app/utils";
 import { useField } from "formik";
 import { FormField } from "./form-field";
 

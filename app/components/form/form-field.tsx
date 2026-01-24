@@ -1,7 +1,7 @@
 "use client";
 
 import { Label } from "@/app/components/ui/label";
-import { cn } from "@/utils";
+import { cn } from "@/app/utils";
 import { useField } from "formik";
 
 interface FormFieldProps {

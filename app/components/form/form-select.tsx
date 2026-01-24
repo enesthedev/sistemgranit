@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/app/components/ui/select";
 import { Button } from "@/app/components/ui/button";
-import { cn } from "@/utils";
+import { cn } from "@/app/utils";
 import { IconX } from "@tabler/icons-react";
 import { useField, useFormikContext } from "formik";
 import { FormField } from "./form-field";

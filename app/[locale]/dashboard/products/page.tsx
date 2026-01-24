@@ -1,11 +1,13 @@
 import { getProducts } from "@/actions/products";
 import { Button } from "@/app/components/ui/button";
-import { ROUTES } from "@/lib/routes";
+import { ROUTES } from "@/app/routes";
 import { IconPlus } from "@tabler/icons-react";
 import Link from "next/link";
+import { connection } from "next/server";
 import { ProductsTable } from "./components/products-table";
 
 export default async function ProductsPage() {
+  await connection();
   const result = await getProducts({ limit: 20 });
 
   return (

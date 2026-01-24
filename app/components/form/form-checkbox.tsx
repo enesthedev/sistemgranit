@@ -2,7 +2,7 @@
 
 import { Checkbox } from "@/app/components/ui/checkbox";
 import { Label } from "@/app/components/ui/label";
-import { cn } from "@/utils";
+import { cn } from "@/app/utils";
 import { useField, useFormikContext } from "formik";
 
 interface FormCheckboxProps {

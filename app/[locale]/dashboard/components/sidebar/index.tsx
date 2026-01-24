@@ -20,7 +20,7 @@ import {
   mainNavigation,
   secondaryNavigation,
   documentNavigation,
-} from "@/lib/routes";
+} from "@/app/routes";
 
 const user = {
   name: "shadcn",

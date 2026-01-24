@@ -9,7 +9,7 @@ import {
 } from "@/app/components/ui/card";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import { cn } from "@/utils";
+import { cn } from "@/app/utils";
 import { useFormik } from "formik";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/utils";
+import { cn } from "@/app/utils";
 import { useField } from "formik";
 import { FormField } from "./form-field";
 

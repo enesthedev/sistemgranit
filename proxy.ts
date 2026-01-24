@@ -5,7 +5,7 @@ import {
   withGuestGuard,
   withOnboarding,
   withSupabaseSession,
-} from "@/proxies";
+} from "@/app/proxies";
 import { type NextFetchEvent, type NextRequest } from "next/server";
 
 const proxies = [
