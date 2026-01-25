@@ -304,7 +304,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
 
         return (
           <div className="flex flex-1 flex-col">
-            <div className="flex items-center justify-between border-b px-6 py-4">
+            <div className="flex items-center justify-between border-b px-4 py-4">
               <div className="flex items-center gap-4">
                 <Button
                   type="button"
@@ -369,9 +369,9 @@ export function ProductForm({ product, mode }: ProductFormProps) {
             </div>
 
             <Form className="flex-1 overflow-y-auto">
-              <div className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-12 lg:gap-8">
-                <aside className="hidden lg:col-span-3 lg:block">
-                  <nav className="sticky top-6 space-y-1">
+              <div className="grid grid-cols-1 xl:grid-cols-12">
+                <aside className="hidden border-r xl:col-span-3 xl:block">
+                  <nav className="sticky top-0 space-y-0">
                     {STEPS.map((step, index) => {
                       const isActive = index === currentStep;
                       const isCompleted = index < currentStep;
@@ -386,7 +386,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
                             window.scrollTo({ top: 0, behavior: "smooth" });
                           }}
                           className={cn(
-                            "group hover:bg-muted flex w-full items-center justify-start gap-3 rounded-lg px-3 py-3 text-left text-sm font-medium transition-colors",
+                            "group hover:bg-muted flex w-full items-center justify-start gap-3 rounded-none border-b px-4 py-5 text-left text-sm font-medium transition-colors",
                             isActive && "bg-muted text-primary",
                             !isActive && "text-muted-foreground",
                           )}
@@ -425,8 +425,8 @@ export function ProductForm({ product, mode }: ProductFormProps) {
                   </nav>
                 </aside>
 
-                <main className="lg:col-span-9">
-                  <div className="mb-6 lg:hidden">
+                <main className="xl:col-span-9">
+                  <div className="mb-6 xl:hidden">
                     <div className="scrollbar-none flex items-center justify-between gap-2 overflow-x-auto pb-2">
                       {STEPS.map((step, index) => {
                         const isActive = index === currentStep;
@@ -457,8 +457,8 @@ export function ProductForm({ product, mode }: ProductFormProps) {
                         currentStep !== 0 && "hidden",
                       )}
                     >
-                      <div className="grid gap-6 md:grid-cols-2">
-                        <Card className="border shadow-none">
+                      <div className="grid gap-6 2xl:grid-cols-2">
+                        <Card className="border-none bg-transparent shadow-none">
                           <CardHeader>
                             <CardTitle>Temel Bilgiler</CardTitle>
                             <CardDescription>
@@ -494,8 +494,10 @@ export function ProductForm({ product, mode }: ProductFormProps) {
                           </CardContent>
                         </Card>
 
+                        <Separator />
+
                         <div className="space-y-6">
-                          <Card className="border-none shadow-md">
+                          <Card className="border-none shadow-none">
                             <CardHeader>
                               <CardTitle>Fiyatlandırma</CardTitle>
                               <CardDescription>
