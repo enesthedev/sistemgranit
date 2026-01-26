@@ -369,8 +369,8 @@ export function ProductForm({ product, mode }: ProductFormProps) {
             </div>
 
             <Form className="flex-1 overflow-y-auto">
-              <div className="grid grid-cols-1 xl:grid-cols-12">
-                <aside className="hidden border-r xl:col-span-3 xl:block">
+              <div className="grid min-h-full grid-cols-1 xl:grid-cols-12">
+                <aside className="hidden h-full border-r xl:col-span-3 xl:block">
                   <nav className="sticky top-0 space-y-0">
                     {STEPS.map((step, index) => {
                       const isActive = index === currentStep;
@@ -522,14 +522,16 @@ export function ProductForm({ product, mode }: ProductFormProps) {
                             </CardContent>
                           </Card>
 
-                          <Card className="border-none shadow-md">
+                          <Separator />
+
+                          <Card className="border-none shadow-none">
                             <CardHeader>
                               <CardTitle>Medya</CardTitle>
                               <CardDescription>
                                 Ürün görseli ve galeri fotoğrafları.
                               </CardDescription>
                             </CardHeader>
-                            <CardContent className="space-y-6">
+                            <CardContent className="space-y-6 pt-5">
                               <FormImageUpload
                                 name="thumbnail"
                                 label="Kapak Görseli"
@@ -552,11 +554,11 @@ export function ProductForm({ product, mode }: ProductFormProps) {
 
                     <div
                       className={cn(
-                        "animate-in fade-in slide-in-from-bottom-4 grid gap-6 duration-500 md:grid-cols-2",
+                        "animate-in fade-in slide-in-from-bottom-4 grid gap-6 duration-500 2xl:grid-cols-2",
                         currentStep !== 1 && "hidden",
                       )}
                     >
-                      <Card className="border-none shadow-md">
+                      <Card className="border-none shadow-none">
                         <CardHeader>
                           <CardTitle>Menşei ve Renk</CardTitle>
                           <CardDescription>
@@ -599,7 +601,8 @@ export function ProductForm({ product, mode }: ProductFormProps) {
                         </CardContent>
                       </Card>
 
-                      <Card className="border-none shadow-md">
+                      <Separator />
+                      <Card className="border-none shadow-none">
                         <CardHeader>
                           <CardTitle>Yüzey İşlemleri</CardTitle>
                           <CardDescription>
@@ -622,6 +625,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
                           </div>
                         </CardContent>
                       </Card>
+                      <Separator />
                     </div>
 
                     <div
