@@ -368,8 +368,8 @@ export function ProductForm({ product, mode }: ProductFormProps) {
               </div>
             </div>
 
-            <Form className="flex-1 overflow-y-auto">
-              <div className="grid min-h-full grid-cols-1 xl:grid-cols-12">
+            <Form className="flex flex-1 flex-col overflow-y-auto">
+              <div className="grid flex-1 grid-cols-1 xl:grid-cols-12">
                 <aside className="hidden h-full border-r xl:col-span-3 xl:block">
                   <nav className="sticky top-0 space-y-0">
                     {STEPS.map((step, index) => {
