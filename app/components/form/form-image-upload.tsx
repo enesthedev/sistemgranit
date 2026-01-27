@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/app/utils";
 import { useField, useFormikContext } from "formik";
 import { toast } from "sonner";
@@ -12,6 +12,7 @@ import type { FilePondFile, FilePondInitialFile } from "filepond";
 
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import "./form-image-upload.css";
 
 import { deleteImage, uploadImage } from "@/actions/storage/upload-image";
 import { FormField } from "./form-field";
@@ -48,33 +49,77 @@ export function FormImageUpload({
   const [field] = useField<string | string[]>(name);
   const { setFieldValue } = useFormikContext();
 
-  const initialFiles = useMemo((): FilePondInitialFile[] => {
-    const currentValue = field.value;
+  const valuesRef = useRef<string | string[]>(field.value);
+  useEffect(() => {
+    valuesRef.current = field.value;
+  }, [field.value]);
+
+  const getInitialFiles = (value: string | string[]): FilePondInitialFile[] => {
     if (multiple) {
-      const urls = (currentValue as string[]) || [];
+      const urls = (value as string[]) || [];
       return urls.map((url) => ({
         source: url,
-        options: { type: "local" },
+        options: { type: "local" as const },
       }));
-    } else if (currentValue) {
+    } else if (value) {
       return [
         {
-          source: currentValue as string,
-          options: { type: "local" },
+          source: value as string,
+          options: { type: "local" as const },
         },
       ];
     }
     return [];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
-  const [files, setFiles] = useState<FilePondInitialFile[]>(initialFiles);
+  const [files, setFiles] = useState<FilePondInitialFile[]>(() =>
+    getInitialFiles(field.value),
+  );
+  const [isLoadingExisting, setIsLoadingExisting] = useState(() => {
+    const initial = getInitialFiles(field.value);
+    return initial.length > 0;
+  });
+
+  const previousValueRef = useRef<string | string[] | null>(field.value);
+
+  useEffect(() => {
+    const currentFieldValue = field.value;
+    const prevValue = previousValueRef.current;
+
+    const currentValueStr = JSON.stringify(currentFieldValue);
+    const prevValueStr = JSON.stringify(prevValue);
+
+    if (currentValueStr === prevValueStr) {
+      return;
+    }
+
+    previousValueRef.current = currentFieldValue;
+
+    const hasValue = multiple
+      ? currentFieldValue && (currentFieldValue as string[]).length > 0
+      : !!currentFieldValue;
+
+    if (hasValue) {
+      const newFiles = getInitialFiles(currentFieldValue);
+      setFiles(newFiles);
+      setIsLoadingExisting(true);
+    } else {
+      setFiles([]);
+      setIsLoadingExisting(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [field.value, multiple]);
 
   const handleRemoveFile = (error: unknown, file: FilePondFile) => {
+    if (error) {
+      console.warn("File remove error:", error);
+      return;
+    }
+
     const serverId = file.serverId;
     if (serverId) {
       if (multiple) {
-        const currentUrls = (field.value as string[]) || [];
+        const currentUrls = (valuesRef.current as string[]) || [];
         setFieldValue(
           name,
           currentUrls.filter((url) => url !== serverId),
@@ -93,6 +138,9 @@ export function FormImageUpload({
       description={description}
       className={cn("filepond-wrapper", className)}
     >
+      {isLoadingExisting && (
+        <div className="filepond--loading-skeleton" aria-hidden="true" />
+      )}
       <FilePond
         files={files}
         onupdatefiles={(fileItems) => {
@@ -117,19 +165,24 @@ export function FormImageUpload({
         ]}
         server={{
           process: (_fieldName, file, _metadata, load, error, progress) => {
+            const controller = new AbortController();
             const formData = new FormData();
             formData.append("file", file as File);
             formData.append("folder", folder);
 
             progress(true, 0, (file as File).size);
 
+            let isAborted = false;
+
             uploadImage(formData)
               .then((result) => {
+                if (isAborted) return;
+
                 progress(true, (file as File).size, (file as File).size);
 
                 if (result.success && result.url) {
                   if (multiple) {
-                    const currentUrls = (field.value as string[]) || [];
+                    const currentUrls = (valuesRef.current as string[]) || [];
                     setFieldValue(name, [...currentUrls, result.url]);
                   } else {
                     setFieldValue(name, result.url);
@@ -140,13 +193,19 @@ export function FormImageUpload({
                   toast.error(result.error || "Görsel yüklenemedi");
                 }
               })
-              .catch(() => {
+              .catch((err) => {
+                if (isAborted || err?.name === "AbortError") {
+                  return;
+                }
                 error("Yükleme hatası");
                 toast.error("Görsel yüklenirken hata oluştu");
               });
 
             return {
-              abort: () => {},
+              abort: () => {
+                isAborted = true;
+                controller.abort();
+              },
             };
           },
           revert: (uniqueFileId, load, error) => {
@@ -154,7 +213,7 @@ export function FormImageUpload({
               .then((result) => {
                 if (result.success) {
                   if (multiple) {
-                    const currentUrls = (field.value as string[]) || [];
+                    const currentUrls = (valuesRef.current as string[]) || [];
                     setFieldValue(
                       name,
                       currentUrls.filter((url) => url !== uniqueFileId),
@@ -171,28 +230,59 @@ export function FormImageUpload({
                 error("Silme hatası");
               });
           },
-          load: (source, load, error, _progress, abort) => {
-            fetch(source as string)
+          load: (source, load, error, progress, _abort) => {
+            const controller = new AbortController();
+
+            fetch(source as string, { signal: controller.signal })
               .then((res) => {
-                if (!res.ok) throw new Error("Network response was not ok");
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                const contentType = res.headers.get("content-type");
+                if (!contentType?.startsWith("image/")) {
+                  throw new Error("Not an image");
+                }
+
+                const total = parseInt(
+                  res.headers.get("content-length") || "0",
+                );
+                if (total > 0) {
+                  progress(true, 0, total);
+                }
+
                 return res.blob();
               })
               .then((blob) => {
-                if (!blob.type.startsWith("image/")) {
-                  // Not an image, maybe fail gracefully or just load it but it won't preview
-                  console.warn(
-                    "FilePond load: File is not an image",
-                    blob.type,
-                  );
-                }
                 load(blob);
               })
-              .catch(() => error("Görsel yüklenemedi"));
-            return { abort };
+              .catch((err) => {
+                if (err.name !== "AbortError") {
+                  error(`Görsel yüklenemedi: ${err.message}`);
+                  toast.error("Mevcut görsel yüklenirken hata oluştu");
+                }
+              })
+              .finally(() => {
+                setIsLoadingExisting(false);
+              });
+
+            return {
+              abort: () => controller.abort(),
+            };
           },
         }}
         onremovefile={handleRemoveFile}
-        labelIdle='<span class="filepond--label-action">Dosya Seçin</span> veya sürükleyin'
+        labelIdle={`
+          <div class="filepond--label-content">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="filepond--icon">
+              <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path>
+              <path d="M12 12v9"></path>
+              <path d="m16 16-4-4-4 4"></path>
+            </svg>
+            <p>
+              <span class="filepond--label-action">Dosya Seçin</span>
+              <span class="filepond--label-text">veya sürükleyin</span>
+            </p>
+          </div>
+        `}
         labelFileProcessing="Yükleniyor..."
         labelFileProcessingComplete="Yüklendi"
         labelFileProcessingAborted="İptal edildi"
@@ -212,41 +302,9 @@ export function FormImageUpload({
         labelFileTypeNotAllowed="Geçersiz tür"
         fileValidateTypeLabelExpectedTypes="JPEG, PNG, WebP, GIF"
         credits={false}
-        imagePreviewHeight={120}
+        imagePreviewHeight={150}
+        allowImagePreview={true}
       />
-      <style jsx global>{`
-        .filepond-wrapper .filepond--root {
-          font-family: inherit;
-          margin-bottom: 0;
-        }
-        .filepond-wrapper .filepond--panel-root {
-          background-color: transparent;
-          border: 2px dashed hsl(var(--border));
-          border-radius: var(--radius);
-        }
-        .filepond-wrapper .filepond--drop-label {
-          color: hsl(var(--muted-foreground));
-          font-size: 0.875rem;
-        }
-        .filepond-wrapper .filepond--label-action {
-          color: hsl(var(--primary));
-          text-decoration: underline;
-        }
-        .filepond-wrapper .filepond--item-panel {
-          background-color: hsl(var(--background));
-          border: 1px solid hsl(var(--border));
-          border-radius: calc(var(--radius) - 2px);
-        }
-        .filepond-wrapper .filepond--file-action-button {
-          background-color: hsl(var(--background));
-          color: hsl(var(--foreground));
-          border: 1px solid hsl(var(--border));
-          cursor: pointer;
-        }
-        .filepond-wrapper .filepond--image-preview-overlay-success {
-          color: hsl(var(--green-500));
-        }
-      `}</style>
     </FormField>
   );
 }

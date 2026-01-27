@@ -48,7 +48,7 @@ import {
 } from "@tabler/icons-react";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import * as Yup from "yup";
 
@@ -180,6 +180,10 @@ export function ProductForm({ product, mode }: ProductFormProps) {
   const router = useRouter();
   const isEditing = mode === "edit" && product;
   const [currentStep, setCurrentStep] = useState(0);
+
+  useEffect(() => {
+    setCurrentStep(0);
+  }, [product?.id, mode]);
 
   const formInitialValues: FormValues = isEditing
     ? {
@@ -334,34 +338,38 @@ export function ProductForm({ product, mode }: ProductFormProps) {
               <div className="flex items-center gap-2">
                 <Button
                   type="button"
-                  variant="outline"
-                  size="sm"
+                  variant="ghost"
                   onClick={handleBack}
                   disabled={currentStep === 0 || isSubmitting}
-                  className="hidden md:flex"
+                  className={cn(
+                    "border-border/50 bg-background text-muted-foreground hover:border-border hover:bg-muted hover:text-foreground hidden h-9 min-w-[100px] items-center justify-center gap-1.5 rounded-lg border px-4 text-sm font-medium transition-all md:flex",
+                    currentStep === 0 && "pointer-events-none opacity-40",
+                  )}
                 >
-                  <IconChevronLeft className="mr-2 size-4" />
+                  <IconChevronLeft className="size-4" />
                   Geri
                 </Button>
                 <Button
                   type="button"
-                  size="sm"
                   onClick={handleNext}
                   disabled={isSubmitting}
                   className={cn(
-                    "min-w-32",
-                    isSubmitting && "cursor-not-allowed opacity-80",
+                    "h-9 min-w-[100px] items-center justify-center gap-1.5 rounded-lg px-4 text-sm font-medium transition-all",
+                    isSubmitting && "pointer-events-none opacity-60",
+                    currentStep === STEPS.length - 1
+                      ? "bg-linear-to-r from-emerald-500 to-emerald-600 text-white shadow-sm hover:from-emerald-600 hover:to-emerald-700 hover:shadow-md"
+                      : "from-primary to-primary/90 text-primary-foreground hover:from-primary/90 hover:to-primary bg-linear-to-r shadow-sm hover:shadow-md",
                   )}
                 >
                   {currentStep === STEPS.length - 1 ? (
                     <>
-                      <IconCircleCheck className="mr-2 size-4" />
-                      {isSubmitting ? "Kaydediliyor..." : "Kaydet ve Bitir"}
+                      <IconCircleCheck className="size-4" />
+                      {isSubmitting ? "Kaydediliyor..." : "Kaydet"}
                     </>
                   ) : (
                     <>
                       İlerle
-                      <IconChevronRight className="ml-2 size-4" />
+                      <IconChevronRight className="size-4" />
                     </>
                   )}
                 </Button>

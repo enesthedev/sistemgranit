@@ -115,16 +115,25 @@ export async function deleteImage(
       return { success: false, error: "Geçersiz URL: Bucket bulunamadı" };
     }
 
-    // Extract everything after the bucket name
     const filePath = decodeURIComponent(parts.slice(bucketIndex + 1).join("/"));
 
-    if (!filePath || !filePath.includes(`/${user.id}/`)) {
+    const normalizedPath = filePath
+      .replace(/\\/g, "/")
+      .replace(/\.{2,}/g, "")
+      .replace(/^\/+/, "");
+
+    const userPathRegex = new RegExp(
+      `^(products|thumbnails|gallery)/${user.id}/[^/]+\\.(jpg|jpeg|png|webp|gif)$`,
+      "i",
+    );
+
+    if (!normalizedPath || !userPathRegex.test(normalizedPath)) {
       return { success: false, error: "Bu dosyayı silme yetkiniz yok" };
     }
 
     const { error } = await supabase.storage
       .from("products")
-      .remove([filePath]);
+      .remove([normalizedPath]);
 
     if (error) {
       console.error("Storage delete error:", error);
