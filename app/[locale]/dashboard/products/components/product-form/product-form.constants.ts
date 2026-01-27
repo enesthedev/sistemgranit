@@ -1,0 +1,75 @@
+import {
+  IconCube,
+  IconRuler,
+  IconListDetails,
+  IconSeo,
+  IconPhoto,
+} from "@tabler/icons-react";
+import type { FormValues, StepConfig } from "./product-form.types";
+
+export const STEPS: StepConfig[] = [
+  {
+    id: "basic",
+    label: "Temel Bilgiler",
+    description: "Ürün adı, açıklama ve fiyat",
+    icon: IconListDetails,
+  },
+  {
+    id: "physical",
+    label: "Fiziksel Özellikler",
+    description: "Renk, desen ve köken",
+    icon: IconPhoto,
+  },
+  {
+    id: "technical",
+    label: "Teknik Detaylar",
+    description: "Dayanıklılık ve sertlik",
+    icon: IconCube,
+  },
+  {
+    id: "dimensions",
+    label: "Boyut & Stok",
+    description: "Plaka ölçüleri ve kalınlık",
+    icon: IconRuler,
+  },
+  {
+    id: "seo",
+    label: "SEO & Uygulama",
+    description: "Arama motoru ve kullanım",
+    icon: IconSeo,
+  },
+];
+
+export const initialValues: FormValues = {
+  name: "",
+  description: "",
+  category: "marble",
+  status: "draft",
+  price_per_sqm: null,
+  currency: "TRY",
+  thumbnail: "",
+  images: [],
+  origin_country: "",
+  origin_region: "",
+  color_primary: "",
+  color_secondary: "",
+  pattern: "",
+  finish_types: [],
+  density: null,
+  water_absorption: null,
+  compressive_strength: null,
+  flexural_strength: null,
+  abrasion_resistance: "",
+  hardness_mohs: null,
+  frost_resistant: false,
+  available_thicknesses: [],
+  max_slab_width: null,
+  max_slab_length: null,
+  min_order_quantity: 1,
+  applications: [],
+  is_suitable_for_exterior: false,
+  is_suitable_for_kitchen: false,
+  seo_title: "",
+  seo_description: "",
+  tags: [],
+};

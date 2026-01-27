@@ -5,7 +5,7 @@ export { FormTextarea } from "./form-textarea";
 export { FormNumberInput } from "./form-number-input";
 export { FormSwitch } from "./form-switch";
 export { FormCheckbox } from "./form-checkbox";
-export { FormImageUpload } from "./form-image-upload";
+export { FormFileUpload } from "./form-file-upload";
 export { FormMultiSelect } from "./form-multi-select";
 export { FormTagInput } from "./form-tag-input";
 export { FormArrayNumber } from "./form-array-number";
