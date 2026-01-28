@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { createProduct, updateProduct } from "@/actions/products";
 import { ROUTES } from "@/app/routes";
 import type { Product } from "@/types/product";
-import type { FormValues } from "../product-form.types";
+import type { FormValues } from "../types";
 
 interface UseProductFormOptions {
   product?: Product;

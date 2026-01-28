@@ -13,7 +13,7 @@ import { Separator } from "@/app/components/ui/separator";
 
 export const DimensionsStep = React.memo(function DimensionsStep() {
   return (
-    <Card className="border-none shadow-md">
+    <Card className="border-none shadow-none">
       <CardHeader>
         <CardTitle>Boyut ve Lojistik</CardTitle>
         <CardDescription>

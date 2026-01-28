@@ -20,8 +20,8 @@ import { PRODUCT_APPLICATIONS } from "@/app/constants";
 
 export const SeoStep = React.memo(function SeoStep() {
   return (
-    <div className="grid gap-6 md:grid-cols-2">
-      <Card className="border-none shadow-md">
+    <div className="grid gap-6">
+      <Card className="border-none shadow-none">
         <CardHeader>
           <CardTitle>Kullanım Senaryoları</CardTitle>
           <CardDescription>
@@ -51,7 +51,9 @@ export const SeoStep = React.memo(function SeoStep() {
         </CardContent>
       </Card>
 
-      <Card className="border-none shadow-md">
+      <Separator />
+
+      <Card className="border-none shadow-none">
         <CardHeader>
           <CardTitle>Arama Motoru Optimizasyonu (SEO)</CardTitle>
           <CardDescription>

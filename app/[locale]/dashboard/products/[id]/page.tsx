@@ -1,16 +1,14 @@
 import { getProduct } from "@/actions/products";
 import { notFound } from "next/navigation";
-import { ProductForm } from "../components/product-form";
+import { Form } from "../components/form";
 
-interface EditProductPageProps {
+interface PageProps {
   params: Promise<{
     id: string;
   }>;
 }
 
-export default async function EditProductPage({
-  params,
-}: EditProductPageProps) {
+export default async function Page({ params }: PageProps) {
   const { id } = await params;
   const result = await getProduct(id);
 
@@ -20,7 +18,7 @@ export default async function EditProductPage({
 
   return (
     <div className="flex flex-1 flex-col">
-      <ProductForm mode="edit" product={result.data} />
+      <Form mode="edit" product={result.data} />
     </div>
   );
 }

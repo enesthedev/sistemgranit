@@ -12,7 +12,7 @@ import {
 
 export const TechnicalDetailsStep = React.memo(function TechnicalDetailsStep() {
   return (
-    <Card className="border-none shadow-md">
+    <Card className="rounded-none border-none shadow-none">
       <CardHeader>
         <CardTitle>Teknik Özellikler</CardTitle>
         <CardDescription>

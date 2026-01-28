@@ -11,7 +11,7 @@ import {
   IconChevronRight,
   IconCircleCheck,
 } from "@tabler/icons-react";
-import type { StepConfig } from "../product-form.types";
+import type { StepConfig } from "../types";
 
 interface FormHeaderProps {
   title: string;

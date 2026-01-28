@@ -1,9 +1,9 @@
-import { ProductForm } from "../components/product-form";
+import { Form } from "../components/form";
 
-export default function NewProductPage() {
+export default function Page() {
   return (
     <div className="flex flex-1 flex-col">
-      <ProductForm mode="create" />
+      <Form mode="create" />
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import React from "react";
 import { cn } from "@/app/utils";
 import { IconCheck } from "@tabler/icons-react";
-import type { StepConfig } from "../product-form.types";
+import type { StepConfig } from "../types";
 
 interface FormSidebarProps {
   steps: StepConfig[];

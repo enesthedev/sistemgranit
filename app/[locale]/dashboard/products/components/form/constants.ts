@@ -5,7 +5,7 @@ import {
   IconSeo,
   IconPhoto,
 } from "@tabler/icons-react";
-import type { FormValues, StepConfig } from "./product-form.types";
+import type { FormValues, StepConfig } from "./types";
 
 export const STEPS: StepConfig[] = [
   {

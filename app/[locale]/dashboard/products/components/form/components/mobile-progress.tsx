@@ -2,7 +2,7 @@
 
 import React from "react";
 import { cn } from "@/app/utils";
-import type { StepConfig } from "../product-form.types";
+import type { StepConfig } from "../types";
 
 interface MobileProgressProps {
   steps: StepConfig[];

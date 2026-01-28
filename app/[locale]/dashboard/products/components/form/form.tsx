@@ -1,13 +1,13 @@
 "use client";
 
 import React, { lazy, Suspense, useMemo } from "react";
-import { Form, Formik } from "formik";
+import { Form as FormikForm, Formik } from "formik";
 import type { Product } from "@/types/product";
 import { cn } from "@/app/utils";
 
-import type { FormValues, ProductFormProps } from "./product-form.types";
-import { validationSchema } from "./product-form.schema";
-import { STEPS, initialValues } from "./product-form.constants";
+import type { FormValues, ProductFormProps } from "./types";
+import { validationSchema } from "./schema";
+import { STEPS, initialValues } from "./constants";
 import { useStepNavigation, useProductForm } from "./hooks";
 import {
   FormHeader,
@@ -42,7 +42,7 @@ const SeoStep = lazy(() =>
 
 function StepSkeleton() {
   return (
-    <div className="animate-pulse space-y-4">
+    <div className="animate-pulse space-y-4 p-6">
       <div className="bg-muted h-8 w-1/3 rounded" />
       <div className="bg-muted h-4 w-2/3 rounded" />
       <div className="bg-muted h-32 rounded-lg" />
@@ -88,7 +88,7 @@ function getFormInitialValues(product: Product | undefined): FormValues {
   };
 }
 
-export function ProductForm({ product, mode }: ProductFormProps) {
+export function Form({ product, mode }: ProductFormProps) {
   const { handleSubmit, isEditing } = useProductForm({ product, mode });
 
   const formInitialValues = useMemo(
@@ -104,7 +104,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
       enableReinitialize
     >
       {({ isSubmitting, submitForm, values }) => (
-        <ProductFormContent
+        <FormContent
           product={product}
           isEditing={isEditing}
           isSubmitting={isSubmitting}
@@ -116,7 +116,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
   );
 }
 
-interface ProductFormContentProps {
+interface FormContentProps {
   product?: Product;
   isEditing: boolean;
   isSubmitting: boolean;
@@ -124,13 +124,13 @@ interface ProductFormContentProps {
   values: FormValues;
 }
 
-function ProductFormContent({
+function FormContent({
   product,
   isEditing,
   isSubmitting,
   submitForm,
   values,
-}: ProductFormContentProps) {
+}: FormContentProps) {
   const {
     currentStep,
     handleNext,
@@ -159,7 +159,7 @@ function ProductFormContent({
         onBack={handleBack}
       />
 
-      <Form className="flex flex-1 flex-col overflow-y-auto">
+      <FormikForm className="flex flex-1 flex-col overflow-y-auto">
         <div className="grid flex-1 grid-cols-1 xl:grid-cols-12">
           <FormSidebar
             steps={STEPS}
@@ -186,7 +186,7 @@ function ProductFormContent({
             </div>
           </main>
         </div>
-      </Form>
+      </FormikForm>
     </div>
   );
 }
