@@ -31,6 +31,8 @@ export const ROUTES = {
     REPORTS: "/reports",
     WORD_ASSISTANT: "/word-assistant",
   },
+
+  PRODUCT_DETAIL: "/products/[slug]",
 } as const;
 
 export type Routes = typeof ROUTES;

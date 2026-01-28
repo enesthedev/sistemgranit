@@ -78,6 +78,11 @@ export const pathnames = {
     en: "/word-assistant",
     tr: "/kelime-asistani",
   },
+
+  [ROUTES.PRODUCT_DETAIL]: {
+    en: "/products/[slug]",
+    tr: "/urunler/[slug]",
+  },
 } as const;
 
 export type Pathnames = typeof pathnames;

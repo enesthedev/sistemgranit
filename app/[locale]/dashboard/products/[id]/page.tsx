@@ -1,4 +1,7 @@
 import { getProduct } from "@/actions/products";
+
+import { connection } from "next/server";
+
 import { notFound } from "next/navigation";
 import { Form } from "../components/form";
 
@@ -9,6 +12,7 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
+  await connection();
   const { id } = await params;
   const result = await getProduct(id);
 

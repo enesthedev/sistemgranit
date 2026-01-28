@@ -73,7 +73,8 @@ export function NavMain({
                   tooltip={item.title}
                   isActive={active}
                 >
-                  <Link href={item.url}>
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  <Link href={item.url as any}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </Link>

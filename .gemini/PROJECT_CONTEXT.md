@@ -305,6 +305,7 @@ bunx supabase gen types typescript --project-id <id> > supabase/database.types.t
 
 - `.agent/workflows/supabase-migrations.md` - Migration workflow'u
 - `PRODUCT_FORM_FIX.md` - Form refactoring planı (mevcut ise)
+- `PRODUCT_LIST_PAGE_TASK.md` - Ürün listeleme sayfası data-table implementasyonu
 
 ---
 
@@ -314,3 +315,6 @@ bunx supabase gen types typescript --project-id <id> > supabase/database.types.t
 |-------|------------|
 | 2026-01-28 | İlk versiyon oluşturuldu |
 | 2026-01-28 | Sidebar navigasyon active state düzeltildi - `getLocalizedPaths` utility kullanılarak dashboard ve alt sayfalar için doğru active state belirleme |
+| 2026-01-28 | PRODUCT_LIST_PAGE_TASK.md oluşturuldu - Ürün listeleme sayfası için TanStack Table tabanlı data-table implementasyonu analizi |
+| 2026-01-28 | Ürün listeleme sayfası generic Data Table ile yenilendi (Sıralama, filtreleme, sayfalama eklendi) |
+| 2026-01-28 | Ürün listeleme sayfası responsive iyileştirmeleri (mobil scroll, kolon gizleme) ve "Görüntüle" butonu fix'i (PRODUCT_DETAIL route ve placeholder sayfa eklendi) |
