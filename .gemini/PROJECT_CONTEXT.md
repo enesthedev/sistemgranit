@@ -1,6 +1,6 @@
 # 📋 Sistem Granit - Proje Bağlamı
 
-> **Son Güncelleme:** 2026-01-28T19:49:43+03:00  
+> **Son Güncelleme:** 2026-01-28T21:25:00+03:00  
 > **Versiyon:** 1.0.0  
 > Bu dosya yapay zeka tarafından her görev başlangıcında kontrol edilir ve görev sonunda güncellenir.
 
@@ -67,17 +67,27 @@ sistemgranit/
 │   │   │   │   └── tables/
 │   │   │   ├── products/      # Ürün yönetimi
 │   │   │   │   ├── components/
-│   │   │   │   │   └── form/  # Multi-step product form
+│   │   │   │   │   ├── form/  # Multi-step product form
+│   │   │   │   │   └── ...    # Data table components
 │   │   │   │   ├── [id]/      # Ürün düzenleme
 │   │   │   │   └── new/       # Yeni ürün
 │   │   │   ├── layout.tsx
 │   │   │   └── page.tsx
+│   │   ├── products/          # Public ürün sayfaları
+│   │   │   └── [slug]/
+│   │   │       └── page.tsx
 │   │   ├── onboarding/        # Kullanıcı kayıt
 │   │   ├── layout.tsx         # Root layout (i18n)
 │   │   └── page.tsx           # Ana sayfa
 │   ├── components/            # Paylaşılan bileşenler
-│   │   ├── ui/                # UI primitives (26 bileşen)
-│   │   └── form/              # Form bileşenleri (12 bileşen)
+│   │   ├── ui/                # UI primitives (28 bileşen - command, dialog eklendi)
+│   │   ├── form/              # Form bileşenleri (12 bileşen)
+│   │   └── data-table/        # Generic Data Table (yeni)
+│   │       ├── data-table.tsx
+│   │       ├── data-table-column-header.tsx
+│   │       ├── data-table-pagination.tsx
+│   │       ├── data-table-view-options.tsx
+│   │       └── data-table-faceted-filter.tsx
 │   ├── constants/             # Sabitler
 │   │   └── product.ts         # Ürün kategorileri, durumlar vb.
 │   ├── hooks/                 # Custom hooks
@@ -318,3 +328,5 @@ bunx supabase gen types typescript --project-id <id> > supabase/database.types.t
 | 2026-01-28 | PRODUCT_LIST_PAGE_TASK.md oluşturuldu - Ürün listeleme sayfası için TanStack Table tabanlı data-table implementasyonu analizi |
 | 2026-01-28 | Ürün listeleme sayfası generic Data Table ile yenilendi (Sıralama, filtreleme, sayfalama eklendi) |
 | 2026-01-28 | Ürün listeleme sayfası responsive iyileştirmeleri (mobil scroll, kolon gizleme) ve "Görüntüle" butonu fix'i (PRODUCT_DETAIL route ve placeholder sayfa eklendi) |
+| 2026-01-28 | Data Table modülü oluşturuldu (Sorting, Pagination, Filtering) ve Ürün listesine entegre edildi. |
+| 2026-01-28 | Next.js 15 uyumluluğu: Route params (Page Props) Promise yapısına uygun hale getirildi (async/await). |
