@@ -2,10 +2,8 @@
 
 import * as React from "react";
 import { IconInnerShadowTop } from "@tabler/icons-react";
-
-import { NavDocuments } from "./nav-documents";
+import { Link } from "@/lib/i18n/navigation";
 import { NavMain } from "./nav-main";
-import { NavSecondary } from "./nav-secondary";
 import { NavUser } from "./nav-user";
 import {
   Sidebar,
@@ -16,17 +14,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/app/components/ui/sidebar";
-import {
-  mainNavigation,
-  secondaryNavigation,
-  documentNavigation,
-} from "@/app/routes";
-
-const user = {
-  name: "shadcn",
-  email: "m@example.com",
-  avatar: "/avatars/shadcn.jpg",
-};
+import { mainNavigation, ROUTES } from "@/app/routes";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -38,21 +26,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
+              <Link href={ROUTES.DASHBOARD}>
                 <IconInnerShadowTop className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc</span>
-              </a>
+                <span className="text-base font-semibold">Sistem Granit</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={mainNavigation} />
-        <NavDocuments items={documentNavigation} />
-        <NavSecondary items={secondaryNavigation} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

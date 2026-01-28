@@ -1,19 +1,15 @@
 import {
   IconCamera,
-  IconChartBar,
   IconDashboard,
   IconDatabase,
   IconFileAi,
   IconFileDescription,
   IconFileWord,
-  IconFolder,
   IconHelp,
-  IconListDetails,
   IconPackage,
   IconReport,
   IconSearch,
   IconSettings,
-  IconUsers,
   type Icon,
 } from "@tabler/icons-react";
 import { ROUTES } from "./config";
@@ -36,7 +32,7 @@ export type DocumentItem = {
 
 export const mainNavigation: NavItem[] = [
   {
-    title: "Dashboard",
+    title: "Anasayfa",
     titleKey: "nav.dashboard",
     url: ROUTES.DASHBOARD,
     icon: IconDashboard,
@@ -46,30 +42,6 @@ export const mainNavigation: NavItem[] = [
     titleKey: "nav.products",
     url: ROUTES.PRODUCTS.LIST,
     icon: IconPackage,
-  },
-  {
-    title: "Lifecycle",
-    titleKey: "nav.lifecycle",
-    url: "#",
-    icon: IconListDetails,
-  },
-  {
-    title: "Analytics",
-    titleKey: "nav.analytics",
-    url: ROUTES.ANALYTICS,
-    icon: IconChartBar,
-  },
-  {
-    title: "Projects",
-    titleKey: "nav.projects",
-    url: ROUTES.PROJECTS,
-    icon: IconFolder,
-  },
-  {
-    title: "Team",
-    titleKey: "nav.team",
-    url: ROUTES.TEAM,
-    icon: IconUsers,
   },
 ];
 
