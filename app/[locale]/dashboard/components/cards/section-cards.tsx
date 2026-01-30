@@ -1,6 +1,5 @@
-"use client";
-
 import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
+import { getProductStats } from "@/actions/analytics";
 
 import { Badge } from "@/app/components/ui/badge";
 import {
@@ -12,92 +11,115 @@ import {
   CardTitle,
 } from "@/app/components/ui/card";
 
-export function SectionCards() {
+export async function SectionCards() {
+  const stats = await getProductStats();
+
+  const formatTrend = (value: number) => {
+    const sign = value >= 0 ? "+" : "";
+    return `${sign}${value}%`;
+  };
+
+  const TrendIcon = stats.growthRate >= 0 ? IconTrendingUp : IconTrendingDown;
+
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Toplam Gelir</CardDescription>
+          <CardDescription>Toplam Ürün</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {stats.total.toLocaleString("tr-TR")}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
+              <TrendIcon />
+              {formatTrend(stats.growthRate)}
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Bu ay yükseliş trendinde <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Son 6 aylık ziyaretçiler</div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Yeni Müşteriler</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Bu dönem %20 düşüş <IconTrendingDown className="size-4" />
+            Bu ay {stats.thisMonthNew} yeni ürün{" "}
+            <TrendIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Edinim dikkat gerektiriyor
+            Geçen ay {stats.lastMonthNew} ürün eklendi
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Aktif Hesaplar</CardDescription>
+          <CardDescription>Aktif Ürünler</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {stats.active.toLocaleString("tr-TR")}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
+            <Badge
+              variant="outline"
+              className="border-emerald-200 text-emerald-600 dark:border-emerald-800 dark:text-emerald-400"
+            >
               <IconTrendingUp />
-              +12.5%
+              Yayında
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Güçlü kullanıcı tutma <IconTrendingUp className="size-4" />
+            Aktif katalog ürünleri <IconTrendingUp className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Etkileşim hedefleri aşıldı
+            Toplam ürünlerin %
+            {stats.total > 0
+              ? Math.round((stats.active / stats.total) * 100)
+              : 0}
+            &apos;i
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Büyüme Oranı</CardDescription>
+          <CardDescription>Taslak Ürünler</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {stats.draft.toLocaleString("tr-TR")}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
+            <Badge
+              variant="outline"
+              className="border-amber-200 text-amber-600 dark:border-amber-800 dark:text-amber-400"
+            >
+              Beklemede
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            İstikrarlı performans artışı <IconTrendingUp className="size-4" />
+            Yayınlanmayı bekliyor
           </div>
           <div className="text-muted-foreground">
-            Büyüme projeksiyonlarını karşılıyor
+            Düzenleme ve onay bekliyor
+          </div>
+        </CardFooter>
+      </Card>
+      <Card className="@container/card">
+        <CardHeader>
+          <CardDescription>Arşivlenmiş</CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {stats.archived.toLocaleString("tr-TR")}
+          </CardTitle>
+          <CardAction>
+            <Badge
+              variant="outline"
+              className="border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-400"
+            >
+              Arşiv
+            </Badge>
+          </CardAction>
+        </CardHeader>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+          <div className="line-clamp-1 flex gap-2 font-medium">
+            Arşivlenmiş ürünler
+          </div>
+          <div className="text-muted-foreground">
+            Artık satışta olmayan ürünler
           </div>
         </CardFooter>
       </Card>

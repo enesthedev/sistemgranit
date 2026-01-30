@@ -49,10 +49,6 @@ export const pathnames = {
     tr: "/panel/urunler/[id]",
   },
 
-  [ROUTES.ANALYTICS]: {
-    en: "/analytics",
-    tr: "/analitik",
-  },
   [ROUTES.PROJECTS]: {
     en: "/projects",
     tr: "/projeler",

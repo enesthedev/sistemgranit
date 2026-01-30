@@ -28,13 +28,14 @@ export function NavMain({
     const localizedPaths = getLocalizedPaths(url);
     const dashboardPaths = getLocalizedPaths(ROUTES.DASHBOARD);
     const isDashboard = dashboardPaths.includes(url);
+    const currentPath = pathname as string;
 
     if (isDashboard) {
-      return localizedPaths.includes(pathname);
+      return localizedPaths.includes(currentPath);
     }
     return (
-      localizedPaths.includes(pathname) ||
-      localizedPaths.some((p) => pathname.startsWith(`${p}/`))
+      localizedPaths.includes(currentPath) ||
+      localizedPaths.some((p) => currentPath.startsWith(`${p}/`))
     );
   };
 

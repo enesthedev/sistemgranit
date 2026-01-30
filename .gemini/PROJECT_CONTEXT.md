@@ -1,6 +1,6 @@
 # 📋 Sistem Granit - Proje Bağlamı
 
-> **Son Güncelleme:** 2026-01-28T21:25:00+03:00  
+> **Son Güncelleme:** 2026-01-30T21:55:00+03:00  
 > **Versiyon:** 1.0.0  
 > Bu dosya yapay zeka tarafından her görev başlangıcında kontrol edilir ve görev sonunda güncellenir.
 
@@ -52,13 +52,19 @@ sistemgranit/
 │   └── storage/               # Depolama işlemleri
 ├── app/
 │   ├── [locale]/              # i18n route'ları
-│   │   ├── auth/              # Kimlik doğrulama sayfaları
+│   │   ├── (public)/          # Public route grubu (tracking aktif)
+│   │   │   ├── layout.tsx     # AnalyticsProvider burada
+│   │   │   ├── page.tsx       # Ana sayfa
+│   │   │   └── products/      # Public ürün sayfaları
+│   │   │       └── [slug]/
+│   │   │           └── page.tsx
+│   │   ├── auth/              # Kimlik doğrulama sayfaları (tracking yok)
 │   │   │   ├── sign-in/
 │   │   │   ├── confirm/
 │   │   │   ├── error/
 │   │   │   ├── update-password/
 │   │   │   └── sign-up-success/
-│   │   ├── dashboard/         # Admin paneli
+│   │   ├── dashboard/         # Admin paneli (tracking yok)
 │   │   │   ├── components/    # Dashboard bileşenleri
 │   │   │   │   ├── sidebar/   # Sidebar navigasyon
 │   │   │   │   ├── header/
@@ -73,12 +79,8 @@ sistemgranit/
 │   │   │   │   └── new/       # Yeni ürün
 │   │   │   ├── layout.tsx
 │   │   │   └── page.tsx
-│   │   ├── products/          # Public ürün sayfaları
-│   │   │   └── [slug]/
-│   │   │       └── page.tsx
 │   │   ├── onboarding/        # Kullanıcı kayıt
-│   │   ├── layout.tsx         # Root layout (i18n)
-│   │   └── page.tsx           # Ana sayfa
+│   │   └── layout.tsx         # Root layout (provider yok)
 │   ├── components/            # Paylaşılan bileşenler
 │   │   ├── ui/                # UI primitives (28 bileşen - command, dialog eklendi)
 │   │   ├── form/              # Form bileşenleri (12 bileşen)
@@ -330,3 +332,7 @@ bunx supabase gen types typescript --project-id <id> > supabase/database.types.t
 | 2026-01-28 | Ürün listeleme sayfası responsive iyileştirmeleri (mobil scroll, kolon gizleme) ve "Görüntüle" butonu fix'i (PRODUCT_DETAIL route ve placeholder sayfa eklendi) |
 | 2026-01-28 | Data Table modülü oluşturuldu (Sorting, Pagination, Filtering) ve Ürün listesine entegre edildi. |
 | 2026-01-28 | Next.js 15 uyumluluğu: Route params (Page Props) Promise yapısına uygun hale getirildi (async/await). |
+| 2026-01-30 | Analytics bug fix: DailyTrendChart tarih aralığı değişikliği sorunu düzeltildi (ToggleGroup/Select boş değer kontrolü, switch-case fallback) |
+| 2026-01-30 | Provider refactoring: AnalyticsProvider (public) route grubuna taşındı - dashboard/auth sayfaları tracking dışında bırakıldı |
+| 2026-01-30 | Area chart baseValue fix: Tarih aralığı (7/30/90 gün) değiştirildiğinde grafiğin altında açık kalan alan sorunu düzeltildi (baseValue={0} eklendi) |
+| 2026-01-30 | Analytics Dashboard Refactoring: Ayrı analytics sayfası kaldırıldı, İstatistikler ana sayfa oldu. Ziyaretçi + Ürün istatistikleri tek sayfada. Cihaz bilgileri bileşeni kaldırıldı. Session duration DB'ye yazılmaya başlandı. |

@@ -12,33 +12,107 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.1"
   }
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string | null
+          event_data: Json | null
+          event_name: string
+          id: string
+          page_path: string | null
+          session_id: string
+          visitor_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_name: string
+          id?: string
+          page_path?: string | null
+          session_id: string
+          visitor_id: string
+        }
+        Update: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_name?: string
+          id?: string
+          page_path?: string | null
+          session_id?: string
+          visitor_id?: string
+        }
+        Relationships: []
+      }
+      page_views: {
+        Row: {
+          browser: string | null
+          browser_version: string | null
+          created_at: string | null
+          device_type: string | null
+          id: string
+          language: string | null
+          os: string | null
+          os_version: string | null
+          page_path: string
+          page_title: string | null
+          referrer: string | null
+          referrer_domain: string | null
+          screen_height: number | null
+          screen_width: number | null
+          session_id: string
+          timezone: string | null
+          user_agent: string | null
+          viewport_height: number | null
+          viewport_width: number | null
+          visitor_id: string
+        }
+        Insert: {
+          browser?: string | null
+          browser_version?: string | null
+          created_at?: string | null
+          device_type?: string | null
+          id?: string
+          language?: string | null
+          os?: string | null
+          os_version?: string | null
+          page_path: string
+          page_title?: string | null
+          referrer?: string | null
+          referrer_domain?: string | null
+          screen_height?: number | null
+          screen_width?: number | null
+          session_id: string
+          timezone?: string | null
+          user_agent?: string | null
+          viewport_height?: number | null
+          viewport_width?: number | null
+          visitor_id: string
+        }
+        Update: {
+          browser?: string | null
+          browser_version?: string | null
+          created_at?: string | null
+          device_type?: string | null
+          id?: string
+          language?: string | null
+          os?: string | null
+          os_version?: string | null
+          page_path?: string
+          page_title?: string | null
+          referrer?: string | null
+          referrer_domain?: string | null
+          screen_height?: number | null
+          screen_width?: number | null
+          session_id?: string
+          timezone?: string | null
+          user_agent?: string | null
+          viewport_height?: number | null
+          viewport_width?: number | null
+          visitor_id?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           abrasion_resistance: string | null
@@ -159,6 +233,63 @@ export type Database = {
           thumbnail?: string | null
           updated_at?: string | null
           water_absorption?: number | null
+        }
+        Relationships: []
+      }
+      sessions: {
+        Row: {
+          browser: string | null
+          created_at: string | null
+          device_type: string | null
+          duration_seconds: number | null
+          ended_at: string | null
+          entry_page: string | null
+          exit_page: string | null
+          id: string
+          is_bounce: boolean | null
+          os: string | null
+          page_count: number | null
+          referrer: string | null
+          referrer_domain: string | null
+          started_at: string | null
+          updated_at: string | null
+          visitor_id: string
+        }
+        Insert: {
+          browser?: string | null
+          created_at?: string | null
+          device_type?: string | null
+          duration_seconds?: number | null
+          ended_at?: string | null
+          entry_page?: string | null
+          exit_page?: string | null
+          id?: string
+          is_bounce?: boolean | null
+          os?: string | null
+          page_count?: number | null
+          referrer?: string | null
+          referrer_domain?: string | null
+          started_at?: string | null
+          updated_at?: string | null
+          visitor_id: string
+        }
+        Update: {
+          browser?: string | null
+          created_at?: string | null
+          device_type?: string | null
+          duration_seconds?: number | null
+          ended_at?: string | null
+          entry_page?: string | null
+          exit_page?: string | null
+          id?: string
+          is_bounce?: boolean | null
+          os?: string | null
+          page_count?: number | null
+          referrer?: string | null
+          referrer_domain?: string | null
+          started_at?: string | null
+          updated_at?: string | null
+          visitor_id?: string
         }
         Relationships: []
       }
@@ -359,9 +490,6 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {
       product_application: [

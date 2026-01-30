@@ -15,7 +15,6 @@ export const ROUTES = {
   },
 
   DASHBOARD: "/dashboard",
-  ANALYTICS: "/analytics",
   PROJECTS: "/projects",
   TEAM: "/team",
   SETTINGS: "/settings",

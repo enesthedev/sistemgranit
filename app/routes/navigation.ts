@@ -1,6 +1,5 @@
 import {
   IconCamera,
-  IconDashboard,
   IconDatabase,
   IconFileAi,
   IconFileDescription,
@@ -32,10 +31,10 @@ export type DocumentItem = {
 
 export const mainNavigation: NavItem[] = [
   {
-    title: "Anasayfa",
-    titleKey: "nav.dashboard",
+    title: "İstatistikler",
+    titleKey: "nav.statistics",
     url: ROUTES.DASHBOARD,
-    icon: IconDashboard,
+    icon: IconReport,
   },
   {
     title: "Ürünler",

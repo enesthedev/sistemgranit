@@ -4,6 +4,7 @@ import { connection } from "next/server";
 
 import { notFound } from "next/navigation";
 import { Form } from "../components/form";
+import { SiteHeader } from "../../components/header/site-header";
 
 interface PageProps {
   params: Promise<{
@@ -21,8 +22,11 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <div className="flex flex-1 flex-col">
-      <Form mode="edit" product={result.data} />
-    </div>
+    <>
+      <SiteHeader title="Ürün Düzenle" />
+      <div className="flex flex-1 flex-col">
+        <Form mode="edit" product={result.data} />
+      </div>
+    </>
   );
 }
