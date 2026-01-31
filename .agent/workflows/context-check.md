@@ -4,42 +4,41 @@ description: Her görev öncesinde proje bağlamını kontrol etme ve görev son
 
 # Proje Bağlam Kontrolü Workflow'u
 
-Bu workflow, her görev başlangıcında ve sonunda proje bağlam dosyasının yönetimini sağlar.
+Bu workflow, her görev başlangıcında ve sonunda `.agent/` dizini altındaki proje bağlam dosyalarının yönetimini sağlar.
 
 ## Görev Başlangıcında
 
 // turbo
-1. `.gemini/PROJECT_CONTEXT.md` dosyasının varlığını kontrol et
-2. Dosya varsa, içeriğini oku ve proje bağlamını anla
-3. Dosya yoksa, projeyi analiz edip yeni bir PROJECT_CONTEXT.md oluştur
+1. `AGENT.md` dosyasının varlığını kontrol et.
+2. `AGENT.md` dosyasını oku ve genel proje durumunu anla.
+3. İhtiyaca göre `.agent/spec/requirement.md`, `.agent/spec/design.md` veya `.agent/spec/tasks.md` dosyalarını incele.
 
 ## Görev Sırasında
 
-4. PROJECT_CONTEXT.md'deki bilgileri referans olarak kullan
-5. Yeni dosya/klasör oluşturulduğunda not al
-6. Veritabanı değişiklikleri yapıldığında not al
-7. Yeni bileşen/hook eklendiğinde not al
+4. Kod değişikliklerini yaparken `AGENT.md` içindeki "Kodlama Standartları"na uy.
+5. Yeni bir özellik ekliyorsan `spec/requirement.md` ve `spec/design.md` dosyalarındaki tanımlara dikkat et.
 
 ## Görev Sonunda
 
-8. Yapılan değişiklikleri PROJECT_CONTEXT.md'ye ekle:
-   - Yeni dosya/klasör yapısı
-   - Veritabanı şema değişiklikleri
-   - Yeni bileşenler/hook'lar
-   - Çözülen/eklenen TODO'lar
-   - Güncelleme geçmişine yeni kayıt
+6. Yapılan değişiklikleri ilgili dosyalara yansıt:
+   - **Genel Değişiklikler:** `AGENT.md` dosyasındaki "Güncelleme Geçmişi"ne ekle.
+   - **Veritabanı/UI Değişiklikleri:** `.agent/spec/design.md` dosyasını güncelle.
+   - **Tamamlanan/Yeni Görevler:** `.agent/spec/tasks.md` dosyasını güncelle.
+   - **Altyapı/Stack Değişiklikleri:** `.agent/wiki/architecture.md` dosyasını güncelle.
 
-9. "Son Güncelleme" tarihini güncelle
+7. `AGENT.md` dosyasındaki "Son Güncelleme" tarihini güncelle.
 
-## Dosya Konumu
+## Dosya Konumları
 
-```
-.gemini/PROJECT_CONTEXT.md
-```
+- **Ana Yapı:** `AGENT.md`
+- **Gereksinimler:** `.agent/spec/requirement.md`
+- **Tasarım & DB:** `.agent/spec/design.md`
+- **Görevler:** `.agent/spec/tasks.md`
+- **Mimari:** `.agent/wiki/architecture.md`
 
 ## Güncelleme Formatı
 
-Güncelleme geçmişine yeni kayıt eklerken:
+`AGENT.md` > Güncelleme Geçmişi:
 
 ```markdown
 | Tarih | Değişiklik |
