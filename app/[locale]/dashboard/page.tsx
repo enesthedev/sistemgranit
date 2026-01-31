@@ -4,7 +4,7 @@ import { getVisitorStats } from "@/actions/analytics/get-visitor-stats";
 import { getPopularPages } from "@/actions/analytics/get-popular-pages";
 
 import { SiteHeader } from "./components/header/site-header";
-import { ResetAnalyticsDialog } from "./components/reset-analytics-dialog";
+import { ResetAnalyticsWrapper } from "./components/reset-analytics-wrapper";
 import { SectionCards } from "./components/cards/section-cards";
 import { VisitorStatsCards } from "./components/cards/visitor-stats-cards";
 import { ChartAreaInteractive } from "./components/charts/chart-area-interactive";
@@ -90,7 +90,7 @@ export default function Page() {
     <>
       <SiteHeader
         title="İstatistikler"
-        rightAction={<ResetAnalyticsDialog />}
+        rightAction={<ResetAnalyticsWrapper />}
       />
       <div className="@container/main flex flex-1 flex-col gap-2">
         <div className="flex flex-col gap-6 py-4 md:gap-8 md:py-6">

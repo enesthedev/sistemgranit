@@ -1,8 +1,14 @@
 import type { Product } from "@/types/product";
 
+export interface CategoryOption {
+  value: string;
+  label: string;
+}
+
 export interface ProductFormProps {
   product?: Product;
   mode: "create" | "edit";
+  categories: CategoryOption[];
 }
 
 export interface FormValues {

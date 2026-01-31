@@ -55,7 +55,7 @@ export function FormHeader({
         </Button>
         <div>
           <h1 className="text-lg font-semibold tracking-tight">
-            {title || (isEditing ? "Ürünü Düzenle" : "Yeni Ürün")}
+            {title || "Adsız Ürün"}
           </h1>
           <p className="text-muted-foreground hidden text-xs md:block">
             {steps[currentStep].label} • Adım {currentStep + 1} / {steps.length}

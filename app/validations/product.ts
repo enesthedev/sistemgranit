@@ -53,7 +53,8 @@ export const createProductSchema = z.object({
     .max(5000, "Açıklama en fazla 5000 karakter olabilir")
     .nullable()
     .optional(),
-  category: z.enum(categories, { message: "Geçersiz kategori" }),
+  category: z.enum(categories).optional(),
+  category_id: z.string().uuid("Geçersiz kategori seçimi"),
   status: z.enum(statuses, { message: "Geçersiz durum" }).default("draft"),
   price_per_sqm: z
     .number()
@@ -103,6 +104,7 @@ export const updateProductSchema = z.object({
     .optional(),
   description: z.string().max(5000).nullable().optional(),
   category: z.enum(categories).optional(),
+  category_id: z.string().uuid("Geçersiz kategori seçimi").optional(),
   status: z.enum(statuses).optional(),
   price_per_sqm: z.number().min(0).nullable().optional(),
   currency: z.enum(currencies).optional(),

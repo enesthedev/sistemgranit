@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 
 interface UseStepNavigationOptions {
   totalSteps: number;
   onComplete?: () => Promise<void> | void;
   initialStep?: number;
-  productId?: string;
 }
 
 interface UseStepNavigationReturn {
@@ -23,14 +22,8 @@ export function useStepNavigation({
   totalSteps,
   onComplete,
   initialStep = 0,
-  productId,
 }: UseStepNavigationOptions): UseStepNavigationReturn {
   const [currentStep, setCurrentStep] = useState(initialStep);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- productId değiştiğinde step'i sıfırlamak zorunlu
-    setCurrentStep(0);
-  }, [productId]);
 
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === totalSteps - 1;

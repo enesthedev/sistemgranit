@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/app/components/ui/checkbox";
 import { Badge } from "@/app/components/ui/badge";
 import { DataTableColumnHeader } from "@/app/components/data-table";
-import type { Product } from "@/types/product";
+import type { Product, ProductWithCategory } from "@/types/product";
 import { PRODUCT_CATEGORIES, PRODUCT_STATUSES } from "@/app/constants";
 import Image from "next/image";
 import { Link } from "@/lib/i18n/navigation";
@@ -53,7 +53,7 @@ function formatDate(dateString: string | null): string {
   }).format(new Date(dateString));
 }
 
-export const productColumns: ColumnDef<Product>[] = [
+export const productColumns: ColumnDef<ProductWithCategory>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -129,9 +129,12 @@ export const productColumns: ColumnDef<Product>[] = [
     header: "Kategori",
     cell: ({ row }) => {
       const category = row.getValue("category") as Product["category"];
+      const categoryName = row.original.categories?.name;
+      const displayLabel = categoryName || getCategoryLabel(category);
+
       return (
         <Badge variant="outline" className="text-muted-foreground">
-          {getCategoryLabel(category)}
+          {displayLabel}
         </Badge>
       );
     },

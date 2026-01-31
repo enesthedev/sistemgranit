@@ -12,6 +12,31 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.1"
   }
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       analytics_events: {
@@ -41,6 +66,42 @@ export type Database = {
           page_path?: string | null
           session_id?: string
           visitor_id?: string
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          seo_description: string | null
+          seo_title: string | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          seo_description?: string | null
+          seo_title?: string | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -121,6 +182,7 @@ export type Database = {
             | null
           available_thicknesses: number[] | null
           category: Database["public"]["Enums"]["product_category"]
+          category_id: string | null
           color_primary: string | null
           color_secondary: string | null
           compressive_strength: number | null
@@ -161,6 +223,7 @@ export type Database = {
             | null
           available_thicknesses?: number[] | null
           category?: Database["public"]["Enums"]["product_category"]
+          category_id?: string | null
           color_primary?: string | null
           color_secondary?: string | null
           compressive_strength?: number | null
@@ -201,6 +264,7 @@ export type Database = {
             | null
           available_thicknesses?: number[] | null
           category?: Database["public"]["Enums"]["product_category"]
+          category_id?: string | null
           color_primary?: string | null
           color_secondary?: string | null
           compressive_strength?: number | null
@@ -234,7 +298,15 @@ export type Database = {
           updated_at?: string | null
           water_absorption?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       sessions: {
         Row: {
@@ -490,6 +562,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {
       product_application: [

@@ -15,6 +15,7 @@ interface FormInputProps {
   disabled?: boolean;
   className?: string;
   inputClassName?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function FormInput({
@@ -27,6 +28,7 @@ export function FormInput({
   disabled = false,
   className,
   inputClassName,
+  onChange,
 }: FormInputProps) {
   const [field, meta] = useField(name);
   const hasError = meta.touched && meta.error;
@@ -51,6 +53,10 @@ export function FormInput({
           inputClassName,
         )}
         {...field}
+        onChange={(e) => {
+          field.onChange(e);
+          if (onChange) onChange(e);
+        }}
       />
     </FormField>
   );

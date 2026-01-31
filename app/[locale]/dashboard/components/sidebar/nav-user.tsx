@@ -9,7 +9,6 @@ import {
 } from "@tabler/icons-react";
 import { useRouter } from "@/lib/i18n/navigation";
 import { createClient } from "@/supabase/browser";
-import { useCurrentUser } from "@/app/hooks";
 import { ROUTES } from "@/app/routes";
 import {
   Avatar,
@@ -31,7 +30,17 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/app/components/ui/sidebar";
-import { NavUserSkeleton } from "./nav-user-skeleton";
+
+export interface CurrentUser {
+  id: string;
+  email: string;
+  displayName: string;
+  avatarUrl: string | null;
+}
+
+interface NavUserProps {
+  user: CurrentUser;
+}
 
 function getInitials(name: string): string {
   return name
@@ -42,8 +51,7 @@ function getInitials(name: string): string {
     .slice(0, 2);
 }
 
-export function NavUser() {
-  const { user, loading } = useCurrentUser();
+export function NavUser({ user }: NavUserProps) {
   const { isMobile } = useSidebar();
   const router = useRouter();
 
@@ -52,14 +60,6 @@ export function NavUser() {
     await supabase.auth.signOut();
     router.push(ROUTES.GUEST.SIGN_IN);
   };
-
-  if (loading) {
-    return <NavUserSkeleton />;
-  }
-
-  if (!user) {
-    return null;
-  }
 
   const avatarUrl = user.avatarUrl ?? "/avatars/default.png";
 

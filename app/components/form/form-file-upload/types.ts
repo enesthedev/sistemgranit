@@ -11,7 +11,7 @@ export interface FileUploadFile {
   error?: string;
 }
 
-export type FolderType = "products" | "thumbnails" | "gallery";
+export type FolderType = "products" | "thumbnails" | "gallery" | "categories";
 
 export interface UseFileUploadOptions {
   folder: FolderType;

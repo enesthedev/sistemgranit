@@ -16,18 +16,17 @@ import {
   CardTitle,
 } from "@/app/components/ui/card";
 import { Separator } from "@/app/components/ui/separator";
-import {
-  CURRENCIES,
-  PRODUCT_CATEGORIES,
-  PRODUCT_STATUSES,
-} from "@/app/constants";
+import { CURRENCIES, PRODUCT_STATUSES } from "@/app/constants";
+import { CategoryOption } from "../../types";
 
 interface BasicInfoStepProps {
   productId?: string;
+  categories: CategoryOption[];
 }
 
 export const BasicInfoStep = React.memo(function BasicInfoStep({
   productId,
+  categories,
 }: BasicInfoStepProps) {
   return (
     <div className="grid gap-6 2xl:grid-cols-2">
@@ -49,8 +48,10 @@ export const BasicInfoStep = React.memo(function BasicInfoStep({
             <FormSelect
               name="category"
               label="Kategori"
-              options={[...PRODUCT_CATEGORIES]}
+              options={categories}
               required
+              placeholder="Seçiniz..."
+              disabled={categories.length === 0}
             />
             <FormSelect
               name="status"

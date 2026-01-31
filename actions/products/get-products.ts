@@ -1,7 +1,11 @@
 "use server";
 
 import { createClient } from "@/supabase/server";
-import type { Product, ProductFilters } from "@/types/product";
+import type {
+  Product,
+  ProductFilters,
+  ProductWithCategory,
+} from "@/types/product";
 
 interface GetProductsParams {
   filters?: ProductFilters;
@@ -14,7 +18,7 @@ interface GetProductsParams {
 interface GetProductsResult {
   success: boolean;
   data?: {
-    products: Product[];
+    products: ProductWithCategory[];
     total: number;
     page: number;
     totalPages: number;
@@ -36,19 +40,13 @@ export async function getProducts(
       orderDirection = "desc",
     } = params;
 
-    let query = supabase.from("products").select("*", { count: "exact" });
+    let query = supabase
+      .from("products")
+      .select("*, categories(*)", { count: "exact" });
 
     if (filters.category) {
-      query = query.eq(
-        "category",
-        filters.category as
-          | "marble"
-          | "granite"
-          | "travertine"
-          | "onyx"
-          | "limestone"
-          | "quartzite",
-      );
+      // Filter by category_id instead of enum category
+      query = query.eq("category_id", filters.category);
     }
 
     if (filters.status) {
@@ -75,10 +73,29 @@ export async function getProducts(
       return { success: false, error: "Ürünler alınamadı" };
     }
 
+    // Since categories is joined as an object (single because foreign key is many-to-one),
+    // it will be returned as `categories: { ... }` or null.
+    // However, the relationship name might be `categories` or something else depending on DB config.
+    // The query `categories(*)` implies using the table name which usually works if relation is unambiguous.
+    // But `data` type inferred by supabase-js might need casting.
+
+    // Force cast to ProductWithCategory[] to satisfy TS and my interface.
+    // Note: ProductWithCategory has categories: Category | null.
+    // If join returns array (unlikely for many-to-one), we might need to handle it.
+    // But products -> category_id -> categories(id) is N:1, so referencing `categories` returns single object if using single().
+    // Wait, standard select `*, categories(*)` returns `categories` as an array or object?
+    // In Supabase js, if the relationship is N:1, it returns an object? Or array?
+    // It depends on `isOneToOne` or `!isList`?
+    // Actually, usually it returns an object if it detects N:1.
+    // Let's assume it returns object or null.
+
+    // Casting data to unknown first to avoid type mismatch with inferred type
+    const products = data as unknown as ProductWithCategory[];
+
     return {
       success: true,
       data: {
-        products: data as Product[],
+        products,
         total: count || 0,
         page,
         totalPages: Math.ceil((count || 0) / limit),

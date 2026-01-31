@@ -13,7 +13,7 @@ const ALLOWED_MIME_TYPES = [
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 const uploadSchema = z.object({
-  folder: z.enum(["products", "thumbnails", "gallery"]),
+  folder: z.enum(["products", "thumbnails", "gallery", "categories"]),
 });
 
 interface UploadResult {
@@ -123,7 +123,7 @@ export async function deleteImage(
       .replace(/^\/+/, "");
 
     const userPathRegex = new RegExp(
-      `^(products|thumbnails|gallery)/${user.id}/[^/]+\\.(jpg|jpeg|png|webp|gif)$`,
+      `^(products|thumbnails|gallery|categories)/${user.id}/[^/]+\\.(jpg|jpeg|png|webp|gif)$`,
       "i",
     );
 

@@ -42,6 +42,12 @@ export const mainNavigation: NavItem[] = [
     url: ROUTES.PRODUCTS.LIST,
     icon: IconPackage,
   },
+  {
+    title: "Kategoriler",
+    titleKey: "nav.categories",
+    url: ROUTES.CATEGORIES.LIST,
+    icon: IconDatabase, // IconDatabase kullanabiliriz veya başka bir ikon
+  },
 ];
 
 export const cloudNavigation: NavItem[] = [

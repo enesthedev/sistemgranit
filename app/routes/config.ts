@@ -25,6 +25,12 @@ export const ROUTES = {
     EDIT: "/dashboard/products/[id]",
   },
 
+  CATEGORIES: {
+    LIST: "/dashboard/categories",
+    NEW: "/dashboard/categories/new",
+    EDIT: "/dashboard/categories/[id]",
+  },
+
   DOCUMENTS: {
     DATA_LIBRARY: "/data-library",
     REPORTS: "/reports",

@@ -56,7 +56,7 @@ function getFormInitialValues(product: Product | undefined): FormValues {
   return {
     name: product.name,
     description: product.description || "",
-    category: product.category,
+    category: product.category_id || "", // Use category_id (UUID)
     status: product.status,
     price_per_sqm: product.price_per_sqm,
     currency: product.currency || "TRY",
@@ -88,7 +88,7 @@ function getFormInitialValues(product: Product | undefined): FormValues {
   };
 }
 
-export function Form({ product, mode }: ProductFormProps) {
+export function Form({ product, mode, categories }: ProductFormProps) {
   const { handleSubmit, isEditing } = useProductForm({ product, mode });
 
   const formInitialValues = useMemo(
@@ -110,6 +110,7 @@ export function Form({ product, mode }: ProductFormProps) {
           isSubmitting={isSubmitting}
           submitForm={submitForm}
           values={values}
+          categories={categories}
         />
       )}
     </Formik>
@@ -122,6 +123,7 @@ interface FormContentProps {
   isSubmitting: boolean;
   submitForm: () => Promise<void>;
   values: FormValues;
+  categories: ProductFormProps["categories"];
 }
 
 function FormContent({
@@ -130,6 +132,7 @@ function FormContent({
   isSubmitting,
   submitForm,
   values,
+  categories,
 }: FormContentProps) {
   const {
     currentStep,
@@ -141,7 +144,6 @@ function FormContent({
   } = useStepNavigation({
     totalSteps: STEPS.length,
     onComplete: submitForm,
-    productId: product?.id,
   });
 
   return (
@@ -180,6 +182,7 @@ function FormContent({
                   <StepContent
                     currentStep={currentStep}
                     productId={product?.id}
+                    categories={categories}
                   />
                 </Suspense>
               </FormErrorBoundary>
@@ -194,9 +197,10 @@ function FormContent({
 interface StepContentProps {
   currentStep: number;
   productId?: string;
+  categories: ProductFormProps["categories"];
 }
 
-function StepContent({ currentStep, productId }: StepContentProps) {
+function StepContent({ currentStep, productId, categories }: StepContentProps) {
   const stepClassName =
     "animate-in fade-in slide-in-from-bottom-4 duration-500 will-change-transform";
 
@@ -204,7 +208,7 @@ function StepContent({ currentStep, productId }: StepContentProps) {
     case 0:
       return (
         <div className={cn(stepClassName, "space-y-6")}>
-          <BasicInfoStep productId={productId} />
+          <BasicInfoStep productId={productId} categories={categories} />
         </div>
       );
     case 1:

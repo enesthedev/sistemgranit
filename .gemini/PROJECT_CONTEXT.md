@@ -1,6 +1,6 @@
 # 📋 Sistem Granit - Proje Bağlamı
 
-> **Son Güncelleme:** 2026-01-30T21:55:00+03:00  
+> **Son Güncelleme:** 2026-01-31T21:10:00+03:00  
 > **Versiyon:** 1.0.0  
 > Bu dosya yapay zeka tarafından her görev başlangıcında kontrol edilir ve görev sonunda güncellenir.
 
@@ -77,6 +77,12 @@ sistemgranit/
 │   │   │   │   │   └── ...    # Data table components
 │   │   │   │   ├── [id]/      # Ürün düzenleme
 │   │   │   │   └── new/       # Yeni ürün
+│   │   │   ├── categories/    # Kategori yönetimi (yeni)
+│   │   │   │   ├── components/  # Modüler form ve tablo bileşenleri
+│   │   │   │   │   ├── form/    # Multi-step category form
+│   │   │   │   │   └── ...      # Data table components
+│   │   │   │   ├── [id]/        # Kategori düzenleme
+│   │   │   │   └── new/         # Yeni kategori
 │   │   │   ├── layout.tsx
 │   │   │   └── page.tsx
 │   │   ├── onboarding/        # Kullanıcı kayıt
@@ -128,7 +134,8 @@ sistemgranit/
 │   ├── server.ts              # Server-side Supabase
 │   └── admin.ts               # Admin Supabase client
 ├── types/                     # TypeScript tipleri
-│   └── product.ts             # Ürün tipi
+│   ├── product.ts             # Ürün tipi
+│   └── category.ts            # Kategori tipi
 └── public/                    # Statik dosyalar
 ```
 
@@ -175,6 +182,19 @@ sistemgranit/
 | `created_at` | timestamp | Oluşturulma tarihi |
 | `updated_at` | timestamp | Güncellenme tarihi |
 | `created_by` | UUID? | Oluşturan kullanıcı |
+
+### Categories Tablosu
+| Alan | Tip | Açıklama |
+|------|-----|----------|
+| `id` | UUID | Primary key |
+| `name` | string | Kategori adı |
+| `slug` | string | URL-friendly benzersiz tanımlayıcı |
+| `description` | string? | Açıklama |
+| `image_url` | string? | Kapak görseli (Supabase Storage) |
+| `seo_title` | string? | SEO başlık |
+| `seo_description` | string? | SEO açıklama |
+| `created_at` | timestamp | Oluşturulma tarihi |
+| `updated_at` | timestamp | Güncellenme tarihi |
 
 ### Slug History Tablosu
 | Alan | Tip | Açıklama |
@@ -227,6 +247,14 @@ sistemgranit/
 | 3 | TechnicalDetailsStep | density, strength, hardness, frost |
 | 4 | DimensionsStep | thicknesses, slab dimensions, min order |
 | 5 | SeoStep | seo_title, seo_description, tags, applications |
+
+### Category Form (Multi-Step)
+**Konum:** `app/[locale]/dashboard/categories/components/form/`
+
+| Adım | Component | Alanlar |
+|------|-----------|---------|
+| 1 | BasicInfoStep | name, slug, description, image_url (FileUpload) |
+| 2 | SeoStep | seo_title, seo_description |
 
 **Özellikler:**
 - Lazy loading (React.lazy + Suspense)
@@ -318,6 +346,7 @@ bunx supabase gen types typescript --project-id <id> > supabase/database.types.t
 - `.agent/workflows/supabase-migrations.md` - Migration workflow'u
 - `PRODUCT_FORM_FIX.md` - Form refactoring planı (mevcut ise)
 - `PRODUCT_LIST_PAGE_TASK.md` - Ürün listeleme sayfası data-table implementasyonu
+- `USEFFECT_DONTTRUST.md` - Güvenlik ve UseEffect analiz raporu
 
 ---
 
@@ -336,3 +365,6 @@ bunx supabase gen types typescript --project-id <id> > supabase/database.types.t
 | 2026-01-30 | Provider refactoring: AnalyticsProvider (public) route grubuna taşındı - dashboard/auth sayfaları tracking dışında bırakıldı |
 | 2026-01-30 | Area chart baseValue fix: Tarih aralığı (7/30/90 gün) değiştirildiğinde grafiğin altında açık kalan alan sorunu düzeltildi (baseValue={0} eklendi) |
 | 2026-01-30 | Analytics Dashboard Refactoring: Ayrı analytics sayfası kaldırıldı, İstatistikler ana sayfa oldu. Ziyaretçi + Ürün istatistikleri tek sayfada. Cihaz bilgileri bileşeni kaldırıldı. Session duration DB'ye yazılmaya başlandı. |
+| 2026-01-30 | Security & Performance Refactor: `useCurrentUser` client-hook kaldırıldı, user fetching server-side'a (`dashboard/layout`) taşındı. `useStepNavigation` içindeki gereksiz `useEffect` temizlendi ve form reset için `key` prop'u kullanıldı. |
+| 2026-01-31 | Kategori Entegrasyonu Modernizasyonu: Kategori formu çok adımlı (Basic Info, SEO) ve modüler hale getirildi. İmaj yükleme (FileUpload), AlertDialog onayı ve gelişmiş Data Table özellikleri (Preview, Actions) eklendi. |
+| 2026-01-31 | Kategori Görsel Yükleme Hatası Düzeltildi: `upload-image.ts` server action'ında `categories` klasör izni eksikti, şema ve regex güncellenerek erişim verildi. |
