@@ -2,21 +2,13 @@
 
 import { createClient } from "@/supabase/server";
 import { revalidatePath } from "next/cache";
+import { categorySchema } from "@/app/validations/category";
 import { z } from "zod";
 
-const createCategorySchema = z.object({
-  name: z.string().min(2, "Kategori adı en az 2 karakter olmalıdır"),
-  slug: z.string().min(2, "Slug en az 2 karakter olmalıdır"),
-  description: z.string().optional().nullable(),
-  image_url: z.string().optional().nullable(),
-  seo_title: z.string().optional().nullable(),
-  seo_description: z.string().optional().nullable(),
-});
-
-export type CreateCategoryInput = z.infer<typeof createCategorySchema>;
+export type CreateCategoryInput = z.infer<typeof categorySchema>;
 
 export async function createCategory(input: CreateCategoryInput) {
-  const result = createCategorySchema.safeParse(input);
+  const result = categorySchema.safeParse(input);
 
   if (!result.success) {
     return {

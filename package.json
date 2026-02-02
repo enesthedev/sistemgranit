@@ -41,6 +41,7 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "formik": "^2.4.9",
+    "formik-validator-zod": "^2.2.0",
     "lucide-react": "^0.562.0",
     "next": "latest",
     "next-intl": "^4.7.0",

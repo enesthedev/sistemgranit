@@ -2,6 +2,7 @@
 
 import React, { lazy, Suspense, useMemo } from "react";
 import { Form as FormikForm, Formik } from "formik";
+import { withZodSchema } from "formik-validator-zod";
 import type { Product } from "@/types/product";
 import { cn } from "@/app/utils";
 
@@ -56,30 +57,31 @@ function getFormInitialValues(product: Product | undefined): FormValues {
   return {
     name: product.name,
     description: product.description || "",
-    category: product.category_id || "", // Use category_id (UUID)
-    status: product.status,
-    price_per_sqm: product.price_per_sqm,
-    currency: product.currency || "TRY",
+    category: undefined,
+    category_id: product.category_id || "",
+    status: product.status as FormValues["status"],
+    price_per_sqm: product.price_per_sqm ?? null,
+    currency: (product.currency || "TRY") as FormValues["currency"],
     thumbnail: product.thumbnail || "",
     images: product.images || [],
     origin_country: product.origin_country || "",
     origin_region: product.origin_region || "",
     color_primary: product.color_primary || "",
     color_secondary: product.color_secondary || "",
-    pattern: product.pattern || "",
-    finish_types: product.finish_types || [],
-    density: product.density,
-    water_absorption: product.water_absorption,
-    compressive_strength: product.compressive_strength,
-    flexural_strength: product.flexural_strength,
+    pattern: (product.pattern as FormValues["pattern"]) || null,
+    finish_types: (product.finish_types as FormValues["finish_types"]) || [],
+    density: product.density ?? null,
+    water_absorption: product.water_absorption ?? null,
+    compressive_strength: product.compressive_strength ?? null,
+    flexural_strength: product.flexural_strength ?? null,
     abrasion_resistance: product.abrasion_resistance || "",
-    hardness_mohs: product.hardness_mohs,
+    hardness_mohs: product.hardness_mohs ?? null,
     frost_resistant: product.frost_resistant || false,
     available_thicknesses: product.available_thicknesses || [],
-    max_slab_width: product.max_slab_width,
-    max_slab_length: product.max_slab_length,
+    max_slab_width: product.max_slab_width ?? null,
+    max_slab_length: product.max_slab_length ?? null,
     min_order_quantity: product.min_order_quantity || 1,
-    applications: product.applications || [],
+    applications: (product.applications as FormValues["applications"]) || [],
     is_suitable_for_exterior: product.is_suitable_for_exterior || false,
     is_suitable_for_kitchen: product.is_suitable_for_kitchen || false,
     seo_title: product.seo_title || "",
@@ -99,7 +101,8 @@ export function Form({ product, mode, categories }: ProductFormProps) {
   return (
     <Formik
       initialValues={formInitialValues}
-      validationSchema={validationSchema}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      validate={withZodSchema(validationSchema) as any}
       onSubmit={handleSubmit}
       enableReinitialize
     >

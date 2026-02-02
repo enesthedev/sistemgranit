@@ -89,7 +89,7 @@
 **Özellikler:**
 - Lazy loading (React.lazy + Suspense)
 - Error boundary ile hata yönetimi
-- Formik + Yup validasyon
+- Formik + Zod validasyon
 - URL-based step navigation
 - Skeleton loading states
 

@@ -2,19 +2,10 @@
 
 import { createClient } from "@/supabase/server";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
-
-const updateCategorySchema = z.object({
-  id: z.string().uuid(),
-  name: z.string().min(2, "Kategori adı en az 2 karakter olmalıdır"),
-  slug: z.string().min(2, "Slug en az 2 karakter olmalıdır"),
-  description: z.string().optional().nullable(),
-  image_url: z.string().optional().nullable(),
-  seo_title: z.string().optional().nullable(),
-  seo_description: z.string().optional().nullable(),
-});
-
-export type UpdateCategoryInput = z.infer<typeof updateCategorySchema>;
+import {
+  updateCategorySchema,
+  UpdateCategoryInput,
+} from "@/app/validations/category";
 
 export async function updateCategory(input: UpdateCategoryInput) {
   const result = updateCategorySchema.safeParse(input);

@@ -7,6 +7,7 @@ import {
   ProductApplication,
   ProductInsert,
   ProductUpdate,
+  Category,
 } from "@/supabase/types";
 
 export type {
@@ -28,9 +29,6 @@ export interface ProductFilters {
   pattern?: string;
   applications?: string[];
 }
-// Extend Product to include the joined categories table
-import { Database } from "@/supabase/database.types";
-export type Category = Database["public"]["Tables"]["categories"]["Row"];
 
 export type ProductWithCategory = Product & {
   categories: Category | null;

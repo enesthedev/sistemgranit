@@ -17,7 +17,7 @@ import {
 } from "@/app/components/ui/card";
 import { Separator } from "@/app/components/ui/separator";
 import { CURRENCIES, PRODUCT_STATUSES } from "@/app/constants";
-import { CategoryOption } from "../../types";
+import { CategoryOption } from "../types";
 
 interface BasicInfoStepProps {
   productId?: string;
@@ -46,7 +46,7 @@ export const BasicInfoStep = React.memo(function BasicInfoStep({
           />
           <div className="grid grid-cols-2 gap-4">
             <FormSelect
-              name="category"
+              name="category_id"
               label="Kategori"
               options={categories}
               required

@@ -43,7 +43,9 @@ export const STEPS: StepConfig[] = [
 export const initialValues: FormValues = {
   name: "",
   description: "",
-  category: "marble",
+  // category: "marble" as any, // Optional in schema
+  category: undefined,
+  category_id: "",
   status: "draft",
   price_per_sqm: null,
   currency: "TRY",
@@ -53,7 +55,7 @@ export const initialValues: FormValues = {
   origin_region: "",
   color_primary: "",
   color_secondary: "",
-  pattern: "",
+  pattern: null,
   finish_types: [],
   density: null,
   water_absorption: null,

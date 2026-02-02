@@ -1,6 +1,6 @@
 # 🤖 Sistem Granit Agent Configuration
 
-> **Son Güncelleme:** 2026-01-31  
+> **Son Güncelleme:** 2026-02-02  
 > **Versiyon:** 1.1.0  
 > **Konum:** `AGENT.md` (Root)
 
@@ -17,6 +17,7 @@ Bu dosya, yapay zeka agent'ının davranışını yönlendiren temel yapılandı
 | `spec/design.md` | Veritabanı şeması, UI bileşenleri ve form yapıları |
 | `spec/tasks.md` | Bekleyen işler (TODO), bilinen sorunlar |
 | `wiki/architecture.md` | Teknoloji stack'i, mimari kararlar (Auth, i18n), klasör yapısı |
+| `plans/` | Gelecek geliştirme fazları ve detaylı yol haritaları |
 | `links/resources.md` | Harici kaynaklar ve dokümantasyon referansları |
 
 ## 📜 Komutlar
@@ -65,3 +66,6 @@ bunx supabase gen types typescript --linked > supabase/database.types.ts
 | 2026-01-31 | Kategori Modülü (Multi-step form, FileUpload, Data Table) |
 | 2026-01-31 | Kategori Görsel Yükleme Hatası Düzeltildi |
 | 2026-01-31 | **Migration:** `.gemini/PROJECT_CONTEXT.md` -> `.agent/` yapısına geçildi |
+| 2026-01-31 | **Analiz:** Proje genel analizi tamamlandı ve geliştirme fazları (`.agent/plans/`) oluşturuldu |
+| 2026-02-02 | **Phase 1:** Form validasyonları (Product & Category) Zod ile standardize edildi ve Server Actions ile paylaşıldı. |
+| 2026-02-02 | **Phase 1:** Tamamlandı. Veri güvenliği, tip güvenliği entegrasyonu ve kod temizliği yapıldı. |

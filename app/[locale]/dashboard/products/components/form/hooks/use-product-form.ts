@@ -39,7 +39,7 @@ export function useProductForm({
           name: values.name,
           description: values.description || null,
           category: undefined, // Legacy enum, we use category_id now
-          category_id: values.category, // Map the selected UUID to category_id
+          category_id: values.category_id, // Map the selected UUID to category_id
           status: values.status,
           price_per_sqm: values.price_per_sqm,
           currency: values.currency,

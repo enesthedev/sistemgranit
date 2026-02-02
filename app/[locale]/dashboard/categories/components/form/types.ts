@@ -1,14 +1,11 @@
 import { Category } from "@/types/category";
 
-export interface CategoryFormValues {
+import { z } from "zod";
+import { categorySchema } from "@/app/validations/category";
+
+export type CategoryFormValues = z.infer<typeof categorySchema> & {
   id?: string;
-  name: string;
-  slug: string;
-  description: string;
-  image_url: string;
-  seo_title: string;
-  seo_description: string;
-}
+};
 
 export interface CategoryFormProps {
   category?: Category;

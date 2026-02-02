@@ -2,6 +2,7 @@
 
 import React, { lazy, Suspense, useMemo } from "react";
 import { Form as FormikForm, Formik } from "formik";
+import { withZodSchema } from "formik-validator-zod";
 import { cn } from "@/app/utils";
 import { CategoryFormValues, CategoryFormProps } from "./types";
 import { categoryValidationSchema } from "./schema";
@@ -65,7 +66,8 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
   return (
     <Formik
       initialValues={formInitialValues}
-      validationSchema={categoryValidationSchema}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      validate={withZodSchema(categoryValidationSchema) as any}
       onSubmit={handleSubmit}
       enableReinitialize
     >
