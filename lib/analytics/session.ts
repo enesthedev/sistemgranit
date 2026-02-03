@@ -3,14 +3,15 @@ const SESSION_START_KEY = "sg_session_start";
 const LAST_ACTIVITY_KEY = "sg_last_activity";
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 dakika
 
-export function getOrCreateSessionId(): string {
-  if (typeof window === "undefined") return "";
+export function getSessionState(): { sessionId: string; isNew: boolean } {
+  if (typeof window === "undefined") return { sessionId: "", isNew: false };
 
   const now = Date.now();
   const lastActivity = parseInt(
     sessionStorage.getItem(LAST_ACTIVITY_KEY) || "0",
   );
   let sessionId = sessionStorage.getItem(SESSION_KEY);
+  let isNew = false;
 
   if (sessionId && now - lastActivity > SESSION_TIMEOUT) {
     sessionId = null;
@@ -20,10 +21,12 @@ export function getOrCreateSessionId(): string {
     sessionId = crypto.randomUUID();
     sessionStorage.setItem(SESSION_KEY, sessionId);
     sessionStorage.setItem(SESSION_START_KEY, now.toString());
+    sessionStorage.setItem("sg_page_count", "0");
+    isNew = true;
   }
 
   sessionStorage.setItem(LAST_ACTIVITY_KEY, now.toString());
-  return sessionId;
+  return { sessionId, isNew };
 }
 
 export function getSessionStart(): number {
@@ -37,11 +40,6 @@ export function getSessionDuration(): number {
   if (typeof window === "undefined") return 0;
   const start = getSessionStart();
   return Math.round((Date.now() - start) / 1000);
-}
-
-export function isNewSession(): boolean {
-  if (typeof window === "undefined") return false;
-  return !sessionStorage.getItem(SESSION_KEY);
 }
 
 export function getPageCount(): number {

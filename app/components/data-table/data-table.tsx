@@ -6,6 +6,7 @@ import {
   ColumnFiltersState,
   SortingState,
   VisibilityState,
+  PaginationState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -14,9 +15,10 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-  type RowSelectionState,
-  type PaginationState,
+  Table as TableType,
+  OnChangeFn,
 } from "@tanstack/react-table";
+
 import {
   Table,
   TableBody,
@@ -25,45 +27,34 @@ import {
   TableHeader,
   TableRow,
 } from "@/app/components/ui/table";
+
 import { DataTablePagination } from "./data-table-pagination";
-import { Skeleton } from "@/app/components/ui/skeleton";
+import { DataTableViewOptions } from "./data-table-view-options";
+import { Input } from "@/app/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  toolbar?: React.ReactNode;
-  isLoading?: boolean;
-  emptyMessage?: string;
-  emptyAction?: React.ReactNode;
-  showPagination?: boolean;
-  showSelectedCount?: boolean;
-  pageSizeOptions?: number[];
-  manualPagination?: boolean;
+
+  // Server-side / Controlled State
   pageCount?: number;
   pagination?: PaginationState;
-  onPaginationChange?: (pagination: PaginationState) => void;
+  onPaginationChange?: OnChangeFn<PaginationState>;
   sorting?: SortingState;
-  onSortingChange?: (sorting: SortingState) => void;
+  onSortingChange?: OnChangeFn<SortingState>;
   columnFilters?: ColumnFiltersState;
-  onColumnFiltersChange?: (filters: ColumnFiltersState) => void;
-  rowSelection?: RowSelectionState;
-  onRowSelectionChange?: (selection: RowSelectionState) => void;
-  columnVisibility?: VisibilityState;
-  onColumnVisibilityChange?: (visibility: VisibilityState) => void;
-  getRowId?: (row: TData) => string;
+  onColumnFiltersChange?: OnChangeFn<ColumnFiltersState>;
+
+  // UI Customization
+  toolbar?: React.ReactNode | ((table: TableType<TData>) => React.ReactNode);
+  searchKey?: string; // For simple client-side search
+  filterPlaceholder?: string;
+  enableRowSelection?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  toolbar,
-  isLoading = false,
-  emptyMessage = "Sonuç bulunamadı.",
-  emptyAction,
-  showPagination = true,
-  showSelectedCount = true,
-  pageSizeOptions = [10, 20, 30, 50, 100],
-  manualPagination = false,
   pageCount,
   pagination: controlledPagination,
   onPaginationChange,
@@ -71,173 +62,111 @@ export function DataTable<TData, TValue>({
   onSortingChange,
   columnFilters: controlledColumnFilters,
   onColumnFiltersChange,
-  rowSelection: controlledRowSelection,
-  onRowSelectionChange,
-  columnVisibility: controlledColumnVisibility,
-  onColumnVisibilityChange,
-  getRowId,
+  toolbar,
+  searchKey,
+  filterPlaceholder = "Filtrele...",
+  enableRowSelection = true,
 }: DataTableProps<TData, TValue>) {
+  // Local state for uncontrolled usage
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+
+  // Internal state fallbacks
   const [internalSorting, setInternalSorting] = React.useState<SortingState>(
     [],
   );
   const [internalColumnFilters, setInternalColumnFilters] =
     React.useState<ColumnFiltersState>([]);
-  const [internalColumnVisibility, setInternalColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [internalRowSelection, setInternalRowSelection] =
-    React.useState<RowSelectionState>({});
   const [internalPagination, setInternalPagination] =
     React.useState<PaginationState>({
       pageIndex: 0,
-      pageSize: 20,
+      pageSize: 10,
     });
 
-  const sorting = controlledSorting ?? internalSorting;
-  const columnFilters = controlledColumnFilters ?? internalColumnFilters;
-  const columnVisibility =
-    controlledColumnVisibility ?? internalColumnVisibility;
-  const rowSelection = controlledRowSelection ?? internalRowSelection;
-  const pagination = controlledPagination ?? internalPagination;
-
-  const handleSortingChange = React.useCallback(
-    (updater: SortingState | ((old: SortingState) => SortingState)) => {
-      const newValue =
-        typeof updater === "function" ? updater(sorting) : updater;
-      if (onSortingChange) {
-        onSortingChange(newValue);
-      } else {
-        setInternalSorting(newValue);
-      }
-    },
-    [sorting, onSortingChange],
-  );
-
-  const handleColumnFiltersChange = React.useCallback(
-    (
-      updater:
-        | ColumnFiltersState
-        | ((old: ColumnFiltersState) => ColumnFiltersState),
-    ) => {
-      const newValue =
-        typeof updater === "function" ? updater(columnFilters) : updater;
-      if (onColumnFiltersChange) {
-        onColumnFiltersChange(newValue);
-      } else {
-        setInternalColumnFilters(newValue);
-      }
-    },
-    [columnFilters, onColumnFiltersChange],
-  );
-
-  const handleColumnVisibilityChange = React.useCallback(
-    (
-      updater: VisibilityState | ((old: VisibilityState) => VisibilityState),
-    ) => {
-      const newValue =
-        typeof updater === "function" ? updater(columnVisibility) : updater;
-      if (onColumnVisibilityChange) {
-        onColumnVisibilityChange(newValue);
-      } else {
-        setInternalColumnVisibility(newValue);
-      }
-    },
-    [columnVisibility, onColumnVisibilityChange],
-  );
-
-  const handleRowSelectionChange = React.useCallback(
-    (
-      updater:
-        | RowSelectionState
-        | ((old: RowSelectionState) => RowSelectionState),
-    ) => {
-      const newValue =
-        typeof updater === "function" ? updater(rowSelection) : updater;
-      if (onRowSelectionChange) {
-        onRowSelectionChange(newValue);
-      } else {
-        setInternalRowSelection(newValue);
-      }
-    },
-    [rowSelection, onRowSelectionChange],
-  );
-
-  const handlePaginationChange = React.useCallback(
-    (
-      updater: PaginationState | ((old: PaginationState) => PaginationState),
-    ) => {
-      const newValue =
-        typeof updater === "function" ? updater(pagination) : updater;
-      if (onPaginationChange) {
-        onPaginationChange(newValue);
-      } else {
-        setInternalPagination(newValue);
-      }
-    },
-    [pagination, onPaginationChange],
-  );
+  const isServerSide = pageCount !== undefined;
 
   const table = useReactTable({
     data,
     columns,
+    pageCount: pageCount ?? -1,
     state: {
-      sorting,
+      sorting: controlledSorting ?? internalSorting,
       columnVisibility,
       rowSelection,
-      columnFilters,
-      pagination,
+      columnFilters: controlledColumnFilters ?? internalColumnFilters,
+      pagination: controlledPagination ?? internalPagination,
     },
-    enableRowSelection: true,
-    onRowSelectionChange: handleRowSelectionChange,
-    onSortingChange: handleSortingChange,
-    onColumnFiltersChange: handleColumnFiltersChange,
-    onColumnVisibilityChange: handleColumnVisibilityChange,
-    onPaginationChange: handlePaginationChange,
+    enableRowSelection: enableRowSelection,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: onSortingChange ?? setInternalSorting,
+    onColumnFiltersChange: onColumnFiltersChange ?? setInternalColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange: onPaginationChange ?? setInternalPagination,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: manualPagination
-      ? undefined
-      : getPaginationRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-    manualPagination,
-    pageCount,
-    getRowId,
+    manualPagination: isServerSide,
+    manualSorting: isServerSide,
+    manualFiltering: isServerSide,
   });
 
   return (
-    <div className="flex flex-col gap-4">
-      {toolbar}
-      <div className="overflow-hidden rounded-lg border">
+    <div className="space-y-4">
+      {/* Toolbar */}
+      {toolbar ? (
+        typeof toolbar === "function" ? (
+          toolbar(table)
+        ) : (
+          toolbar
+        )
+      ) : (
+        /* Default Toolbar if none provided */
+        <div className="flex items-center justify-between">
+          <div className="flex flex-1 items-center space-x-2">
+            {searchKey && (
+              <Input
+                placeholder={filterPlaceholder}
+                value={
+                  (table.getColumn(searchKey)?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                  table.getColumn(searchKey)?.setFilterValue(event.target.value)
+                }
+                className="h-8 w-[150px] lg:w-[250px]"
+              />
+            )}
+          </div>
+          <DataTableViewOptions table={table} />
+        </div>
+      )}
+
+      {/* Table */}
+      <div className="rounded-md border">
         <Table>
-          <TableHeader className="bg-muted">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {isLoading ? (
-              Array.from({ length: 5 }).map((_, index) => (
-                <TableRow key={`skeleton-${index}`}>
-                  {columns.map((_, colIndex) => (
-                    <TableCell key={`skeleton-cell-${colIndex}`}>
-                      <Skeleton className="h-6 w-full" />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : table.getRowModel().rows?.length ? (
+            {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -259,33 +188,16 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  <div className="flex flex-col items-center gap-2">
-                    <p className="text-muted-foreground">{emptyMessage}</p>
-                    {emptyAction}
-                  </div>
+                  Sonuç bulunamadı.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      {showPagination && (
-        <DataTablePagination
-          table={table}
-          pageSizeOptions={pageSizeOptions}
-          showSelectedCount={showSelectedCount}
-        />
-      )}
+
+      {/* Pagination */}
+      <DataTablePagination table={table} />
     </div>
   );
 }
-
-export { useReactTable };
-export type {
-  ColumnDef,
-  SortingState,
-  ColumnFiltersState,
-  VisibilityState,
-  RowSelectionState,
-  PaginationState,
-};

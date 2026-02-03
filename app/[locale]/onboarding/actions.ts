@@ -29,6 +29,13 @@ export async function signUpAdmin(
   try {
     const count = await getUsersCount();
 
+    if (count === null) {
+      return {
+        error:
+          "Sistem durum bilgisi alınamadı. Lütfen internet bağlantınızı kontrol edin.",
+      };
+    }
+
     if (count > 0) {
       return {
         error:

@@ -11,21 +11,33 @@ import { ChartAreaInteractive } from "./components/charts/chart-area-interactive
 import { PopularPagesTable } from "./components/tables/popular-pages-table";
 
 import { Skeleton } from "@/app/components/ui/skeleton";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from "@/app/components/ui/card";
 
 function CardsSkeleton() {
   return (
     <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       {[...Array(4)].map((_, i) => (
-        <div key={i} className="bg-card rounded-xl border p-6">
-          <div className="mb-4 space-y-2">
-            <Skeleton className="h-4 w-24" />
-            <Skeleton className="h-8 w-20" />
-          </div>
-          <div className="space-y-2">
+        <Card key={i}>
+          <CardHeader>
+            <CardDescription className="flex items-center gap-2">
+              <Skeleton className="size-4" />
+              <Skeleton className="h-4 w-24" />
+            </CardDescription>
+            <CardTitle>
+              <Skeleton className="h-8 w-20" />
+            </CardTitle>
+          </CardHeader>
+          <CardFooter className="flex-col items-start gap-1.5">
             <Skeleton className="h-4 w-36" />
             <Skeleton className="h-3 w-28" />
-          </div>
-        </div>
+          </CardFooter>
+        </Card>
       ))}
     </div>
   );

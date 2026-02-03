@@ -120,16 +120,10 @@ export function ChartAreaInteractive({ data }: ChartAreaInteractiveProps) {
             >
               <SelectValue placeholder="Son 3 ay" />
             </SelectTrigger>
-            <SelectContent className="rounded-xl">
-              <SelectItem value="90d" className="rounded-lg">
-                Son 3 ay
-              </SelectItem>
-              <SelectItem value="30d" className="rounded-lg">
-                Son 30 gün
-              </SelectItem>
-              <SelectItem value="7d" className="rounded-lg">
-                Son 7 gün
-              </SelectItem>
+            <SelectContent>
+              <SelectItem value="90d">Son 3 ay</SelectItem>
+              <SelectItem value="30d">Son 30 gün</SelectItem>
+              <SelectItem value="7d">Son 7 gün</SelectItem>
             </SelectContent>
           </Select>
         </CardAction>

@@ -1,6 +1,6 @@
 # 🤖 Sistem Granit Agent Configuration
 
-> **Son Güncelleme:** 2026-02-02  
+> **Son Güncelleme:** 2026-02-03  
 > **Versiyon:** 1.1.0  
 > **Konum:** `AGENT.md` (Root)
 
@@ -69,3 +69,11 @@ bunx supabase gen types typescript --linked > supabase/database.types.ts
 | 2026-01-31 | **Analiz:** Proje genel analizi tamamlandı ve geliştirme fazları (`.agent/plans/`) oluşturuldu |
 | 2026-02-02 | **Phase 1:** Form validasyonları (Product & Category) Zod ile standardize edildi ve Server Actions ile paylaşıldı. |
 | 2026-02-02 | **Phase 1:** Tamamlandı. Veri güvenliği, tip güvenliği entegrasyonu ve kod temizliği yapıldı. |
+| 2026-02-03 | **Fix:** İnternet bağlantı hatasında Onboarding'e düşme sorunu giderildi. Kayıtlı kullanıcı varken Onboarding'e erişim engellendi. |
+| 2026-02-03 | **Analytics:** Session mantığı refactor edildi (`isNewSession` fix). Dashboard ve Admin rotaları takipten çıkarıldı. |
+| 2026-02-03 | **Phase 3:** İleri Düzey Analitik altyapısı kuruldu. (`useAnalytics` hook, Server Actions, Materialized View migration). |
+| 2026-02-03 | **Analiz:** Data Table optimizasyon ve useReactTable refactoring planı oluşturuldu (`.agent/plans/data-table-optimization.md`). |
+| 2026-02-03 | **Phase 2:** Ürün Yönetimi için Gelişmiş Filtreleme (Server-side) ve Görsel Sıralama (Drag & Drop) tamamlandı. `ProductsDataTable` refactor edildi. |
+| 2026-02-03 | **Refactor:** Data Table optimizasyon planı uygulandı. Tekrarlayan `useReactTable` kullanımları kaldırılarak merkezi `<DataTable />` yapısına geçildi. `ProductsDataTable` ve `CategoriesTable` güncellendi. |
+| 2026-02-03 | **Plan:** Performans sorunları nedeniyle Data Table için yeni bir "URL-First" optimizasyon planı oluşturuldu (`.agent/plans/data-table-optimization.md`). |
+| 2026-02-03 | **Optimization:** "URL-First" Data Table mimarisi uygulandı. `useDataTable` hook'u yazılarak `ProductsDataTable` ve `CategoriesTable` re-render sorunlarından arındırıldı. |

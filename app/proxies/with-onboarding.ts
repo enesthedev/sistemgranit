@@ -13,14 +13,29 @@ export const withOnboarding: ProxyFactory = (next) => {
       pathname === "/onboarding" ||
       Object.values(onboardingPaths).some((path) => pathname === path);
 
-    console.log(pathname);
+    const usersCount = await getUsersCount();
 
-    if (isOnboardingPath) {
+    // If there is an error checking users (usersCount is null), assume we are in a temporary failure state.
+    // Allow the request to proceed to avoid blocking the app or redirecting loop.
+    // If it was an onboarding path, we let it pass (UI might handle or show error).
+    // If it was a normal path, we let it pass.
+    if (usersCount === null) {
       return next(request, event);
     }
 
-    const usersCount = await getUsersCount();
-    if (usersCount === 0) {
+    // If we are on an onboarding path but users exist, redirect to home.
+    if (isOnboardingPath && usersCount > 0) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/"; // Redirect to root (or login if handled by another middleware)
+      return NextResponse.redirect(url);
+    }
+
+    // If users exist, just proceed.
+    // (This block is reached if: !isOnboardingPath OR (isOnboardingPath && usersCount === 0))
+    // But if (isOnboardingPath && usersCount === 0), we should just proceed (allow onboarding).
+    // So we only care if !isOnboardingPath and usersCount === 0.
+
+    if (!isOnboardingPath && usersCount === 0) {
       const url = request.nextUrl.clone();
 
       // Determine the best redirect path.

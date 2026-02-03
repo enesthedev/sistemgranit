@@ -1,4 +1,4 @@
-"use client";
+import * as React from "react";
 
 import { Table } from "@tanstack/react-table";
 import { IconX, IconSearch, IconPlus } from "@tabler/icons-react";
@@ -26,6 +26,24 @@ export const categoryColumnLabels: Record<string, string> = {
 export function CategoriesTableToolbar({ table }: CategoriesTableToolbarProps) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
+  const filterValue =
+    (table.getColumn("name")?.getFilterValue() as string) ?? "";
+
+  const [searchValue, setSearchValue] = React.useState(filterValue);
+
+  React.useEffect(() => {
+    setSearchValue(filterValue);
+  }, [filterValue]);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (searchValue !== filterValue) {
+        table.getColumn("name")?.setFilterValue(searchValue);
+      }
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [searchValue, filterValue, table]);
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -33,10 +51,8 @@ export function CategoriesTableToolbar({ table }: CategoriesTableToolbarProps) {
           <IconSearch className="text-muted-foreground absolute top-1/2 left-2 size-4 -translate-y-1/2" />
           <Input
             placeholder="Kategori ara..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
-            }
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
             className="h-8 w-[150px] pl-8 lg:w-[250px]"
           />
         </div>

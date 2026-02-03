@@ -22,8 +22,8 @@ export type {
 };
 
 export interface ProductFilters {
-  category?: string;
-  status?: string;
+  category?: string | string[];
+  status?: string | string[];
   search?: string;
   origin_country?: string;
   pattern?: string;

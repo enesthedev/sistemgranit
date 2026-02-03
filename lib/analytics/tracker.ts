@@ -1,20 +1,15 @@
-import { createBrowserClient } from "@supabase/ssr";
 import { getVisitorId } from "./fingerprint";
 import {
-  getOrCreateSessionId,
+  getSessionState,
   getSessionDuration,
   incrementPageCount,
-  isNewSession,
 } from "./session";
 import { parseUserAgent, getReferrerDomain } from "./parser";
-import type { PageViewData, EventData } from "./types";
-
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-);
+import type { PageViewData, EventData, SessionData } from "./types";
+import { logPageView, logEvent } from "@/actions/analytics/track";
 
 const OPT_OUT_KEY = "sg_analytics_optout";
+const IGNORED_PREFIXES = ["/dashboard", "/panel", "/admin", "/auth"];
 
 export function isOptedOut(): boolean {
   if (typeof window === "undefined") return false;
@@ -38,10 +33,11 @@ export async function trackPageView(
   if (typeof window === "undefined") return;
   if (isOptedOut()) return;
 
+  if (IGNORED_PREFIXES.some((prefix) => path.startsWith(prefix))) return;
+
   try {
     const visitorId = await getVisitorId();
-    const sessionId = getOrCreateSessionId();
-    const isNew = isNewSession();
+    const { sessionId, isNew } = getSessionState();
     const deviceInfo = parseUserAgent(navigator.userAgent);
     const referrerDomain = getReferrerDomain(document.referrer);
 
@@ -66,12 +62,11 @@ export async function trackPageView(
       language: navigator.language,
     };
 
-    await supabase.from("page_views").insert(pageViewData);
-
     const pageCount = incrementPageCount();
+    let sessionData: Partial<SessionData> | undefined;
 
     if (isNew) {
-      await supabase.from("sessions").insert({
+      sessionData = {
         id: sessionId,
         visitor_id: visitorId,
         entry_page: path,
@@ -80,20 +75,20 @@ export async function trackPageView(
         device_type: deviceInfo.deviceType,
         browser: deviceInfo.browser,
         os: deviceInfo.os,
-      });
+        started_at: new Date().toISOString(),
+      };
     } else {
-      await supabase
-        .from("sessions")
-        .update({
-          exit_page: path,
-          page_count: pageCount,
-          is_bounce: pageCount <= 1,
-          duration_seconds: getSessionDuration(),
-          ended_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", sessionId);
+      sessionData = {
+        id: sessionId,
+        exit_page: path,
+        page_count: pageCount,
+        is_bounce: pageCount <= 1,
+        duration_seconds: getSessionDuration(),
+        ended_at: new Date().toISOString(),
+      };
     }
+
+    await logPageView(pageViewData, sessionData, isNew);
   } catch (error) {
     console.error("[Analytics] Page view tracking failed:", error);
   }
@@ -108,7 +103,7 @@ export async function trackEvent(
 
   try {
     const visitorId = await getVisitorId();
-    const sessionId = getOrCreateSessionId();
+    const { sessionId } = getSessionState();
 
     const event: EventData = {
       visitor_id: visitorId,
@@ -118,7 +113,7 @@ export async function trackEvent(
       page_path: window.location.pathname,
     };
 
-    await supabase.from("analytics_events").insert(event);
+    await logEvent(event);
   } catch (error) {
     console.error("[Analytics] Event tracking failed:", error);
   }

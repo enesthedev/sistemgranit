@@ -399,10 +399,18 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      analytics_daily_stats: {
+        Row: {
+          date: string | null
+          page_views: number | null
+          sessions: number | null
+          unique_visitors: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      refresh_analytics_daily_stats: { Args: never; Returns: undefined }
     }
     Enums: {
       product_application:

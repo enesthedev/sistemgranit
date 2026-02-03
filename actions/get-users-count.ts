@@ -2,7 +2,7 @@
 
 import { createAdminClient } from "@/supabase/admin";
 
-export async function getUsersCount(): Promise<number> {
+export async function getUsersCount(): Promise<number | null> {
   try {
     const supabaseAdmin = createAdminClient();
     const { data, error } = await supabaseAdmin.auth.admin.listUsers({
@@ -12,11 +12,11 @@ export async function getUsersCount(): Promise<number> {
 
     if (error) {
       console.error("Error checking users:", error.message);
-      return 0;
+      return null;
     }
 
     return data?.users?.length ?? 0;
   } catch {
-    return 0;
+    return null;
   }
 }

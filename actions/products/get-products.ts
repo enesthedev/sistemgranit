@@ -45,14 +45,21 @@ export async function getProducts(
       .select("*, categories(*)", { count: "exact" });
 
     if (filters.category) {
-      // Filter by category_id instead of enum category
-      query = query.eq("category_id", filters.category);
+      const categoryIds = Array.isArray(filters.category)
+        ? filters.category
+        : [filters.category];
+
+      query = query.in("category_id", categoryIds);
     }
 
     if (filters.status) {
-      query = query.eq(
+      const statuses = Array.isArray(filters.status)
+        ? filters.status
+        : [filters.status];
+
+      query = query.in(
         "status",
-        filters.status as "active" | "draft" | "archived",
+        statuses as unknown as ("active" | "draft" | "archived")[],
       );
     }
 

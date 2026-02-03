@@ -125,12 +125,15 @@ export const productColumns: ColumnDef<ProductWithCategory>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "category",
+    accessorKey: "category_id",
     header: "Kategori",
     cell: ({ row }) => {
-      const category = row.getValue("category") as Product["category"];
       const categoryName = row.original.categories?.name;
-      const displayLabel = categoryName || getCategoryLabel(category);
+      const categoryEnum = row.original.category;
+
+      // Fallback for deprecated enum
+      const displayLabel =
+        categoryName || (categoryEnum ? getCategoryLabel(categoryEnum) : "-");
 
       return (
         <Badge variant="outline" className="text-muted-foreground">
@@ -202,7 +205,7 @@ export const productColumns: ColumnDef<ProductWithCategory>[] = [
 export const productColumnLabels: Record<string, string> = {
   thumbnail: "Görsel",
   name: "Ürün Adı",
-  category: "Kategori",
+  category_id: "Kategori",
   status: "Durum",
   price_per_sqm: "Fiyat",
   created_at: "Eklenme Tarihi",
