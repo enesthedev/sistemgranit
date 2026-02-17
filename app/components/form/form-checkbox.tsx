@@ -3,7 +3,7 @@
 import { Checkbox } from "@/app/components/ui/checkbox";
 import { Label } from "@/app/components/ui/label";
 import { cn } from "@/app/utils";
-import { useField, useFormikContext } from "formik";
+import { useController, useFormContext } from "react-hook-form";
 
 interface FormCheckboxProps {
   name: string;
@@ -20,16 +20,16 @@ export function FormCheckbox({
   disabled = false,
   className,
 }: FormCheckboxProps) {
-  const [field, meta] = useField(name);
-  const { setFieldValue } = useFormikContext();
-  const hasError = meta.touched && meta.error;
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({ name, control });
+  const hasError = fieldState.invalid;
 
   return (
     <div className={cn("flex items-start gap-3", className)}>
       <Checkbox
         id={name}
         checked={field.value}
-        onCheckedChange={(checked) => setFieldValue(name, checked)}
+        onCheckedChange={(checked) => field.onChange(checked)}
         disabled={disabled}
         aria-invalid={hasError ? "true" : undefined}
       />
@@ -47,7 +47,9 @@ export function FormCheckbox({
           <p className="text-muted-foreground text-xs">{description}</p>
         )}
         {hasError && (
-          <p className="text-destructive text-xs font-medium">{meta.error}</p>
+          <p className="text-destructive text-xs font-medium">
+            {fieldState.error?.message}
+          </p>
         )}
       </div>
     </div>

@@ -9,11 +9,11 @@
 | **Framework** | Next.js | 16.1.3 |
 | **Runtime** | Bun | latest |
 | **Language** | TypeScript | ^5 |
-| **Backend** | Supabase (BaaS) | latest |
+| **Backend** | Neon + Better Auth | latest |
 | **Style** | Tailwind CSS | ^4.1.18 |
 | **UI Library** | Radix UI + Custom Components | - |
-| **Form Management** | Formik + Yup | ^2.4.9 / ^1.7.1 |
-| **Validation** | Zod | ^4.3.5 |
+| **Form Management** | React Hook Form | ^7.71.1 |
+| **Validation** | Zod + @hookform/resolvers | ^4.3.5 / ^5.2.2 |
 | **i18n** | next-intl | ^4.7.0 |
 | **Table** | TanStack Table | ^8.21.3 |
 | **Charts** | Recharts | 2.15.4 |
@@ -41,17 +41,18 @@ sistemgranit/
 │   ├── utils/                 # Utility functions
 │   └── validations/           # Zod schemas
 ├── lib/
+│   ├── actions/               # Shared action utilities (response.ts, validate.ts)
+│   ├── auth/                  # Better Auth config (config.ts, index.ts)
+│   ├── db/                    # Drizzle ORM (index.ts, schema.ts)
 │   ├── i18n/                  # Internationalization
 │   └── proxy-chain/           # Proxy chain utilities
-├── supabase/
-│   ├── migrations/            # Database migrations
-│   └── database.types.ts      # Generated types
+
 └── types/                     # TypeScript types
 ```
 
 ## 🔐 Authentication & Authorization
 
-- **Provider:** Supabase Auth
+- **Provider:** Better Auth
 - **Flow:**
   1. `/auth/sign-in` - Email/Password login
   2. `/onboarding` - New user registration
@@ -72,3 +73,30 @@ sistemgranit/
   - `lib/i18n/utils/get-localized-paths.ts` - Localized path helper
   - `app/routes/pathnames.ts` - Localized URLs
   - `app/routes/navigation.ts` - Navigation items
+
+## 📋 Architectural Decisions
+
+### Form Layer
+- **Library:** React Hook Form + Zod (`@hookform/resolvers/zod`)
+- **Pattern:** `useForm` + `FormProvider` at the page level; form primitive components use `useController` + `useFormContext`
+- **Resolver cast:** When Zod schema has `.default()` fields, cast the resolver: `zodResolver(schema) as Resolver<FormValues>`
+- **No Formik, no Yup** — removed entirely
+
+### Server Actions
+- **Response type:** All actions return `ActionResponse<T>` from `types/api.ts`
+- **Utilities:** `successResponse()`, `errorResponse()`, `validateInput()` from `lib/actions/`
+- **`"use server"` rule:** Only for client-callable server functions (mutations). Server utilities (DB helpers, etc.) do NOT use this directive.
+
+### Slug Utilities
+- `app/utils/slug.ts` — pure `slugify()`, client-safe, exported via `app/utils/index.ts`
+- `app/utils/slug-server.ts` — `generateUniqueSlug()` + `resolveSlugWithRedirect()`, requires DB, NOT in client barrel
+- Never add DB-dependent functions to `app/utils/index.ts`
+
+### Auth Module
+- Server config: `lib/auth/config.ts` (canonical) + `lib/auth.ts` (re-export for backwards compat)
+- Client: `lib/auth-client.ts`
+
+### Validation
+- Single source of truth: Zod schemas in `app/validations/`
+- Organized by feature: `authSchemas`, `productSchemas`, `categorySchemas`
+- Server actions use `validateInput(schema, data)` which throws `ActionError` on failure

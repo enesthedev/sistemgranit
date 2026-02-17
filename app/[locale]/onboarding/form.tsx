@@ -10,27 +10,15 @@ import {
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
 import { cn } from "@/app/utils";
-import { useFormik } from "formik";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import * as Yup from "yup";
+import { authSchemas, type SignUpInput } from "@/app/validations/schemas";
 import { signUpAdmin } from "./actions";
-
-const validationSchema = Yup.object({
-  fullName: Yup.string().required("Ad Soyad girin"),
-  email: Yup.string()
-    .email("Geçerli bir e-posta adresi girin")
-    .required("E-posta adresi gerekli"),
-  password: Yup.string()
-    .min(6, "Şifre en az 6 karakter olmalı")
-    .required("Şifre gerekli"),
-  repeatPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Şifreler eşleşmiyor")
-    .required("Şifre tekrarı gerekli"),
-});
 
 export function Form({
   className,
@@ -39,40 +27,43 @@ export function Form({
   const router = useRouter();
   const [step, setStep] = useState<1 | 2>(1);
 
-  const formik = useFormik({
-    initialValues: {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpInput>({
+    resolver: zodResolver(authSchemas.signup),
+    defaultValues: {
       fullName: "",
       email: "",
       password: "",
       repeatPassword: "",
     },
-    validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const formData = new FormData();
-        formData.append("fullName", values.fullName);
-        formData.append("email", values.email);
-        formData.append("password", values.password);
-        formData.append("repeatPassword", values.repeatPassword);
-
-        const result = await signUpAdmin(undefined, formData);
-
-        if (result.error) {
-          toast.error(result.error);
-          return;
-        }
-
-        if (result.success) {
-          toast.success(
-            "Yönetici hesabı oluşturuldu! E-postanızı kontrol edin.",
-          );
-          router.push("/auth/sign-up-success");
-        }
-      } catch {
-        toast.error("Bir hata oluştu.");
-      }
-    },
   });
+
+  const onSubmit = async (values: SignUpInput) => {
+    try {
+      const formData = new FormData();
+      formData.append("fullName", values.fullName);
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      formData.append("repeatPassword", values.repeatPassword);
+
+      const result = await signUpAdmin(undefined, formData);
+
+      if (result.error) {
+        toast.error(result.error);
+        return;
+      }
+
+      if (result.success) {
+        toast.success("Yönetici hesabı oluşturuldu! E-postanızı kontrol edin.");
+        router.push("/auth/sign-up-success");
+      }
+    } catch {
+      toast.error("Bir hata oluştu.");
+    }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -117,7 +108,7 @@ export function Form({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={formik.handleSubmit}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-5">
                   <div className="grid gap-2">
                     <Label htmlFor="fullName" className="text-sm font-medium">
@@ -125,17 +116,14 @@ export function Form({
                     </Label>
                     <Input
                       id="fullName"
-                      name="fullName"
                       type="text"
                       placeholder="Ad Soyad"
                       className="h-10"
-                      value={formik.values.fullName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      {...register("fullName")}
                     />
-                    {formik.touched.fullName && formik.errors.fullName && (
+                    {errors.fullName && (
                       <p className="animate-pulse text-xs font-medium text-red-500">
-                        {formik.errors.fullName}
+                        {errors.fullName.message}
                       </p>
                     )}
                   </div>
@@ -145,17 +133,14 @@ export function Form({
                     </Label>
                     <Input
                       id="email"
-                      name="email"
                       type="email"
                       placeholder="admin@sistemgranit.com"
                       className="h-10"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      {...register("email")}
                     />
-                    {formik.touched.email && formik.errors.email && (
+                    {errors.email && (
                       <p className="animate-pulse text-xs font-medium text-red-500">
-                        {formik.errors.email}
+                        {errors.email.message}
                       </p>
                     )}
                   </div>
@@ -165,17 +150,14 @@ export function Form({
                     </Label>
                     <Input
                       id="password"
-                      name="password"
                       type="password"
                       placeholder="******"
                       className="h-10"
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      {...register("password")}
                     />
-                    {formik.touched.password && formik.errors.password && (
+                    {errors.password && (
                       <p className="animate-pulse text-xs font-medium text-red-500">
-                        {formik.errors.password}
+                        {errors.password.message}
                       </p>
                     )}
                   </div>
@@ -188,20 +170,16 @@ export function Form({
                     </Label>
                     <Input
                       id="repeatPassword"
-                      name="repeatPassword"
                       type="password"
                       placeholder="******"
                       className="h-10"
-                      value={formik.values.repeatPassword}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      {...register("repeatPassword")}
                     />
-                    {formik.touched.repeatPassword &&
-                      formik.errors.repeatPassword && (
-                        <p className="animate-pulse text-xs font-medium text-red-500">
-                          {formik.errors.repeatPassword}
-                        </p>
-                      )}
+                    {errors.repeatPassword && (
+                      <p className="animate-pulse text-xs font-medium text-red-500">
+                        {errors.repeatPassword.message}
+                      </p>
+                    )}
                   </div>
 
                   <div className="flex gap-3 pt-2">
@@ -210,18 +188,16 @@ export function Form({
                       variant="outline"
                       className="h-11 flex-1"
                       onClick={() => setStep(1)}
-                      disabled={formik.isSubmitting}
+                      disabled={isSubmitting}
                     >
                       Geri Dön
                     </Button>
                     <Button
                       type="submit"
                       className="h-11 flex-2"
-                      disabled={formik.isSubmitting}
+                      disabled={isSubmitting}
                     >
-                      {formik.isSubmitting
-                        ? "Oluşturuluyor..."
-                        : "Yöneticiyi Oluştur"}
+                      {isSubmitting ? "Oluşturuluyor..." : "Yöneticiyi Oluştur"}
                     </Button>
                   </div>
                 </div>

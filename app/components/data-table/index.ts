@@ -6,7 +6,7 @@ export type {
   VisibilityState,
   RowSelectionState,
   PaginationState,
-} from "./data-table";
+} from "@tanstack/react-table";
 export { DataTableColumnHeader } from "./data-table-column-header";
 export { DataTablePagination } from "./data-table-pagination";
 export { DataTableViewOptions } from "./data-table-view-options";

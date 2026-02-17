@@ -1,72 +1,67 @@
 "use server";
 
-import { createClient } from "@/supabase/server";
-import { revalidatePath } from "next/cache";
+import { categorySchemas } from "@/app/validations/schemas";
 import {
-  updateCategorySchema,
-  UpdateCategoryInput,
-} from "@/app/validations/category";
+  ActionError,
+  errorResponse,
+  successResponse,
+} from "@/lib/actions/response";
+import { validateInput } from "@/lib/actions/validate";
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { categories } from "@/lib/db/schema";
+import type { ActionResponse } from "@/types/api";
+import { and, eq, ne } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 
-export async function updateCategory(input: UpdateCategoryInput) {
-  const result = updateCategorySchema.safeParse(input);
+export async function updateCategory(
+  input: unknown,
+): Promise<ActionResponse> {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
-  if (!result.success) {
-    return {
-      success: false,
-      error: "Geçersiz veri girişi",
-    };
+    if (!session) {
+      throw new ActionError("Yetkisiz işlem. Lütfen giriş yapın.", "AUTH_ERROR");
+    }
+
+    const validatedData = await validateInput(categorySchemas.update, input);
+
+    const existing = await db
+      .select({ id: categories.id })
+      .from(categories)
+      .where(
+        and(
+          eq(categories.slug, validatedData.slug ?? ""),
+          ne(categories.id, validatedData.id),
+        ),
+      )
+      .limit(1);
+
+    if (existing.length > 0) {
+      throw new ActionError("Bu URL (slug) zaten kullanımda.", "CONFLICT");
+    }
+
+    await db
+      .update(categories)
+      .set({
+        name: validatedData.name,
+        slug: validatedData.slug,
+        description: validatedData.description,
+        imageUrl: validatedData.image_url,
+        seoTitle: validatedData.seo_title,
+        seoDescription: validatedData.seo_description,
+        updatedAt: new Date(),
+      })
+      .where(eq(categories.id, validatedData.id));
+
+    revalidatePath("/dashboard/categories");
+
+    return successResponse();
+  } catch (error: unknown) {
+    console.error("[updateCategory]", error);
+    return errorResponse(error);
   }
-
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return {
-      success: false,
-      error: "Yetkisiz işlem. Lütfen giriş yapın.",
-    };
-  }
-
-  // Slug değiştiyse unique kontrolü
-  const { data: existing } = await supabase
-    .from("categories")
-    .select("id")
-    .eq("slug", input.slug)
-    .neq("id", input.id) // Kendisi hariç
-    .single();
-
-  if (existing) {
-    return {
-      success: false,
-      error: "Bu URL (slug) zaten kullanımda.",
-    };
-  }
-
-  const { error } = await supabase
-    .from("categories")
-    .update({
-      name: input.name,
-      slug: input.slug,
-      description: input.description,
-      image_url: input.image_url,
-      seo_title: input.seo_title,
-      seo_description: input.seo_description,
-      updated_at: new Date().toISOString(),
-    })
-    .eq("id", input.id);
-
-  if (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
-  }
-
-  revalidatePath("/dashboard/categories");
-
-  return {
-    success: true,
-  };
 }

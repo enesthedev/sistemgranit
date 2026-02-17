@@ -15,12 +15,12 @@
     - SEO-focused metadata
     - Category image management
 
-3.  **Analytics:**
-    - Visitor and product view statistics
-    - Session-based analytics
+3.  **Statistics:**
+    - Product growth and status statistics
+    - Creation trends
 
 4.  **Admin Panel:**
-    - Secure login (Supabase Auth)
+    - Secure login (Better Auth)
     - Dashboard summary screens
     - User onboarding process
 

@@ -2,7 +2,7 @@
 
 import { Label } from "@/app/components/ui/label";
 import { cn } from "@/app/utils";
-import { useField } from "formik";
+import { useFormContext } from "react-hook-form";
 
 interface FormFieldProps {
   name: string;
@@ -21,8 +21,12 @@ export function FormField({
   children,
   className,
 }: FormFieldProps) {
-  const [, meta] = useField(name);
-  const hasError = meta.touched && meta.error;
+  const {
+    formState: { errors },
+  } = useFormContext();
+
+  const error = errors[name];
+  const hasError = !!error;
   const errorId = `${name}-error`;
   const descriptionId = `${name}-description`;
 
@@ -50,7 +54,7 @@ export function FormField({
           role="alert"
           className="text-destructive animate-in fade-in-50 text-xs font-medium"
         >
-          {meta.error}
+          {error?.message as string}
         </p>
       )}
     </div>

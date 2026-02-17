@@ -1,6 +1,7 @@
 import { AppSidebar } from "./components/sidebar";
 import { SidebarInset, SidebarProvider } from "@/app/components/ui/sidebar";
-import { createClient } from "@/supabase/server";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
@@ -8,23 +9,21 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-  if (!user) {
+  if (!session) {
     redirect("/auth/sign-in");
   }
 
+  const { user } = session;
+
   const currentUser = {
-    id: user.id,
+    id: user.id || "",
     email: user.email ?? "",
-    displayName:
-      user.user_metadata?.displayName ??
-      user.email?.split("@")[0] ??
-      "Kullanıcı",
-    avatarUrl: user.user_metadata?.avatar_url ?? null,
+    displayName: user.name ?? user.email?.split("@")[0] ?? "Kullanıcı",
+    avatarUrl: user.image ?? null,
   };
 
   return (

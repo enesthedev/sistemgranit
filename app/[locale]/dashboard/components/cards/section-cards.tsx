@@ -1,5 +1,5 @@
 import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
-import { getProductStats } from "@/actions/analytics";
+import { getProductStats } from "@/actions/products/stats";
 
 import { Badge } from "@/app/components/ui/badge";
 import {

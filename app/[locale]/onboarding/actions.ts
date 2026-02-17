@@ -1,7 +1,7 @@
 "use server";
 
 import { getUsersCount } from "@/actions";
-import { createClient } from "@/supabase/server";
+import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
 export interface SignUpState {
@@ -43,28 +43,25 @@ export async function signUpAdmin(
       };
     }
 
-    const supabase = await createClient();
-    const origin = (await headers()).get("origin");
-
-    const { error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          displayName: fullName,
-          role: "admin",
-        },
-        emailRedirectTo: `${origin}/auth/callback`,
+    const res = await auth.api.signUpEmail({
+      body: {
+        email,
+        password,
+        name: fullName,
       },
+      headers: await headers(),
     });
 
-    if (signUpError) {
-      return { error: signUpError.message };
+    if (!res) {
+      return { error: "Kayıt işlemi başarısız oldu." };
     }
 
     return { success: true };
-  } catch (err) {
+  } catch (err: unknown) {
     console.error("Beklenmeyen hata:", err);
-    return { error: "Beklenmeyen bir hata oluştu." };
+    return {
+      error:
+        err instanceof Error ? err.message : "Beklenmeyen bir hata oluştu.",
+    };
   }
 }

@@ -3,7 +3,7 @@
 import { Switch } from "@/app/components/ui/switch";
 import { Label } from "@/app/components/ui/label";
 import { cn } from "@/app/utils";
-import { useField, useFormikContext } from "formik";
+import { useController, useFormContext } from "react-hook-form";
 
 interface FormSwitchProps {
   name: string;
@@ -20,8 +20,8 @@ export function FormSwitch({
   disabled = false,
   className,
 }: FormSwitchProps) {
-  const [field] = useField(name);
-  const { setFieldValue } = useFormikContext();
+  const { control } = useFormContext();
+  const { field } = useController({ name, control });
 
   return (
     <div className={cn("flex items-center justify-between gap-4", className)}>
@@ -36,7 +36,7 @@ export function FormSwitch({
       <Switch
         id={name}
         checked={field.value}
-        onCheckedChange={(checked) => setFieldValue(name, checked)}
+        onCheckedChange={(checked) => field.onChange(checked)}
         disabled={disabled}
       />
     </div>

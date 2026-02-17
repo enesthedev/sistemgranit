@@ -9,7 +9,7 @@ import {
 } from "@/app/components/ui/popover";
 import { cn } from "@/app/utils";
 import { IconCheck, IconChevronDown, IconX } from "@tabler/icons-react";
-import { useField, useFormikContext } from "formik";
+import { useController, useFormContext } from "react-hook-form";
 import { useState } from "react";
 import { FormField } from "./form-field";
 
@@ -39,26 +39,23 @@ export function FormMultiSelect({
   disabled = false,
   className,
 }: FormMultiSelectProps) {
-  const [field, meta] = useField<string[]>(name);
-  const { setFieldValue, setFieldTouched } = useFormikContext();
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({ name, control });
   const [open, setOpen] = useState(false);
-  const hasError = meta.touched && meta.error;
+  const hasError = fieldState.invalid;
 
-  const selectedValues = field.value || [];
+  const selectedValues: string[] = field.value || [];
 
   const toggleOption = (value: string) => {
     const newValues = selectedValues.includes(value)
       ? selectedValues.filter((v) => v !== value)
       : [...selectedValues, value];
-    setFieldValue(name, newValues);
+    field.onChange(newValues);
   };
 
   const removeOption = (value: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setFieldValue(
-      name,
-      selectedValues.filter((v) => v !== value),
-    );
+    field.onChange(selectedValues.filter((v) => v !== value));
   };
 
   const getLabel = (value: string) => {
@@ -77,7 +74,7 @@ export function FormMultiSelect({
         open={open}
         onOpenChange={(isOpen: boolean) => {
           setOpen(isOpen);
-          if (!isOpen) setFieldTouched(name, true);
+          if (!isOpen) field.onBlur();
         }}
       >
         <PopoverTrigger asChild disabled={disabled}>

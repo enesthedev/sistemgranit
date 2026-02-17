@@ -2,7 +2,7 @@
 
 import { Input } from "@/app/components/ui/input";
 import { cn } from "@/app/utils";
-import { useField } from "formik";
+import { useController, useFormContext } from "react-hook-form";
 import { FormField } from "./form-field";
 
 interface FormInputProps {
@@ -30,8 +30,9 @@ export function FormInput({
   inputClassName,
   onChange,
 }: FormInputProps) {
-  const [field, meta] = useField(name);
-  const hasError = meta.touched && meta.error;
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({ name, control });
+  const hasError = fieldState.invalid;
 
   return (
     <FormField

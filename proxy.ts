@@ -4,17 +4,10 @@ import {
   withAuthGuard,
   withGuestGuard,
   withOnboarding,
-  withSupabaseSession,
 } from "@/app/proxies";
 import { type NextFetchEvent, type NextRequest } from "next/server";
 
-const proxies = [
-  with18n,
-  withOnboarding,
-  withSupabaseSession,
-  withGuestGuard,
-  withAuthGuard,
-];
+const proxies = [with18n, withOnboarding, withGuestGuard, withAuthGuard];
 
 export async function proxy(request: NextRequest, event: NextFetchEvent) {
   return chain(proxies)(request, event);

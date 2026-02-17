@@ -1,21 +1,19 @@
 "use client";
 
-import * as React from "react";
-import { IconInnerShadowTop } from "@tabler/icons-react";
-import { Link } from "@/lib/i18n/navigation";
-import { NavMain } from "./nav-main";
-import { NavUser, type CurrentUser } from "./nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/app/components/ui/sidebar";
 import { mainNavigation, ROUTES } from "@/app/routes";
+import { Link } from "@/lib/i18n/navigation";
 import Image from "next/image";
+import * as React from "react";
+import { NavMain } from "./nav-main";
+import { NavUser, type CurrentUser } from "./nav-user";
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   user: CurrentUser;

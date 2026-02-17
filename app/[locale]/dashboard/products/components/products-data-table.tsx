@@ -14,7 +14,7 @@ import type { ProductWithCategory } from "@/types/product";
 import { Button } from "@/app/components/ui/button";
 import Link from "next/link";
 import { ROUTES } from "@/app/routes";
-import type { Category } from "@/supabase/types";
+import type { Category } from "@/types/category";
 import { useDataTable } from "@/hooks/use-data-table";
 
 interface ProductsDataTableProps {

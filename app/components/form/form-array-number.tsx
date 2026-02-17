@@ -5,7 +5,7 @@ import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { cn } from "@/app/utils";
 import { IconPlus, IconX } from "@tabler/icons-react";
-import { useField, useFormikContext } from "formik";
+import { useController, useFormContext } from "react-hook-form";
 import { useState } from "react";
 import { FormField } from "./form-field";
 
@@ -32,29 +32,23 @@ export function FormArrayNumber({
   unit,
   maxItems = 20,
 }: FormArrayNumberProps) {
-  const [field, meta] = useField<number[]>(name);
-  const { setFieldValue } = useFormikContext();
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({ name, control });
   const [inputValue, setInputValue] = useState("");
-  const hasError = meta.touched && meta.error;
+  const hasError = fieldState.invalid;
 
-  const values = field.value || [];
+  const values: number[] = field.value || [];
 
   const addValue = () => {
     const num = parseFloat(inputValue);
     if (!isNaN(num) && !values.includes(num) && values.length < maxItems) {
-      setFieldValue(
-        name,
-        [...values, num].sort((a, b) => a - b),
-      );
+      field.onChange([...values, num].sort((a, b) => a - b));
       setInputValue("");
     }
   };
 
   const removeValue = (valueToRemove: number) => {
-    setFieldValue(
-      name,
-      values.filter((v) => v !== valueToRemove),
-    );
+    field.onChange(values.filter((v) => v !== valueToRemove));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

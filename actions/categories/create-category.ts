@@ -1,67 +1,64 @@
 "use server";
 
-import { createClient } from "@/supabase/server";
+import { categorySchemas } from "@/app/validations/schemas";
+import {
+  ActionError,
+  errorResponse,
+  successResponse,
+} from "@/lib/actions/response";
+import { validateInput } from "@/lib/actions/validate";
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { categories } from "@/lib/db/schema";
+import type { ActionResponse, CreateCategoryResponse } from "@/types/api";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { categorySchema } from "@/app/validations/category";
+import { headers } from "next/headers";
 import { z } from "zod";
 
-export type CreateCategoryInput = z.infer<typeof categorySchema>;
+export type CreateCategoryInput = z.infer<typeof categorySchemas.create>;
 
-export async function createCategory(input: CreateCategoryInput) {
-  const result = categorySchema.safeParse(input);
+export async function createCategory(
+  input: unknown,
+): Promise<ActionResponse<CreateCategoryResponse>> {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
-  if (!result.success) {
-    return {
-      success: false,
-      error: "Geçersiz veri girişi",
-    };
+    if (!session) {
+      throw new ActionError("Yetkisiz işlem. Lütfen giriş yapın.", "AUTH_ERROR");
+    }
+
+    const validatedData = await validateInput(categorySchemas.create, input);
+
+    const existing = await db
+      .select({ id: categories.id })
+      .from(categories)
+      .where(eq(categories.slug, validatedData.slug))
+      .limit(1);
+
+    if (existing.length > 0) {
+      throw new ActionError("Bu URL (slug) zaten kullanımda.", "CONFLICT");
+    }
+
+    const [newCategory] = await db
+      .insert(categories)
+      .values({
+        name: validatedData.name,
+        slug: validatedData.slug,
+        description: validatedData.description,
+        imageUrl: validatedData.image_url,
+        seoTitle: validatedData.seo_title,
+        seoDescription: validatedData.seo_description,
+      })
+      .returning({ id: categories.id, slug: categories.slug });
+
+    revalidatePath("/dashboard/categories");
+
+    return successResponse({ id: newCategory.id, slug: newCategory.slug });
+  } catch (error: unknown) {
+    console.error("[createCategory]", error);
+    return errorResponse(error);
   }
-
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return {
-      success: false,
-      error: "Yetkisiz işlem. Lütfen giriş yapın.",
-    };
-  }
-
-  // Check unique slug manually just to be safe (DB also has unique constraint)
-  const { data: existing } = await supabase
-    .from("categories")
-    .select("id")
-    .eq("slug", input.slug)
-    .single();
-
-  if (existing) {
-    return {
-      success: false,
-      error: "Bu URL (slug) zaten kullanımda.",
-    };
-  }
-
-  const { error } = await supabase.from("categories").insert({
-    name: input.name,
-    slug: input.slug,
-    description: input.description,
-    image_url: input.image_url,
-    seo_title: input.seo_title,
-    seo_description: input.seo_description,
-  });
-
-  if (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
-  }
-
-  revalidatePath("/dashboard/categories");
-
-  return {
-    success: true,
-  };
 }

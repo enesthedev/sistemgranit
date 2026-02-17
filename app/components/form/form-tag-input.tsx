@@ -5,7 +5,7 @@ import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { cn } from "@/app/utils";
 import { IconPlus, IconX } from "@tabler/icons-react";
-import { useField, useFormikContext } from "formik";
+import { useController, useFormContext } from "react-hook-form";
 import { useState } from "react";
 import { FormField } from "./form-field";
 
@@ -30,26 +30,23 @@ export function FormTagInput({
   className,
   maxTags = 20,
 }: FormTagInputProps) {
-  const [field, meta] = useField<string[]>(name);
-  const { setFieldValue } = useFormikContext();
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({ name, control });
   const [inputValue, setInputValue] = useState("");
-  const hasError = meta.touched && meta.error;
+  const hasError = fieldState.invalid;
 
-  const tags = field.value || [];
+  const tags: string[] = field.value || [];
 
   const addTag = () => {
     const trimmed = inputValue.trim().toLowerCase();
     if (trimmed && !tags.includes(trimmed) && tags.length < maxTags) {
-      setFieldValue(name, [...tags, trimmed]);
+      field.onChange([...tags, trimmed]);
       setInputValue("");
     }
   };
 
   const removeTag = (tagToRemove: string) => {
-    setFieldValue(
-      name,
-      tags.filter((tag) => tag !== tagToRemove),
-    );
+    field.onChange(tags.filter((tag) => tag !== tagToRemove));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

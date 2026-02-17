@@ -1,53 +1,49 @@
 "use server";
 
-import { createClient } from "@/supabase/server";
+import {
+  ActionError,
+  errorResponse,
+  successResponse,
+} from "@/lib/actions/response";
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { categories, products } from "@/lib/db/schema";
+import type { ActionResponse } from "@/types/api";
+import { eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 
-export async function deleteCategory(id: string) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export async function deleteCategory(id: string): Promise<ActionResponse> {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
-  if (!user) {
-    return {
-      success: false,
-      error: "Yetkisiz işlem. Lütfen giriş yapın.",
-    };
+    if (!session) {
+      throw new ActionError("Yetkisiz işlem. Lütfen giriş yapın.", "AUTH_ERROR");
+    }
+
+    const productCountResult = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(products)
+      .where(eq(products.categoryId, id));
+
+    const count = Number(productCountResult[0]?.count || 0);
+
+    if (count > 0) {
+      throw new ActionError(
+        `Bu kategoriye bağlı ${count} adet ürün var. Önce ürünleri başka kategoriye taşıyın veya silin.`,
+        "CONFLICT",
+      );
+    }
+
+    await db.delete(categories).where(eq(categories.id, id));
+
+    revalidatePath("/dashboard/categories");
+
+    return successResponse();
+  } catch (error: unknown) {
+    console.error("[deleteCategory]", error);
+    return errorResponse(error);
   }
-
-  // Bağlı ürün kontrolü
-  const { count, error: countError } = await supabase
-    .from("products")
-    .select("id", { count: "exact", head: true })
-    .eq("category_id", id);
-
-  if (countError) {
-    return {
-      success: false,
-      error: "Ürün kontrolü yapılamadı.",
-    };
-  }
-
-  if (count && count > 0) {
-    return {
-      success: false,
-      error: `Bu kategoriye bağlı ${count} adet ürün var. Önce ürünleri başka kategoriye taşıyın veya silin.`,
-    };
-  }
-
-  const { error } = await supabase.from("categories").delete().eq("id", id);
-
-  if (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
-  }
-
-  revalidatePath("/dashboard/categories");
-
-  return {
-    success: true,
-  };
 }

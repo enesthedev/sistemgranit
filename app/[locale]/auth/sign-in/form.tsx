@@ -10,22 +10,14 @@ import {
 } from "@/app/components/ui/card";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import { createClient } from "@/supabase/browser";
+import { authClient } from "@/lib/auth-client";
 import { cn } from "@/app/utils";
-import { useFormik } from "formik";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import * as Yup from "yup";
-
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .email("Geçerli bir e-posta adresi girin")
-    .required("E-posta adresi gerekli"),
-  password: Yup.string()
-    .min(6, "Şifre en az 6 karakter olmalı")
-    .required("Şifre gerekli"),
-});
+import { authSchemas, type SignInInput } from "@/app/validations/schemas";
 
 export function LoginForm({
   className,
@@ -33,30 +25,36 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
 
-  const formik = useFormik({
-    initialValues: {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignInInput>({
+    resolver: zodResolver(authSchemas.signIn),
+    defaultValues: {
       email: "",
       password: "",
     },
-    validationSchema,
-    onSubmit: async (values) => {
-      const supabase = createClient();
-
-      try {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: values.email,
-          password: values.password,
-        });
-
-        if (error) throw error;
-
-        toast.success("Giriş başarılı!");
-        router.push("/");
-      } catch (error: unknown) {
-        toast.error(error instanceof Error ? error.message : "Bir hata oluştu");
-      }
-    },
   });
+
+  const onSubmit = async (values: SignInInput) => {
+    await authClient.signIn.email({
+      email: values.email,
+      password: values.password,
+      callbackURL: "/",
+      fetchOptions: {
+        onResponse: () => {},
+        onRequest: () => {},
+        onSuccess: () => {
+          toast.success("Giriş başarılı!");
+          router.push("/");
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+      },
+    });
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -68,21 +66,18 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">E-posta</Label>
                 <Input
                   id="email"
-                  name="email"
                   type="email"
                   placeholder="ornek@email.com"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+                  {...register("email")}
                 />
-                {formik.touched.email && formik.errors.email && (
-                  <p className="text-sm text-red-500">{formik.errors.email}</p>
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email.message}</p>
                 )}
               </div>
               <div className="grid gap-2">
@@ -97,24 +92,17 @@ export function LoginForm({
                 </div>
                 <Input
                   id="password"
-                  name="password"
                   type="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+                  {...register("password")}
                 />
-                {formik.touched.password && formik.errors.password && (
+                {errors.password && (
                   <p className="text-sm text-red-500">
-                    {formik.errors.password}
+                    {errors.password.message}
                   </p>
                 )}
               </div>
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={formik.isSubmitting}
-              >
-                {formik.isSubmitting ? "Giriş yapılıyor..." : "Giriş Yap"}
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Giriş yapılıyor..." : "Giriş Yap"}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">

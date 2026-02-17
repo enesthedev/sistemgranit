@@ -10,7 +10,7 @@ import {
 import { Button } from "@/app/components/ui/button";
 import { cn } from "@/app/utils";
 import { IconX } from "@tabler/icons-react";
-import { useField, useFormikContext } from "formik";
+import { useController, useFormContext } from "react-hook-form";
 import { FormField } from "./form-field";
 
 interface SelectOption {
@@ -43,20 +43,19 @@ export function FormSelect({
   className,
   nullable = false,
 }: FormSelectProps) {
-  const [field, meta] = useField(name);
-  const { setFieldValue, setFieldTouched } = useFormikContext();
-  const hasError = meta.touched && meta.error;
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({ name, control });
+  const hasError = fieldState.invalid;
 
   const handleClear = () => {
-    setFieldValue(name, "");
-    setFieldTouched(name, true);
+    field.onChange("");
   };
 
   const handleValueChange = (value: string) => {
     if (value === INTERNAL_EMPTY) {
-      setFieldValue(name, "");
+      field.onChange("");
     } else {
-      setFieldValue(name, value);
+      field.onChange(value);
     }
   };
 
@@ -75,7 +74,7 @@ export function FormSelect({
           value={field.value || undefined}
           onValueChange={handleValueChange}
           onOpenChange={(open: boolean) => {
-            if (!open) setFieldTouched(name, true);
+            if (!open) field.onBlur();
           }}
           disabled={disabled}
         >

@@ -45,12 +45,6 @@ export const withOnboarding: ProxyFactory = (next) => {
 
       const response = NextResponse.redirect(url);
 
-      request.cookies.getAll().forEach((cookie) => {
-        if (cookie.name.startsWith("sb-")) {
-          response.cookies.delete(cookie.name);
-        }
-      });
-
       return response;
     }
 

@@ -8,7 +8,7 @@ import {
   IconUserCircle,
 } from "@tabler/icons-react";
 import { useRouter } from "@/lib/i18n/navigation";
-import { createClient } from "@/supabase/browser";
+import { authClient } from "@/lib/auth-client";
 import { ROUTES } from "@/app/routes";
 import {
   Avatar,
@@ -55,9 +55,22 @@ export function NavUser({ user }: NavUserProps) {
   const { isMobile } = useSidebar();
   const router = useRouter();
 
+  /*
   const handleSignOut = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push(ROUTES.GUEST.SIGN_IN);
+        },
+      },
+    });
+  };
+  */
+
+  // Temporary: Just redirect to sign-in until full flow is verified or use Better Auth directly if known to work.
+  // Better Auth client needs to be imported.
+  const handleSignOut = async () => {
+    await authClient.signOut();
     router.push(ROUTES.GUEST.SIGN_IN);
   };
 

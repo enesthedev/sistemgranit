@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/app/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/app/components/ui/toggle-group";
-import type { ProductTrend } from "@/actions/analytics";
+import type { ProductTrend } from "@/actions/products/types";
 
 const chartConfig = {
   products: {

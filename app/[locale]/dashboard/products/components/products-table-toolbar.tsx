@@ -13,7 +13,7 @@ import { productColumnLabels } from "./columns";
 import Link from "next/link";
 import { ROUTES } from "@/app/routes";
 import type { ProductWithCategory } from "@/types/product";
-import type { Category } from "@/supabase/types";
+import type { Category } from "@/types/category";
 
 interface ProductsTableToolbarProps {
   table: Table<ProductWithCategory>;

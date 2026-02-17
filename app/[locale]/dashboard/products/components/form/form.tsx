@@ -1,8 +1,8 @@
 "use client";
 
-import React, { lazy, Suspense, useMemo } from "react";
-import { Form as FormikForm, Formik } from "formik";
-import { withZodSchema } from "formik-validator-zod";
+import React, { lazy, Suspense, useMemo, useEffect } from "react";
+import { useForm, FormProvider, type Resolver } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { Product } from "@/types/product";
 import { cn } from "@/app/utils";
 
@@ -91,32 +91,39 @@ function getFormInitialValues(product: Product | undefined): FormValues {
 }
 
 export function Form({ product, mode, categories }: ProductFormProps) {
-  const { handleSubmit, isEditing } = useProductForm({ product, mode });
+  const { handleSubmit: onSubmit, isEditing } = useProductForm({
+    product,
+    mode,
+  });
 
   const formInitialValues = useMemo(
     () => getFormInitialValues(product),
     [product],
   );
 
+  const form = useForm<FormValues>({
+    resolver: zodResolver(validationSchema) as Resolver<FormValues>,
+    defaultValues: formInitialValues,
+  });
+
+  useEffect(() => {
+    form.reset(formInitialValues);
+  }, [formInitialValues]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const submitForm = () => form.handleSubmit(onSubmit)();
+
   return (
-    <Formik
-      initialValues={formInitialValues}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      validate={withZodSchema(validationSchema) as any}
-      onSubmit={handleSubmit}
-      enableReinitialize
-    >
-      {({ isSubmitting, submitForm, values }) => (
-        <FormContent
-          product={product}
-          isEditing={isEditing}
-          isSubmitting={isSubmitting}
-          submitForm={submitForm}
-          values={values}
-          categories={categories}
-        />
-      )}
-    </Formik>
+    <FormProvider {...form}>
+      <FormContent
+        product={product}
+        isEditing={isEditing}
+        isSubmitting={form.formState.isSubmitting}
+        submitForm={submitForm}
+        name={form.watch("name")}
+        status={form.watch("status")}
+        categories={categories}
+      />
+    </FormProvider>
   );
 }
 
@@ -124,8 +131,9 @@ interface FormContentProps {
   product?: Product;
   isEditing: boolean;
   isSubmitting: boolean;
-  submitForm: () => Promise<void>;
-  values: FormValues;
+  submitForm: () => void;
+  name: string;
+  status: FormValues["status"];
   categories: ProductFormProps["categories"];
 }
 
@@ -134,7 +142,8 @@ function FormContent({
   isEditing,
   isSubmitting,
   submitForm,
-  values,
+  name,
+  status,
   categories,
 }: FormContentProps) {
   const {
@@ -152,11 +161,11 @@ function FormContent({
   return (
     <div className="flex flex-1 flex-col">
       <FormHeader
-        title={values.name}
+        title={name}
         currentStep={currentStep}
         steps={STEPS}
         isEditing={isEditing}
-        status={values.status}
+        status={status}
         isSubmitting={isSubmitting}
         isFirstStep={isFirstStep}
         isLastStep={isLastStep}
@@ -164,7 +173,7 @@ function FormContent({
         onBack={handleBack}
       />
 
-      <FormikForm className="flex flex-1 flex-col overflow-y-auto">
+      <form className="flex flex-1 flex-col overflow-y-auto">
         <div className="grid flex-1 grid-cols-1 xl:grid-cols-12">
           <FormSidebar
             steps={STEPS}
@@ -192,7 +201,7 @@ function FormContent({
             </div>
           </main>
         </div>
-      </FormikForm>
+      </form>
     </div>
   );
 }

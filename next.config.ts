@@ -1,11 +1,19 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
-import { env } from "./app/env";
+import "./app/env"; // Validate env vars on build
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [new URL(env.NEXT_PUBLIC_SUPABASE_URL + "/**")],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.public.blob.vercel-storage.com",
+        port: "",
+      },
+      // Allow any image from temporary blob storage or external sources if needed
+      // but sticking to strict Vercel Blob for now
+    ],
   },
 };
 

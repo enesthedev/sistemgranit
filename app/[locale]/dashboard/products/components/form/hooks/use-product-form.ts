@@ -2,7 +2,6 @@
 
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { FormikHelpers } from "formik";
 import { toast } from "sonner";
 import { createProduct, updateProduct } from "@/actions/products";
 import { ROUTES } from "@/app/routes";
@@ -15,10 +14,7 @@ interface UseProductFormOptions {
 }
 
 interface UseProductFormReturn {
-  handleSubmit: (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
-  ) => Promise<void>;
+  handleSubmit: (values: FormValues) => Promise<void>;
   isEditing: boolean;
 }
 
@@ -30,16 +26,13 @@ export function useProductForm({
   const isEditing = mode === "edit" && !!product;
 
   const handleSubmit = useCallback(
-    async (
-      values: FormValues,
-      { setSubmitting }: FormikHelpers<FormValues>,
-    ) => {
+    async (values: FormValues) => {
       try {
         const submitData = {
           name: values.name,
           description: values.description || null,
-          category: undefined, // Legacy enum, we use category_id now
-          category_id: values.category_id, // Map the selected UUID to category_id
+          category: undefined,
+          category_id: values.category_id,
           status: values.status,
           price_per_sqm: values.price_per_sqm,
           currency: values.currency,
@@ -89,8 +82,6 @@ export function useProductForm({
         router.refresh();
       } catch {
         toast.error("Bir hata oluştu");
-      } finally {
-        setSubmitting(false);
       }
     },
     [isEditing, product, router],

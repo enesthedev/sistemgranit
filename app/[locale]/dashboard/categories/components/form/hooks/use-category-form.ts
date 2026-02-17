@@ -2,7 +2,6 @@
 
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { FormikHelpers } from "formik";
 import { toast } from "sonner";
 import { createCategory, updateCategory } from "@/actions/categories";
 import { Category } from "@/types/category";
@@ -21,10 +20,7 @@ export function useCategoryForm({
   const isEditing = mode === "edit" && !!category;
 
   const handleSubmit = useCallback(
-    async (
-      values: CategoryFormValues,
-      { setSubmitting }: FormikHelpers<CategoryFormValues>,
-    ) => {
+    async (values: CategoryFormValues) => {
       try {
         const submitData = {
           name: values.name,
@@ -59,8 +55,6 @@ export function useCategoryForm({
       } catch (error) {
         toast.error("Bir hata oluştu");
         console.error(error);
-      } finally {
-        setSubmitting(false);
       }
     },
     [isEditing, category, router],

@@ -2,7 +2,7 @@
 
 import { Input } from "@/app/components/ui/input";
 import { cn } from "@/app/utils";
-import { useField, useFormikContext } from "formik";
+import { useController, useFormContext } from "react-hook-form";
 import { FormField } from "./form-field";
 
 interface FormNumberInputProps {
@@ -34,13 +34,13 @@ export function FormNumberInput({
   prefix,
   className,
 }: FormNumberInputProps) {
-  const [field, meta] = useField(name);
-  const { setFieldValue } = useFormikContext();
-  const hasError = meta.touched && meta.error;
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({ name, control });
+  const hasError = fieldState.invalid;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setFieldValue(name, value === "" ? null : parseFloat(value));
+    field.onChange(value === "" ? null : parseFloat(value));
   };
 
   return (
@@ -71,7 +71,9 @@ export function FormNumberInput({
             suffix && "pr-12",
             hasError && "border-destructive",
           )}
-          {...field}
+          name={field.name}
+          ref={field.ref}
+          onBlur={field.onBlur}
           value={field.value ?? ""}
           onChange={handleChange}
         />

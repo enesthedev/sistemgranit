@@ -1,8 +1,8 @@
 "use client";
 
-import React, { lazy, Suspense, useMemo } from "react";
-import { Form as FormikForm, Formik } from "formik";
-import { withZodSchema } from "formik-validator-zod";
+import React, { lazy, Suspense, useMemo, useEffect } from "react";
+import { useForm, FormProvider, type Resolver } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/app/utils";
 import { CategoryFormValues, CategoryFormProps } from "./types";
 import { categoryValidationSchema } from "./schema";
@@ -56,31 +56,37 @@ function getFormInitialValues(
 }
 
 export function CategoryForm({ category, mode }: CategoryFormProps) {
-  const { handleSubmit, isEditing } = useCategoryForm({ category, mode });
+  const { handleSubmit: onSubmit, isEditing } = useCategoryForm({
+    category,
+    mode,
+  });
 
   const formInitialValues = useMemo(
     () => getFormInitialValues(category),
     [category],
   );
 
+  const form = useForm<CategoryFormValues>({
+    resolver: zodResolver(categoryValidationSchema) as Resolver<CategoryFormValues>,
+    defaultValues: formInitialValues,
+  });
+
+  useEffect(() => {
+    form.reset(formInitialValues);
+  }, [formInitialValues]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const submitForm = () => form.handleSubmit(onSubmit)();
+
   return (
-    <Formik
-      initialValues={formInitialValues}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      validate={withZodSchema(categoryValidationSchema) as any}
-      onSubmit={handleSubmit}
-      enableReinitialize
-    >
-      {({ isSubmitting, submitForm, values }) => (
-        <CategoryFormContent
-          category={category}
-          isEditing={isEditing}
-          isSubmitting={isSubmitting}
-          submitForm={submitForm}
-          values={values}
-        />
-      )}
-    </Formik>
+    <FormProvider {...form}>
+      <CategoryFormContent
+        category={category}
+        isEditing={isEditing}
+        isSubmitting={form.formState.isSubmitting}
+        submitForm={submitForm}
+        name={form.watch("name")}
+      />
+    </FormProvider>
   );
 }
 
@@ -88,8 +94,8 @@ interface CategoryFormContentProps {
   category?: Category;
   isEditing: boolean;
   isSubmitting: boolean;
-  submitForm: () => Promise<void>;
-  values: CategoryFormValues;
+  submitForm: () => void;
+  name: string;
 }
 
 function CategoryFormContent({
@@ -97,7 +103,7 @@ function CategoryFormContent({
   isEditing,
   isSubmitting,
   submitForm,
-  values,
+  name,
 }: CategoryFormContentProps) {
   const router = useRouter();
   const {
@@ -128,7 +134,7 @@ function CategoryFormContent({
           </Button>
           <div>
             <h1 className="text-lg font-semibold tracking-tight">
-              {values.name || "Yeni Kategori"}
+              {name || "Yeni Kategori"}
             </h1>
             <p className="text-muted-foreground hidden text-xs md:block">
               {STEPS[currentStep].title} • Adım {currentStep + 1} /{" "}
@@ -177,7 +183,7 @@ function CategoryFormContent({
         </div>
       </div>
 
-      <FormikForm className="flex flex-1 flex-col overflow-y-auto p-6">
+      <form className="flex flex-1 flex-col overflow-y-auto p-6">
         <div className="mx-auto w-full max-w-4xl">
           <div className="mb-8 flex gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-2">
             {STEPS.map((step, index) => (
@@ -212,7 +218,7 @@ function CategoryFormContent({
             </div>
           </Suspense>
         </div>
-      </FormikForm>
+      </form>
     </div>
   );
 }

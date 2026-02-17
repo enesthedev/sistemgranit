@@ -1,3 +1,3 @@
 export { cn } from "./cn";
-export { slugify, generateUniqueSlug } from "./slug";
-export { resolveSlugWithRedirect } from "./slug-redirect";
+// Only client-safe exports — server-side slug utilities are in ./slug-server.ts
+export { slugify } from "./slug";

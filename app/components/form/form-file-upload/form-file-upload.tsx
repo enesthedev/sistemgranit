@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useMemo,
 } from "react";
-import { useField, useFormikContext } from "formik";
+import { useController, useFormContext } from "react-hook-form";
 import { cn } from "@/app/utils";
 import { toast } from "sonner";
 import { FormField } from "../form-field";
@@ -35,8 +35,9 @@ export function FormFileUpload({
   className,
   resetKey,
 }: FormFileUploadProps) {
-  const [field] = useField<string | string[]>(name);
-  const { setFieldValue } = useFormikContext<Record<string, unknown>>();
+  const { control } = useFormContext();
+  const { field } = useController({ name, control });
+  const setFieldValue = (_name: string, value: unknown) => field.onChange(value);
 
   const [files, setFiles] = useState<FileUploadFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -58,7 +59,6 @@ export function FormFileUpload({
 
   useEffect(() => {
     if (resetKey !== undefined && resetKey !== previousResetKeyRef.current) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- resetKey prop değişimi state reset için zorunlu
       setFiles([]);
       pendingUploadsRef.current.clear();
       previousResetKeyRef.current = resetKey;
@@ -87,7 +87,6 @@ export function FormFileUpload({
     const validUrls = urls.filter(Boolean);
 
     if (validUrls.length === 0) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Formik field değişimi state sync için zorunlu
       setFiles((prev) => prev.filter((f) => f.status !== "success"));
       return;
     }

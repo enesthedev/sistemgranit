@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/app/utils";
-import { useField } from "formik";
+import { useController, useFormContext } from "react-hook-form";
 import { FormField } from "./form-field";
 
 interface FormTextareaProps {
@@ -25,8 +25,9 @@ export function FormTextarea({
   rows = 3,
   className,
 }: FormTextareaProps) {
-  const [field, meta] = useField(name);
-  const hasError = meta.touched && meta.error;
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({ name, control });
+  const hasError = fieldState.invalid;
 
   return (
     <FormField

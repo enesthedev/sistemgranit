@@ -1,22 +1,16 @@
 "use server";
 
-import { createAdminClient } from "@/supabase/admin";
+import { db } from "@/lib/db";
+import { user } from "@/lib/db/schema";
+import { sql } from "drizzle-orm"; // Use sql for count
 
 export async function getUsersCount(): Promise<number | null> {
   try {
-    const supabaseAdmin = createAdminClient();
-    const { data, error } = await supabaseAdmin.auth.admin.listUsers({
-      perPage: 1,
-      page: 1,
-    });
+    const result = await db.select({ count: sql<number>`count(*)` }).from(user);
 
-    if (error) {
-      console.error("Error checking users:", error.message);
-      return null;
-    }
-
-    return data?.users?.length ?? 0;
-  } catch {
+    return Number(result[0].count);
+  } catch (error) {
+    console.error("Error checking users count:", error);
     return null;
   }
 }

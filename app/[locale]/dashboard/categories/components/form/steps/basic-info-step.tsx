@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useFormikContext } from "formik";
+import { useFormContext } from "react-hook-form";
 import { FormFileUpload, FormInput, FormTextarea } from "@/app/components/form";
 import {
   Card,
@@ -19,11 +19,11 @@ interface BasicInfoStepProps {
 }
 
 export function BasicInfoStep({ mode, categoryId }: BasicInfoStepProps) {
-  const { setFieldValue, touched } = useFormikContext<CategoryFormValues>();
+  const { setValue, formState } = useFormContext<CategoryFormValues>();
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (mode === "create" && !touched.slug) {
-      setFieldValue("slug", slugify(e.target.value));
+    if (mode === "create" && !formState.touchedFields.slug) {
+      setValue("slug", slugify(e.target.value));
     }
   };
 

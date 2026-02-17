@@ -1,43 +1,52 @@
 "use server";
 
-import { createClient } from "@/supabase/server";
+import { deleteImage } from "@/actions/storage/upload-image";
+import {
+  ActionError,
+  errorResponse,
+  successResponse,
+} from "@/lib/actions/response";
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { products } from "@/lib/db/schema";
+import type { ActionResponse } from "@/types/api";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { z } from "zod";
 
 const deleteProductSchema = z.object({
   id: z.string().uuid(),
 });
 
-interface ActionResult {
-  success: boolean;
-  error?: string;
-}
-
-export async function deleteProduct(id: string): Promise<ActionResult> {
+export async function deleteProduct(id: string): Promise<ActionResponse> {
   try {
-    const supabase = await createClient();
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return { success: false, error: "Yetkilendirme gerekli" };
+    if (!session) {
+      throw new ActionError("Yetkilendirme gerekli", "AUTH_ERROR");
     }
 
     const validation = deleteProductSchema.safeParse({ id });
     if (!validation.success) {
-      return { success: false, error: "Geçersiz ürün ID" };
+      throw new ActionError("Geçersiz ürün ID", "VALIDATION_ERROR");
     }
 
-    const { data: product, error: fetchError } = await supabase
-      .from("products")
-      .select("id, images, thumbnail")
-      .eq("id", id)
-      .single();
+    const product = await db
+      .select({
+        id: products.id,
+        images: products.images,
+        thumbnail: products.thumbnail,
+      })
+      .from(products)
+      .where(eq(products.id, id))
+      .limit(1)
+      .then((res) => res[0]);
 
-    if (fetchError || !product) {
-      return { success: false, error: "Ürün bulunamadı" };
+    if (!product) {
+      throw new ActionError("Ürün bulunamadı", "NOT_FOUND");
     }
 
     const imagesToDelete = [...(product.images || [])];
@@ -46,38 +55,25 @@ export async function deleteProduct(id: string): Promise<ActionResult> {
     }
 
     if (imagesToDelete.length > 0) {
-      const filePaths = imagesToDelete
-        .map((url) => {
+      await Promise.all(
+        imagesToDelete.map(async (url) => {
           try {
-            const urlObj = new URL(url);
-            const parts = urlObj.pathname.split(
-              "/storage/v1/object/public/products/",
-            );
-            return parts.length === 2 ? parts[1] : null;
-          } catch {
-            return null;
+            await deleteImage(url);
+          } catch (e) {
+            console.error("Failed to delete image:", url, e);
           }
-        })
-        .filter(Boolean) as string[];
-
-      if (filePaths.length > 0) {
-        await supabase.storage.from("products").remove(filePaths);
-      }
+        }),
+      );
     }
 
-    const { error } = await supabase.from("products").delete().eq("id", id);
-
-    if (error) {
-      console.error("Delete product error:", error);
-      return { success: false, error: "Ürün silinemedi" };
-    }
+    await db.delete(products).where(eq(products.id, id));
 
     revalidatePath("/dashboard/products");
     revalidatePath("/products");
 
-    return { success: true };
-  } catch (error) {
-    console.error("Delete product error:", error);
-    return { success: false, error: "Beklenmeyen bir hata oluştu" };
+    return successResponse();
+  } catch (error: unknown) {
+    console.error("[deleteProduct]", error);
+    return errorResponse(error);
   }
 }

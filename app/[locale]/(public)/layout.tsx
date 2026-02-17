@@ -1,9 +1,9 @@
-import { AnalyticsProvider } from "@/app/components/analytics-provider";
+// AnalyticsProvider removed
 
 export default function PublicLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <AnalyticsProvider>{children}</AnalyticsProvider>;
+  return <>{children}</>;
 }
