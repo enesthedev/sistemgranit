@@ -1,30 +1,30 @@
-# 🎯 Proje Gereksinimleri
+# 🎯 Project Requirements
 
-**Sistem Granit**, doğal taş ürünlerinin B2B müşterilerine sunulduğu, yönetildiği ve analiz edildiği bir platformdur.
+**Sistem Granit** is a platform where natural stone products are presented to B2B customers, managed, and analyzed.
 
-## Özellikler
+## Features
 
-1.  **Ürün Yönetimi:**
-    - Ürün ekleme, düzenleme, silme, listeleme
-    - Çok adımlı formlar (Basic Info, Physical Properties, Technical Details, SEO)
-    - Görsel yükleme (Thumbnail, Gallery)
-    - Kategori, renk ve menşei filtreleme
+1.  **Product Management:**
+    - Add, edit, delete, and list products
+    - Multi-step forms (Basic Info, Physical Properties, Technical Details, SEO)
+    - Image uploading (Thumbnail, Gallery)
+    - Filtering by category, color, and origin
 
-2.  **Kategori Yönetimi:**
-    - Dinamik kategoriler (Mermer, Granit, vb.)
-    - SEO odaklı meta veriler
-    - Kategori görsel yönetimi
+2.  **Category Management:**
+    - Dynamic categories (Marble, Granite, etc.)
+    - SEO-focused metadata
+    - Category image management
 
-3.  **Analitik:**
-    - Ziyaretçi ve ürün görüntüleme istatistikleri
-    - Oturuma dayalı analytics
+3.  **Analytics:**
+    - Visitor and product view statistics
+    - Session-based analytics
 
-4.  **Admin Paneli:**
-    - Güvenli giriş (Supabase Auth)
-    - Dashboard özet ekranları
-    - Kullanıcı onboarding süreci
+4.  **Admin Panel:**
+    - Secure login (Supabase Auth)
+    - Dashboard summary screens
+    - User onboarding process
 
-## Hedef Kitle
-- Mermer ve doğal taş alıcıları (B2B)
-- İç mimarlar ve proje yöneticileri
-- Admin kullanıcıları (Ürün yöneticileri)
+## Target Audience
+- Marble and natural stone buyers (B2B)
+- Interior architects and project managers
+- Admin users (Product managers)

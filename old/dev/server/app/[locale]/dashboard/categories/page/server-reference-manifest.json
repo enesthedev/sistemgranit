@@ -1,0 +1,95 @@
+{
+  "node": {
+    "0038bce317a2a57066ecf2ba8a75e64fe59efcfbcb": {
+      "workers": {
+        "app/[locale]/dashboard/categories/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/categories/page/actions.js { ACTIONS_MODULE0 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getCategories",
+          "filename": "actions/categories/get-categories.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/categories/page": "rsc"
+      },
+      "exportedName": "getCategories",
+      "filename": "actions/categories/get-categories.ts"
+    },
+    "40b814a6ec7363b852546fc9ff000a8458441e5878": {
+      "workers": {
+        "app/[locale]/dashboard/categories/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/categories/page/actions.js { ACTIONS_MODULE0 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "createCategory",
+          "filename": "actions/categories/create-category.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/categories/page": "rsc"
+      },
+      "exportedName": "createCategory",
+      "filename": "actions/categories/create-category.ts"
+    },
+    "40e22fb17e1ecb14d84009a4b55a100bd219e0c2f7": {
+      "workers": {
+        "app/[locale]/dashboard/categories/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/categories/page/actions.js { ACTIONS_MODULE0 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateCategory",
+          "filename": "actions/categories/update-category.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/categories/page": "rsc"
+      },
+      "exportedName": "updateCategory",
+      "filename": "actions/categories/update-category.ts"
+    },
+    "40f7c0309a9a1c20d90f72008e87f8f215395b13be": {
+      "workers": {
+        "app/[locale]/dashboard/categories/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/categories/page/actions.js { ACTIONS_MODULE0 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteCategory",
+          "filename": "actions/categories/delete-category.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/categories/page": "action-browser"
+      },
+      "exportedName": "deleteCategory",
+      "filename": "actions/categories/delete-category.ts"
+    },
+    "409cfbae81cb8f69fe4ebb6b0b760ec92745f84a59": {
+      "workers": {
+        "app/[locale]/dashboard/categories/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/categories/page/actions.js { ACTIONS_MODULE0 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getCategoryById",
+          "filename": "actions/categories/get-category-by-id.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/categories/page": "rsc"
+      },
+      "exportedName": "getCategoryById",
+      "filename": "actions/categories/get-category-by-id.ts"
+    },
+    "4022e5374ea159f3545f609cad69b1314fa818c2e8": {
+      "workers": {
+        "app/[locale]/dashboard/categories/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/categories/page/actions.js { ACTIONS_MODULE0 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "resolveSlugWithRedirect",
+          "filename": "app/utils/slug-redirect.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/categories/page": "rsc"
+      },
+      "exportedName": "resolveSlugWithRedirect",
+      "filename": "app/utils/slug-redirect.ts"
+    }
+  },
+  "edge": {}
+}

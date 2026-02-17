@@ -1,12 +1,12 @@
-# 🔗 Kaynaklar ve İlgili Dosyalar
+# 🔗 Resources & Related Files
 
-## Mevcut Workflows (.agent/workflows/)
-- `supabase-migrations.md` - Veritabanı yönetim adımları
-- `context-check.md` - Proje bağlamını kontrol etme (bu dosya güncellenecektir)
+## Current Workflows (.agent/workflows/)
+- `supabase-migrations.md` - Database management steps
+- `context-check.md` - Checking project context (to be updated)
 
-## Analiz Raporları (.gemini -> .agent/migration_archive/)
-> Not: Eski `.gemini` klasöründeki raporlar arşivlenmiştir veya görev tamamlandığı için silinebilir.
+## Analysis Reports (.gemini -> .agent/migration_archive/)
+> Note: Reports in the old `.gemini` folder have been archived or can be deleted as tasks are completed.
 
-- `PRODUCT_CATEGORY_ANALYSIS.md` (Tamamlandı)
-- `USEFFECT_DONTTRUST.md` (Güncel güvenlik analizi)
-- `PRODUCT_LIST_PAGE_TASK.md` (Tamamlandı)
+- `PRODUCT_CATEGORY_ANALYSIS.md` (Completed)
+- `USEFFECT_DONTTRUST.md` (Current security analysis)
+- `PRODUCT_LIST_PAGE_TASK.md` (Completed)

@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/enesbayraktar/Workspace/sistemgranit/app/%5Blocale%5D/dashboard/products/%5Bid%5D/loading.tsx"],"sourcesContent":["import { Skeleton } from \"@/app/components/ui/skeleton\";\n\nexport default function Loading() {\n  return (\n    <div className=\"flex flex-col gap-6 p-6\">\n      <div className=\"space-y-2\">\n        <Skeleton className=\"h-8 w-48\" />\n        <Skeleton className=\"h-4 w-64\" />\n      </div>\n      <div className=\"rounded-lg border p-6\">\n        <div className=\"space-y-4\">\n          <Skeleton className=\"h-10 w-full\" />\n          <Skeleton className=\"h-10 w-full\" />\n          <Skeleton className=\"h-32 w-full\" />\n        </div>\n      </div>\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;;AAAA;;;AAEe,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC;gBAAI,WAAU;;kCACb,8OAAC,gJAAQ;wBAAC,WAAU;;;;;;kCACpB,8OAAC,gJAAQ;wBAAC,WAAU;;;;;;;;;;;;0BAEtB,8OAAC;gBAAI,WAAU;0BACb,cAAA,8OAAC;oBAAI,WAAU;;sCACb,8OAAC,gJAAQ;4BAAC,WAAU;;;;;;sCACpB,8OAAC,gJAAQ;4BAAC,WAAU;;;;;;sCACpB,8OAAC,gJAAQ;4BAAC,WAAU;;;;;;;;;;;;;;;;;;;;;;;AAK9B"}}]
+}

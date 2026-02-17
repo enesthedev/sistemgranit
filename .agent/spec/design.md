@@ -1,77 +1,77 @@
-# 🗄️ Veritabanı ve Tasarım
+# 🗄️ Database & Design
 
-## 📦 Veritabanı Şeması (Supabase)
+## 📦 Database Schema (Supabase)
 
-### Products Tablosu
-| Alan | Tip | Açıklama |
-|------|-----|----------|
+### Products Table
+| Field | Type | Description |
+|-------|------|-------------|
 | `id` | UUID | Primary key |
-| `name` | string | Ürün adı (zorunlu) |
-| `slug` | string | URL-friendly benzersiz tanımlayıcı (UNIQUE) |
-| `description` | string? | Ürün açıklaması |
+| `name` | string | Product name (required) |
+| `slug` | string | URL-friendly unique identifier (UNIQUE) |
+| `description` | string? | Product description |
 | `category` | enum | *deprecated* marble, granite, travertine... |
 | `category_id` | UUID? | FK → categories |
 | `status` | enum | active, draft, archived |
-| `price_per_sqm` | number? | m² birim fiyatı |
+| `price_per_sqm` | number? | Unit price per m² |
 | `currency` | string? | TRY, USD, EUR |
-| `thumbnail` | string? | Kapak görseli URL |
-| `images` | string[]? | Ek görseller |
-| `origin_country` | string? | Menşei ülke |
-| `origin_region` | string? | Menşei bölge |
-| `color_primary` | string? | Ana renk |
-| `color_secondary` | string? | İkincil renk |
+| `thumbnail` | string? | Cover image URL |
+| `images` | string[]? | Additional images |
+| `origin_country` | string? | Country of origin |
+| `origin_region` | string? | Region of origin |
+| `color_primary` | string? | Primary color |
+| `color_secondary` | string? | Secondary color |
 | `pattern` | enum? | veined, speckled, uniform... |
 | `finish_types` | enum[]? | polished, honed, brushed... |
-| `density` | number? | Yoğunluk |
-| `water_absorption` | number? | Su emme oranı (%) |
-| `compressive_strength` | number? | Basınç dayanımı |
-| `flexural_strength` | number? | Eğilme dayanımı |
-| `abrasion_resistance` | string? | Aşınma direnci |
-| `hardness_mohs` | number? | Mohs sertlik (1-10) |
-| `frost_resistant` | boolean | Don dayanımı |
-| `available_thicknesses` | number[]? | Mevcut kalınlıklar (mm) |
-| `max_slab_width` | number? | Maks plaka genişliği |
-| `max_slab_length` | number? | Maks plaka uzunluğu |
-| `min_order_quantity` | number | Min sipariş miktarı |
+| `density` | number? | Density |
+| `water_absorption` | number? | Water absorption rate (%) |
+| `compressive_strength` | number? | Compressive strength |
+| `flexural_strength` | number? | Flexural strength |
+| `abrasion_resistance` | string? | Abrasion resistance |
+| `hardness_mohs` | number? | Mohs hardness (1-10) |
+| `frost_resistant` | boolean | Frost resistance |
+| `available_thicknesses` | number[]? | Available thicknesses (mm) |
+| `max_slab_width` | number? | Max slab width |
+| `max_slab_length` | number? | Max slab length |
+| `min_order_quantity` | number | Min order quantity |
 | `applications` | enum[]? | flooring, wall_cladding, countertops... |
-| `is_suitable_for_exterior` | boolean | Dış mekan uygunluğu |
-| `is_suitable_for_kitchen` | boolean | Mutfak uygunluğu |
-| `seo_title` | string? | SEO başlık |
-| `seo_description` | string? | SEO açıklama |
-| `tags` | string[]? | Etiketler |
-| `created_at` | timestamp | Oluşturulma tarihi |
-| `updated_at` | timestamp | Güncellenme tarihi |
-| `created_by` | UUID? | Oluşturan kullanıcı |
+| `is_suitable_for_exterior` | boolean | Suitable for exterior |
+| `is_suitable_for_kitchen` | boolean | Suitable for kitchen |
+| `seo_title` | string? | SEO title |
+| `seo_description` | string? | SEO description |
+| `tags` | string[]? | Tags |
+| `created_at` | timestamp | Creation date |
+| `updated_at` | timestamp | Update date |
+| `created_by` | UUID? | Creator user |
 
-### Categories Tablosu
-| Alan | Tip | Açıklama |
-|------|-----|----------|
+### Categories Table
+| Field | Type | Description |
+|-------|------|-------------|
 | `id` | UUID | Primary key |
-| `name` | string | Kategori adı |
-| `slug` | string | URL-friendly benzersiz tanımlayıcı |
-| `description` | string? | Açıklama |
-| `image_url` | string? | Kapak görseli (Supabase Storage) |
-| `seo_title` | string? | SEO başlık |
-| `seo_description` | string? | SEO açıklama |
-| `created_at` | timestamp | Oluşturulma tarihi |
-| `updated_at` | timestamp | Güncellenme tarihi |
+| `name` | string | Category name |
+| `slug` | string | URL-friendly unique identifier |
+| `description` | string? | Description |
+| `image_url` | string? | Cover image (Supabase Storage) |
+| `seo_title` | string? | SEO title |
+| `seo_description` | string? | SEO description |
+| `created_at` | timestamp | Creation date |
+| `updated_at` | timestamp | Update date |
 
-### Slug History Tablosu
-| Alan | Tip | Açıklama |
-|------|-----|----------|
+### Slug History Table
+| Field | Type | Description |
+|-------|------|-------------|
 | `id` | UUID | Primary key |
 | `product_id` | UUID | FK → products |
-| `old_slug` | string | Eski slug |
-| `new_slug` | string | Yeni slug |
-| `created_at` | timestamp | Değişiklik tarihi |
+| `old_slug` | string | Old slug |
+| `new_slug` | string | New slug |
+| `created_at` | timestamp | Change date |
 
-## 📝 Form Yapısı
+## 📝 Form Structure
 
 ### Product Form (Multi-Step)
-**Konum:** `app/[locale]/dashboard/products/components/form/`
+**Location:** `app/[locale]/dashboard/products/components/form/`
 
-| Adım | Component | Alanlar |
-|------|-----------|---------|
+| Step | Component | Fields |
+|------|-----------|--------|
 | 1 | BasicInfoStep | name, category_id, status, description, price, images |
 | 2 | PhysicalPropertiesStep | origin, colors, pattern, finishes |
 | 3 | TechnicalDetailsStep | density, strength, hardness, frost |
@@ -79,21 +79,21 @@
 | 5 | SeoStep | seo_title, seo_description, tags, applications |
 
 ### Category Form (Multi-Step)
-**Konum:** `app/[locale]/dashboard/categories/components/form/`
+**Location:** `app/[locale]/dashboard/categories/components/form/`
 
-| Adım | Component | Alanlar |
-|------|-----------|---------|
+| Step | Component | Fields |
+|------|-----------|--------|
 | 1 | BasicInfoStep | name, slug, description, image_url (FileUpload) |
 | 2 | SeoStep | seo_title, seo_description |
 
-**Özellikler:**
+**Features:**
 - Lazy loading (React.lazy + Suspense)
-- Error boundary ile hata yönetimi
-- Formik + Zod validasyon
+- Error handling via Error Boundary
+- Formik + Zod validation
 - URL-based step navigation
 - Skeleton loading states
 
-## 🧩 UI Bileşenleri
+## 🧩 UI Components
 
 ### Core UI (`app/components/ui/`)
 - alert-dialog, avatar, badge, breadcrumb, button, card
@@ -102,7 +102,7 @@
 - sidebar, skeleton, sonner, switch, table, tabs
 - toggle, toggle-group, tooltip
 
-### Form Bileşenleri (`app/components/form/`)
+### Form Components (`app/components/form/`)
 - form-array-number, form-checkbox, form-field
 - form-file-upload/, form-input, form-multi-select
 - form-number-input, form-select, form-switch

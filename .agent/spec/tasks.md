@@ -1,13 +1,15 @@
-# 📋 Görevler ve Bilinen Sorunlar
+# 📋 Tasks & Known Issues
 
-## 🚧 Bilinen Sorunlar
+## 🚧 Known Issues
 
-- **Analytics:** Dashboard yenilendi ancak henüz tam anlamıyla özelleştirilebilir raporlama yok.
+- **Analytics:** Dashboard has been refreshed but fully customizable reporting is not yet available.
 
-## ✅ Yapılacaklar (TODO)
+## ✅ TODO List
 
-- [x] **Data Table Optimization:** URL-First mimarisine geçiş ve re-render optimizasyonu (`.agent/plans/data-table-optimization.md`).
+- [x] **Data Table Optimization:** Transition to URL-First architecture and re-render optimization (`.agent/plans/data-table-optimization.md`).
+- [ ] **Firebase Migration:** Migrating the project from Supabase to Firebase (`.agent/plans/firebase-migration.md`).
 
 
-## 📝 Referans Görevler
-- `.agent/plans/data-table-optimization.md` - Data Table optimizasyon planı.
+## 📝 Reference Tasks
+- `.agent/plans/data-table-optimization.md` - Data Table optimization plan.
+- `.agent/plans/firebase-migration.md` - Firebase migration analysis and implementation plan.

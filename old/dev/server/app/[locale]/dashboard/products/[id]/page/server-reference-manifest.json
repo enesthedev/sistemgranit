@@ -1,0 +1,200 @@
+{
+  "node": {
+    "4022e5374ea159f3545f609cad69b1314fa818c2e8": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "resolveSlugWithRedirect",
+          "filename": "app/utils/slug-redirect.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "rsc"
+      },
+      "exportedName": "resolveSlugWithRedirect",
+      "filename": "app/utils/slug-redirect.ts"
+    },
+    "406f398892cba3352cb7711df1283bce6f2af16206": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getProduct",
+          "filename": "actions/products/get-product.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "rsc"
+      },
+      "exportedName": "getProduct",
+      "filename": "actions/products/get-product.ts"
+    },
+    "0038bce317a2a57066ecf2ba8a75e64fe59efcfbcb": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getCategories",
+          "filename": "actions/categories/get-categories.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "rsc"
+      },
+      "exportedName": "getCategories",
+      "filename": "actions/categories/get-categories.ts"
+    },
+    "40a9c974796a6edbe65790c0015f20226a07ec6ccc": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "createProduct",
+          "filename": "actions/products/create-product.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "action-browser"
+      },
+      "exportedName": "createProduct",
+      "filename": "actions/products/create-product.ts"
+    },
+    "4042fb1f20f6e7bf1fe1653d1a26d2cb0f160b4c58": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateProduct",
+          "filename": "actions/products/update-product.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "action-browser"
+      },
+      "exportedName": "updateProduct",
+      "filename": "actions/products/update-product.ts"
+    },
+    "409df23208f038155188217921ba192e5bedeffd2a": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteProduct",
+          "filename": "actions/products/delete-product.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "rsc"
+      },
+      "exportedName": "deleteProduct",
+      "filename": "actions/products/delete-product.ts"
+    },
+    "40ccf76a488c82bae742c4b70054a19f76cfd2555d": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getProducts",
+          "filename": "actions/products/get-products.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "rsc"
+      },
+      "exportedName": "getProducts",
+      "filename": "actions/products/get-products.ts"
+    },
+    "40b814a6ec7363b852546fc9ff000a8458441e5878": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "createCategory",
+          "filename": "actions/categories/create-category.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "rsc"
+      },
+      "exportedName": "createCategory",
+      "filename": "actions/categories/create-category.ts"
+    },
+    "40e22fb17e1ecb14d84009a4b55a100bd219e0c2f7": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateCategory",
+          "filename": "actions/categories/update-category.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "rsc"
+      },
+      "exportedName": "updateCategory",
+      "filename": "actions/categories/update-category.ts"
+    },
+    "40f7c0309a9a1c20d90f72008e87f8f215395b13be": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteCategory",
+          "filename": "actions/categories/delete-category.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "rsc"
+      },
+      "exportedName": "deleteCategory",
+      "filename": "actions/categories/delete-category.ts"
+    },
+    "409cfbae81cb8f69fe4ebb6b0b760ec92745f84a59": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getCategoryById",
+          "filename": "actions/categories/get-category-by-id.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "rsc"
+      },
+      "exportedName": "getCategoryById",
+      "filename": "actions/categories/get-category-by-id.ts"
+    },
+    "40c6d07bcd6516487bc565ee5b0d487f40504ece14": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "uploadImage",
+          "filename": "actions/storage/upload-image.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "action-browser"
+      },
+      "exportedName": "uploadImage",
+      "filename": "actions/storage/upload-image.ts"
+    },
+    "4084d6058781d6f140f28557f89a6a91d277e8f22f": {
+      "workers": {
+        "app/[locale]/dashboard/products/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/dashboard/products/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/utils/slug-redirect.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/actions/products/get-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/actions/categories/get-categories.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/actions/products/create-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/actions/products/update-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/actions/products/delete-product.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/actions/products/get-products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE7 => \"[project]/actions/categories/create-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE8 => \"[project]/actions/categories/update-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE9 => \"[project]/actions/categories/delete-category.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE10 => \"[project]/actions/categories/get-category-by-id.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE11 => \"[project]/actions/storage/upload-image.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteImage",
+          "filename": "actions/storage/upload-image.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/dashboard/products/[id]/page": "action-browser"
+      },
+      "exportedName": "deleteImage",
+      "filename": "actions/storage/upload-image.ts"
+    }
+  },
+  "edge": {}
+}

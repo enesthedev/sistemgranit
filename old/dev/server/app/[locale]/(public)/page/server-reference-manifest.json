@@ -1,0 +1,35 @@
+{
+  "node": {
+    "704f1b92c7a32a1143fcfc47d8133bc9306b58942e": {
+      "workers": {
+        "app/[locale]/(public)/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/(public)/page/actions.js { ACTIONS_MODULE0 => \"[project]/actions/analytics/track.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "logPageView",
+          "filename": "actions/analytics/track.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/(public)/page": "action-browser"
+      },
+      "exportedName": "logPageView",
+      "filename": "actions/analytics/track.ts"
+    },
+    "40139ff6f2586c9ce61eb8d197a3194f55cb6697d8": {
+      "workers": {
+        "app/[locale]/(public)/page": {
+          "moduleId": "[project]/.next-internal/server/app/[locale]/(public)/page/actions.js { ACTIONS_MODULE0 => \"[project]/actions/analytics/track.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "logEvent",
+          "filename": "actions/analytics/track.ts"
+        }
+      },
+      "layer": {
+        "app/[locale]/(public)/page": "action-browser"
+      },
+      "exportedName": "logEvent",
+      "filename": "actions/analytics/track.ts"
+    }
+  },
+  "edge": {}
+}
