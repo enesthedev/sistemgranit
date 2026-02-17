@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 30, "column": 0}, "map": {"version":3,"sources":["file:///Users/enesbayraktar/Workspace/sistemgranit/app/%5Blocale%5D/%28public%29/products/%5Bslug%5D/page.tsx"],"sourcesContent":["export default async function ProductDetailPage({\n  params,\n}: {\n  params: Promise<{ slug: string }>;\n}) {\n  const { slug } = await params;\n\n  return (\n    <div className=\"container mx-auto py-20\">\n      <h1 className=\"text-3xl font-bold\">Ürün Detayı</h1>\n      <p className=\"mt-4 text-gray-600\">Slug: {slug}</p>\n      <p className=\"mt-2 text-sm text-gray-500\">\n        Bu sayfa yapım aşamasındadır.\n      </p>\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;;;AAAe,eAAe,kBAAkB,EAC9C,MAAM,EAGP;IACC,MAAM,EAAE,IAAI,EAAE,GAAG,MAAM;IAEvB,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC;gBAAG,WAAU;0BAAqB;;;;;;0BACnC,8OAAC;gBAAE,WAAU;;oBAAqB;oBAAO;;;;;;;0BACzC,8OAAC;gBAAE,WAAU;0BAA6B;;;;;;;;;;;;AAKhD"}}]
-}
