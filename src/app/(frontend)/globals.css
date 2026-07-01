@@ -1,0 +1,218 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Sistem Granit — design tokens.
+  Palette is grounded in the material: graphite (granite), marble ivory,
+  stone taupe veining, and the logo's vermilion red used sparingly as accent.
+*/
+:root {
+  --radius: 0.3rem;
+
+  /* Raw stone palette */
+  --marble: #f4f1eb; /* warm marble white — page base */
+  --marble-raised: #fbfaf6; /* lifted surfaces / cards */
+  --ink: #1b1714; /* near-black warm charcoal — text */
+  --graphite: #16120f; /* dark full-bleed sections */
+  --graphite-soft: #221d18;
+  --taupe: #c9bca9; /* polished stone mid-tone */
+  --vein: #e4ddd2; /* hairline dividers / borders */
+  --stone-muted: #6e655a; /* secondary text */
+  --brand: #ce2d1e; /* logo red */
+  --brand-deep: #9e1c10; /* pressed / depth */
+
+  /* shadcn token mapping (light) */
+  --background: var(--marble);
+  --foreground: var(--ink);
+  --card: var(--marble-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--marble-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: #fbf7f2;
+  --secondary: #ece6dc;
+  --secondary-foreground: var(--ink);
+  --muted: #ece6dc;
+  --muted-foreground: var(--stone-muted);
+  --accent: #efe9df;
+  --accent-foreground: var(--ink);
+  --destructive: #b3261e;
+  --border: var(--vein);
+  --input: #ddd4c7;
+  --ring: var(--brand);
+  --chart-1: var(--brand);
+  --chart-2: #8a7a64;
+  --chart-3: var(--graphite);
+  --chart-4: var(--taupe);
+  --chart-5: #b7411c;
+  --sidebar: var(--marble-raised);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: #fbf7f2;
+  --sidebar-accent: #efe9df;
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--vein);
+  --sidebar-ring: var(--brand);
+}
+
+.dark {
+  --background: var(--graphite);
+  --foreground: #f4f1eb;
+  --card: var(--graphite-soft);
+  --card-foreground: #f4f1eb;
+  --popover: var(--graphite-soft);
+  --popover-foreground: #f4f1eb;
+  --primary: #e0463a;
+  --primary-foreground: #16120f;
+  --secondary: #2b251f;
+  --secondary-foreground: #f4f1eb;
+  --muted: #2b251f;
+  --muted-foreground: #b3a795;
+  --accent: #2b251f;
+  --accent-foreground: #f4f1eb;
+  --destructive: #e0463a;
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: #e0463a;
+  --sidebar: var(--graphite-soft);
+  --sidebar-foreground: #f4f1eb;
+  --sidebar-primary: #e0463a;
+  --sidebar-primary-foreground: #16120f;
+  --sidebar-accent: #2b251f;
+  --sidebar-accent-foreground: #f4f1eb;
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: #e0463a;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
+
+  /* Fonts (CSS vars injected by next/font in layout.tsx) */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  /* Brand/material colors usable as utilities (bg-marble, text-graphite, …) */
+  --color-marble: var(--marble);
+  --color-marble-raised: var(--marble-raised);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --color-graphite-soft: var(--graphite-soft);
+  --color-taupe: var(--taupe);
+  --color-vein: var(--vein);
+  --color-stone-muted: var(--stone-muted);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: 'ss01', 'cv01';
+  }
+  ::selection {
+    background-color: var(--brand);
+    color: #fbf7f2;
+  }
+}
+
+@layer components {
+  /* Mono eyebrow label — the "datasheet" voice used across sections */
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.25em] text-stone-muted;
+  }
+  /* Thin marble-vein divider */
+  .vein-rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--vein) 12%,
+      var(--vein) 88%,
+      transparent
+    );
+  }
+
+  /* Lexical rich-text output */
+  .rich-text {
+    @apply text-base leading-relaxed text-stone-muted;
+  }
+  .rich-text > * + * {
+    margin-top: 1.1em;
+  }
+  .rich-text h2 {
+    @apply font-display text-2xl tracking-tight text-foreground;
+  }
+  .rich-text h3 {
+    @apply font-display text-xl tracking-tight text-foreground;
+  }
+  .rich-text a {
+    @apply text-brand underline underline-offset-4;
+  }
+  .rich-text ul {
+    @apply list-disc space-y-1 pl-5;
+  }
+  .rich-text ol {
+    @apply list-decimal space-y-1 pl-5;
+  }
+  .rich-text strong {
+    @apply font-semibold text-foreground;
+  }
+}
+
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.5rem;
+}
+
+/* Respect reduced-motion globally for our scroll/counter animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
