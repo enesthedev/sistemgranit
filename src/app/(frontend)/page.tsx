@@ -1,59 +1,34 @@
-import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
-import { getPayload } from 'payload'
-import React from 'react'
-import { fileURLToPath } from 'url'
+export const revalidate = 60
 
-import config from '@/payload.config'
-import './styles.css'
+import { getCategories, getFeaturedProducts, getProducts, getProjects } from '@/lib/queries'
+import { Hero } from '@/components/sections/hero'
+import { ValueProps } from '@/components/sections/value-props'
+import { CategoryShowcase } from '@/components/sections/category-showcase'
+import { FeaturedProducts } from '@/components/sections/featured-products'
+import { Stats } from '@/components/sections/stats'
+import { ProjectsPreview } from '@/components/sections/projects-preview'
+import { CtaBanner } from '@/components/sections/cta-banner'
 
 export default async function HomePage() {
-  const headers = await getHeaders()
-  const payloadConfig = await config
-  const payload = await getPayload({ config: payloadConfig })
-  const { user } = await payload.auth({ headers })
+  const [categories, featured, fallbackProducts, projects] = await Promise.all([
+    getCategories(),
+    getFeaturedProducts(8),
+    getProducts({ limit: 8 }),
+    getProjects({ limit: 3 }),
+  ])
 
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
+  // If nothing is flagged featured yet, show the latest products instead.
+  const products = featured.length > 0 ? featured : fallbackProducts
 
   return (
-    <div className="home">
-      <div className="content">
-        <picture>
-          <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/3.x/packages/ui/src/assets/payload-favicon.svg" />
-          <Image
-            alt="Payload Logo"
-            height={65}
-            src="https://raw.githubusercontent.com/payloadcms/payload/3.x/packages/ui/src/assets/payload-favicon.svg"
-            width={65}
-          />
-        </picture>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
-        <div className="links">
-          <a
-            className="admin"
-            href={payloadConfig.routes.admin}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Go to admin panel
-          </a>
-          <a
-            className="docs"
-            href="https://payloadcms.com/docs"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Documentation
-          </a>
-        </div>
-      </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
-          <code>app/(frontend)/page.tsx</code>
-        </a>
-      </div>
-    </div>
+    <>
+      <Hero />
+      <ValueProps />
+      <CategoryShowcase categories={categories} />
+      <FeaturedProducts products={products} />
+      <Stats />
+      <ProjectsPreview projects={projects} />
+      <CtaBanner />
+    </>
   )
 }
