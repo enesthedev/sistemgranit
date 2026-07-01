@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
 import { site } from '@/lib/site'
-import { HeaderSearch } from './header-search'
 import { NavOverlay } from './nav-overlay'
 
 export function SiteHeader() {
@@ -36,15 +35,9 @@ export function SiteHeader() {
             : 'border-b border-vein bg-marble/90 backdrop-blur-md',
         )}
       >
-        <div className="container-page grid h-20 grid-cols-[1fr_auto_1fr] items-center">
-          {/* Left — menu + search */}
-          <div className={cn('flex items-center gap-1 sm:gap-3', tone)}>
-            <NavOverlay triggerClassName="transition-colors hover:text-brand" />
-            <HeaderSearch triggerClassName="transition-colors hover:text-brand" />
-          </div>
-
-          {/* Center — logo */}
-          <Link href="/" aria-label={site.name} className="flex justify-center">
+        <div className="container-page flex h-20 items-center justify-between">
+          {/* Left — logo */}
+          <Link href="/" aria-label={site.name} className="flex">
             <Image
               src="/sistem-granit.png"
               alt={site.name}
@@ -58,14 +51,9 @@ export function SiteHeader() {
             />
           </Link>
 
-          {/* Right — contact */}
-          <div className={cn('flex items-center justify-end gap-4', tone)}>
-            <Link
-              href="/iletisim"
-              className="font-mono text-xs uppercase tracking-[0.2em] transition-colors hover:text-brand"
-            >
-              İletişim
-            </Link>
+          {/* Right — menu */}
+          <div className={cn('flex items-center', tone)}>
+            <NavOverlay triggerClassName="transition-colors hover:text-brand" />
           </div>
         </div>
       </header>
