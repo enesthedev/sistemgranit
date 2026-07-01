@@ -1,6 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google'
+import { Fraunces, Inter, Space_Grotesk } from 'next/font/google'
 
 import './globals.css'
 import { site } from '@/lib/site'
@@ -21,9 +21,9 @@ const fraunces = Fraunces({
   axes: ['opsz', 'SOFT'],
 })
 
-const jetbrains = JetBrains_Mono({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin', 'latin-ext'],
-  variable: '--font-jetbrains',
+  variable: '--font-space-grotesk',
   display: 'swap',
 })
 
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
 export default function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
   return (
-    <html lang="tr" className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable}`}>
+    <html lang="tr" className={`${inter.variable} ${fraunces.variable} ${spaceGrotesk.variable}`}>
       <body className="flex min-h-svh flex-col">
         <SiteHeader />
         <main className="flex-1">{children}</main>

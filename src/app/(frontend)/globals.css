@@ -95,7 +95,7 @@
   /* Fonts (CSS vars injected by next/font in layout.tsx) */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-mono: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
 
   /* Brand/material colors usable as utilities (bg-marble, text-graphite, …) */
   --color-marble: var(--marble);
