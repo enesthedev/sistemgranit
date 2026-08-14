@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { MapPin, Phone, Mail } from 'lucide-react'
 
 import { nav, site } from '@/lib/site'
@@ -23,8 +24,14 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-12">
           {/* Brand */}
           <div className="md:col-span-5">
-            <Link href="/" className="font-display text-3xl tracking-tight text-marble">
-              Sistem<span className="text-brand">.</span>Granit
+            <Link href="/" aria-label={site.name} className="inline-flex">
+              <Image
+                src="/sistem-granit.png"
+                alt={site.name}
+                width={180}
+                height={68}
+                className="h-11 w-auto brightness-0 invert"
+              />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-marble/60">
               {site.description}
@@ -97,9 +104,9 @@ export function SiteFooter() {
       <div className="border-t border-marble/10">
         <div className="container-page flex flex-col items-center justify-between gap-2 py-6 text-xs text-marble/40 sm:flex-row">
           <p>
-            © {site.foundedYear}–2026 {site.legalName}. Tüm hakları saklıdır.
+            © {site.foundedYear}–2026 {site.legalName} Tüm hakları saklıdır.
           </p>
-          <p className="font-mono uppercase tracking-widest">{site.tagline}</p>
+          <p className="font-display text-sm italic tracking-wide text-marble/50">{site.tagline}</p>
         </div>
       </div>
     </footer>
