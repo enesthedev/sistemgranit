@@ -5,6 +5,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A Payload CMS 3 application running inside Next.js 16 (App Router, React 19). The Payload admin
 and the public marketing frontend share one Next.js app, split by route group.
 
+## Verification
+
+Do **not** use browser automation (claude-in-chrome, chrome-devtools MCP, etc.) to verify
+changes. Verify with `bunx tsc --noEmit`, `bun test`, and non-interactive `curl` against the
+running dev server. If a change genuinely needs in-browser (interactive) verification, ask the
+user to check it themselves rather than driving a browser.
+
 ## Package manager
 
 This project uses **bun** (`bun.lock`). Use `bun add` / `bun add -d` / `bunx`, not pnpm or npm.
