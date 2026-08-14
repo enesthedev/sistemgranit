@@ -27,21 +27,55 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 })
 
+export const SITE_URL = 'https://sistemgranit.com'
+const homeTitle = `${site.name} — Mermer, Granit & Doğal Taş`
+
+// PLACEHOLDER — replace with a dedicated 1200×630 /og.jpg before launch.
+const ogImage = { url: '/seed/hero.jpg', width: 1200, height: 630, alt: homeTitle }
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://sistemgranit.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: `${site.name} — Mermer, Granit & Doğal Taş`,
+    default: homeTitle,
     template: `%s · ${site.name}`,
   },
   description: site.description,
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'tr_TR',
     siteName: site.name,
-    title: `${site.name} — Mermer, Granit & Doğal Taş`,
+    title: homeTitle,
     description: site.description,
+    images: [ogImage],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: homeTitle,
+    description: site.description,
+    images: [ogImage.url],
   },
   icons: { icon: '/favicon.ico' },
+}
+
+/** Organization schema for rich results. Contact fields are still PLACEHOLDER in site.ts. */
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  legalName: site.legalName,
+  url: SITE_URL,
+  logo: `${SITE_URL}/sistem-granit.png`,
+  foundingDate: String(site.foundedYear),
+  email: site.email,
+  telephone: site.phoneDisplay,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.line,
+    addressLocality: site.address.district,
+    addressCountry: site.address.country,
+  },
+  sameAs: Object.values(site.social),
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
@@ -49,6 +83,10 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="tr" className={`${inter.variable} ${fraunces.variable} ${spaceGrotesk.variable}`}>
       <body className="flex min-h-svh flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

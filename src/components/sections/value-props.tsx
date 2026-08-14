@@ -8,6 +8,7 @@ const icons = [ShieldCheck, Globe2, Layers, Ruler]
 export function ValueProps() {
   return (
     <section className="container-page py-20 md:py-28">
+      <h2 className="sr-only">Neden Sistem Granit?</h2>
       <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
         {valueProps.map((vp, i) => {
           const Icon = icons[i] ?? ShieldCheck
