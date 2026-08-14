@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Menu, X, Phone, MessageCircle, Mail, MapPin } from 'lucide-react'
+import { Phone, MessageCircle, Mail, MapPin } from 'lucide-react'
 import { Dialog } from 'radix-ui'
 
 import { cn } from '@/lib/utils'
@@ -34,11 +34,11 @@ export function NavOverlay({ triggerClassName }: { triggerClassName?: string }) 
           type="button"
           aria-label="Menüyü aç"
           className={cn(
-            'inline-flex size-9 items-center justify-center',
+            'inline-flex items-center px-1 font-mono text-xs uppercase tracking-[0.2em]',
             triggerClassName,
           )}
         >
-          <Menu className="size-6" />
+          MENÜ
         </button>
       </Dialog.Trigger>
 
@@ -64,12 +64,9 @@ export function NavOverlay({ triggerClassName }: { triggerClassName?: string }) 
               <button
                 type="button"
                 aria-label="Menüyü kapat"
-                className="inline-flex items-center gap-2 text-marble/80 transition-colors hover:text-marble"
+                className="inline-flex items-center font-mono text-xs uppercase tracking-[0.2em] text-marble/80 transition-colors hover:text-marble"
               >
-                <span className="hidden font-mono text-xs uppercase tracking-[0.2em] sm:inline">
-                  Kapat
-                </span>
-                <X className="size-6" />
+                Kapat
               </button>
             </Dialog.Close>
           </div>
