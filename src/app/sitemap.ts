@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-import { getProducts, getProjects } from '@/lib/queries'
+import { getCategories, getProducts, getProjects } from '@/lib/queries'
 
 const SITE_URL = 'https://sistemgranit.com'
 
@@ -16,10 +16,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
   }))
 
-  const [products, projects] = await Promise.all([
+  const [products, projects, categories] = await Promise.all([
     getProducts({ limit: 1000 }),
     getProjects({ limit: 1000 }),
+    getCategories(),
   ])
+
+  const categoryRoutes: MetadataRoute.Sitemap = categories
+    .filter((c) => c.slug)
+    .map((c) => ({
+      url: `${SITE_URL}/urunler/kategori/${c.slug}`,
+      lastModified: new Date(c.updatedAt),
+    }))
 
   const productRoutes: MetadataRoute.Sitemap = products
     .filter((p) => p.slug)
@@ -35,5 +43,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(p.updatedAt),
     }))
 
-  return [...staticRoutes, ...productRoutes, ...projectRoutes]
+  return [...staticRoutes, ...categoryRoutes, ...productRoutes, ...projectRoutes]
 }

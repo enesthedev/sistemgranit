@@ -9,8 +9,9 @@ export function CategoryFilter({
   categories: Category[]
   active?: string
 }) {
-  const chip = (href: string, label: string, isActive: boolean) => (
+  const chip = (key: string, href: string, label: string, isActive: boolean) => (
     <Link
+      key={key}
       href={href}
       className={cn(
         'rounded-full border px-4 py-2 text-sm transition-colors',
@@ -25,8 +26,10 @@ export function CategoryFilter({
 
   return (
     <div className="flex flex-wrap gap-2">
-      {chip('/urunler', 'Tümü', !active)}
-      {categories.map((c) => chip(`/urunler?kategori=${c.slug}`, c.name, active === c.slug))}
+      {chip('all', '/urunler', 'Tümü', !active)}
+      {categories.map((c) =>
+        chip(c.slug ?? String(c.id), `/urunler/kategori/${c.slug}`, c.name, active === c.slug),
+      )}
     </div>
   )
 }

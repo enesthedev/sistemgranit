@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronRight, MessageCircle, Phone } from 'lucide-react'
 
+import { SITE_URL } from '@/app/(frontend)/layout'
 import { getProductBySlug, getProducts } from '@/lib/queries'
 import { site, whatsappUrl } from '@/lib/site'
 import { APPLICATION_LABELS, FINISH_LABELS, labelsFrom } from '@/lib/labels'
@@ -52,8 +53,57 @@ export default async function ProductDetailPage({ params }: Params) {
 
   const inquiry = whatsappUrl(`Merhaba, "${product.title}" ürünü için teklif almak istiyorum.`)
 
+  const cover = product.images?.[0]?.image
+  const coverUrl = typeof cover === 'object' && cover ? cover.url : null
+  const productLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    ...(coverUrl ? { image: [coverUrl] } : {}),
+    ...(product.color ? { color: product.color } : {}),
+    description:
+      [product.color, product.origin].filter(Boolean).join(' · ') ||
+      `${product.title} — Sistem Granit doğal taş koleksiyonu.`,
+    ...(category ? { category: category.name } : {}),
+    brand: { '@type': 'Brand', name: site.name },
+    url: `${SITE_URL}/urunler/${product.slug}`,
+  }
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Ürünler', item: `${SITE_URL}/urunler` },
+      ...(category?.slug
+        ? [
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name: category.name,
+              item: `${SITE_URL}/urunler/kategori/${category.slug}`,
+            },
+          ]
+        : []),
+      {
+        '@type': 'ListItem',
+        position: category?.slug ? 4 : 3,
+        name: product.title,
+        item: `${SITE_URL}/urunler/${product.slug}`,
+      },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+
       <div className="container-page pt-10">
         <nav className="flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-stone-muted">
           <Link href="/" className="hover:text-foreground">Ana Sayfa</Link>
@@ -70,7 +120,7 @@ export default async function ProductDetailPage({ params }: Params) {
         <div className="lg:py-2">
           {category && (
             <Link
-              href={`/urunler?kategori=${category.slug}`}
+              href={`/urunler/kategori/${category.slug}`}
               className="eyebrow transition-colors hover:text-brand"
             >
               {category.name}

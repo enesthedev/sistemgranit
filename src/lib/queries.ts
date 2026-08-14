@@ -14,6 +14,17 @@ export async function getCategories(): Promise<Category[]> {
   return docs
 }
 
+export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+  const payload = await getPayloadClient()
+  const { docs } = await payload.find({
+    collection: 'categories',
+    where: { slug: { equals: slug } },
+    limit: 1,
+    depth: 1,
+  })
+  return docs[0] ?? null
+}
+
 export async function getProducts(opts?: {
   category?: string
   search?: string
