@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { site } from '@/lib/site'
 import { NavOverlay } from './nav-overlay'
+import { HeaderSearch } from './header-search'
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -51,8 +52,9 @@ export function SiteHeader() {
             />
           </Link>
 
-          {/* Right — menu */}
-          <div className={cn('flex items-center', tone)}>
+          {/* Right — search + menu */}
+          <div className={cn('flex items-center gap-1 sm:gap-2', tone)}>
+            <HeaderSearch transparent={transparent} />
             <NavOverlay triggerClassName="transition-colors hover:text-brand" />
           </div>
         </div>
