@@ -41,12 +41,20 @@ export const nav = [
   { label: 'İletişim', href: '/iletisim' },
 ] as const
 
+/** Quick trust facts shown in the hero fact band. */
+export const heroFacts = [
+  { k: 'Kuruluş', v: String(site.foundedYear) }, // real (1998)
+  { k: 'İhracat', v: '40+ ülke' }, // PLACEHOLDER — confirm real count
+  { k: 'Taş çeşidi', v: '80+ çeşit' }, // matches `stats`
+  { k: 'Kalite', v: 'CE · TSE' }, // PLACEHOLDER — confirm real certifications
+] as const
+
 /** Headline numbers shown on the home page and about page. */
 export const stats = [
-  { value: 26, suffix: '+', label: 'Yıllık tecrübe' },
+  { value: 28, suffix: '+', label: 'Yıllık tecrübe' },
   { value: 1200, suffix: '+', label: 'Tamamlanan proje' },
   { value: 80, suffix: '+', label: 'Taş çeşidi' },
-  { value: 30, suffix: '', label: 'İhracat ülkesi' },
+  { value: 40, suffix: '', label: 'İhracat ülkesi' },
 ] as const
 
 /** Brand promises — the "why us" pillars. */
@@ -57,7 +65,7 @@ export const valueProps = [
   },
   {
     title: 'İhracat standardı',
-    body: 'Otuza yakın ülkeye sevkiyat yapan ekibimizle uluslararası tolerans ve ambalaj normları.',
+    body: 'Kırka yakın ülkeye sevkiyat yapan ekibimizle uluslararası tolerans ve ambalaj normları.',
   },
   {
     title: 'Geniş stok',

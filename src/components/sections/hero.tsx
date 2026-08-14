@@ -2,16 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Phone } from 'lucide-react'
 
-import { site } from '@/lib/site'
+import { heroFacts, site } from '@/lib/site'
 import { Button } from '@/components/ui/button'
 import { Reveal } from '@/components/motion/reveal'
-
-const facts = [
-  { k: 'Kuruluş', v: String(site.foundedYear) },
-  { k: 'İhracat', v: '30+ ülke' },
-  { k: 'Üretim', v: 'Kendi tesisi' },
-  { k: 'Teslim', v: 'Şantiyeye hazır' },
-]
 
 export function Hero() {
   return (
@@ -36,28 +29,29 @@ export function Hero() {
 
         <Reveal delay={0.16}>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-marble/70 text-pretty">
-            Mermer, granit ve travertende ocaktan şantiyeye uzanan üretim gücü. İhracat
-            kalitesinde doğal taşı, projenize özel kesim ve yüzey işlemleriyle buluşturuyoruz.
+            Mermeri, graniti ve traverteni ocaktan şantiyeye kendi tesisimizde işliyoruz.
+            İhracat kalitesindeki doğal taşı, projenize özel kesim ve yüzey işleriyle
+            şantiyeye hazır teslim ediyoruz.
           </p>
         </Reveal>
 
         <Reveal delay={0.24}>
-          <div className="mt-9 flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <Link href="/urunler">
+          <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Button asChild size="lg" className="bg-marble text-graphite hover:bg-marble/90">
+              <Link href="/urunler" className="group">
                 Koleksiyonu Keşfet
-                <ArrowRight className="size-4" />
+                <ArrowRight className="size-4 text-brand transition-transform duration-300 group-hover:translate-x-0.5" />
               </Link>
             </Button>
             <Button
               asChild
               size="lg"
-              variant="outline"
-              className="border-marble/30 bg-transparent text-marble hover:bg-marble hover:text-graphite"
+              variant="ghost"
+              className="text-marble/85 hover:bg-transparent hover:text-marble"
             >
-              <a href={site.phoneHref}>
+              <a href={site.phoneHref} className="group">
                 <Phone className="size-4" />
-                Teklif Al
+                <span className="underline-offset-[6px] group-hover:underline">Teklif Al</span>
               </a>
             </Button>
           </div>
@@ -67,7 +61,7 @@ export function Hero() {
       {/* Hero fact band */}
       <Reveal delay={0.3} className="relative z-10 border-t border-marble/15 backdrop-blur-sm">
         <dl className="container-page grid grid-cols-2 divide-marble/10 py-6 sm:grid-cols-4 sm:divide-x">
-          {facts.map((f, i) => (
+          {heroFacts.map((f, i) => (
             <div key={f.k} className={i > 0 ? 'sm:pl-6' : ''}>
               <dt className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-marble/45">
                 {f.k}
