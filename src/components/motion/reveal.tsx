@@ -9,19 +9,30 @@ type Props = {
   y?: number
   className?: string
   as?: 'div' | 'li' | 'span'
+  /** Animate on mount instead of on scroll-into-view (for above-the-fold content). */
+  immediate?: boolean
 }
 
-/** Subtle scroll-into-view reveal. Honours prefers-reduced-motion. */
-export function Reveal({ children, delay = 0, y = 24, className, as = 'div' }: Props) {
+/** Subtle reveal. Scroll-into-view by default; on mount with `immediate`. Honours prefers-reduced-motion. */
+export function Reveal({
+  children,
+  delay = 0,
+  y = 24,
+  className,
+  as = 'div',
+  immediate = false,
+}: Props) {
   const reduce = useReducedMotion()
   const MotionTag = motion[as]
+  const target = reduce ? undefined : { opacity: 1, y: 0 }
 
   return (
     <MotionTag
       className={className}
       initial={reduce ? false : { opacity: 0, y }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
+      {...(immediate
+        ? { animate: target }
+        : { whileInView: target, viewport: { once: true, margin: '-80px' } })}
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}

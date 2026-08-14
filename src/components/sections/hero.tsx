@@ -21,13 +21,13 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-graphite/70 to-transparent" />
 
       <div className="container-page relative z-10 pb-12 pt-32">
-        <Reveal delay={0.08}>
+        <Reveal delay={0.08} immediate>
           <h1 className="max-w-4xl font-display text-[2.75rem] leading-[1.02] tracking-tight text-marble text-balance sm:text-6xl lg:text-7xl">
             Milyonlarca yılın değeri, projenizin imzası.
           </h1>
         </Reveal>
 
-        <Reveal delay={0.16}>
+        <Reveal delay={0.16} immediate>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-marble/70 text-pretty">
             Mermeri, graniti ve traverteni ocaktan şantiyeye kendi tesisimizde işliyoruz.
             İhracat kalitesindeki doğal taşı, projenize özel kesim ve yüzey işleriyle
@@ -35,7 +35,7 @@ export function Hero() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.24}>
+        <Reveal delay={0.24} immediate>
           <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
             <Button asChild size="lg" className="bg-marble text-graphite hover:bg-marble/90">
               <Link href="/urunler" className="group">
@@ -59,7 +59,7 @@ export function Hero() {
       </div>
 
       {/* Hero fact band */}
-      <Reveal delay={0.3} className="relative z-10 border-t border-marble/15 backdrop-blur-sm">
+      <Reveal delay={0.3} immediate className="relative z-10 border-t border-marble/15 backdrop-blur-sm">
         <dl className="container-page grid grid-cols-2 divide-marble/10 py-6 sm:grid-cols-4 sm:divide-x">
           {heroFacts.map((f, i) => (
             <div key={f.k} className={i > 0 ? 'sm:pl-6' : ''}>
