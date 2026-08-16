@@ -283,9 +283,13 @@ export default async function ProductDetailPage({ params }: Params) {
       {related.length > 0 && (
         <section className="border-t border-vein bg-marble-raised py-20 md:py-24">
           <div className="container-page">
-            <SectionHeading eyebrow="Benzer ürünler" title="Bunları da inceleyin" />
+            <SectionHeading
+              eyebrow="Benzer ürünler"
+              title={category ? `Diğer ${category.name} modelleri` : 'Bunları da inceleyin'}
+            />
             <div className="mt-12">
-              <ProductGrid products={related} />
+              {/* Related products are all from this brand — the heading says so. */}
+              <ProductGrid products={related} showBrand={false} />
             </div>
           </div>
         </section>

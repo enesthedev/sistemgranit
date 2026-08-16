@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import { brandAccentStyle } from '@/lib/brands'
 import type { Category } from '@/payload-types'
 import { PayloadImage } from '@/components/media/payload-image'
 
@@ -26,8 +27,11 @@ export function BrandCard({ brand, count, className, sizes }: Props) {
   return (
     <Link
       href={`/urunler/kategori/${brand.slug}`}
+      style={brandAccentStyle(brand.slug)}
       className={cn(
-        'group relative flex aspect-[4/3] flex-col overflow-hidden rounded-md border border-vein bg-marble-raised transition-colors duration-300 hover:border-brand',
+        // Hover resolves to the brand's own tone — all four cards hovering to
+        // the same vermilion made them read as one thing.
+        'group relative flex aspect-[4/3] flex-col overflow-hidden rounded-md border border-vein bg-marble-raised transition-colors duration-300 hover:border-[var(--brand-accent)]',
         className,
       )}
     >
@@ -57,8 +61,11 @@ export function BrandCard({ brand, count, className, sizes }: Props) {
         )}
       </div>
 
-      <div className="relative z-10 flex items-center justify-between gap-2 border-t border-vein px-4 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-stone-muted transition-colors group-hover:text-brand">
-        <span>{count != null ? `${count} ürün` : 'Koleksiyon'}</span>
+      <div className="relative z-10 flex items-center justify-between gap-2 border-t border-vein px-4 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-stone-muted transition-colors group-hover:border-[var(--brand-accent)] group-hover:text-[var(--brand-accent)]">
+        <span className="inline-flex items-center gap-2">
+          <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-[var(--brand-accent)]" />
+          {count != null ? `${count} ürün` : 'Koleksiyon'}
+        </span>
         <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       </div>
     </Link>

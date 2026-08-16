@@ -2,17 +2,11 @@ export const revalidate = 60
 
 import type { Metadata } from 'next'
 
-import {
-  getBrandProductCounts,
-  getCategories,
-  getFeaturedProducts,
-  getProducts,
-  getProjects,
-} from '@/lib/queries'
+import { getBrandLanes, getCategories, getProjects } from '@/lib/queries'
 import { Hero } from '@/components/sections/hero'
 import { ValueProps } from '@/components/sections/value-props'
 import { CategoryShowcase } from '@/components/sections/category-showcase'
-import { FeaturedProducts } from '@/components/sections/featured-products'
+import { BrandLanes } from '@/components/sections/brand-lanes'
 import { Stats } from '@/components/sections/stats'
 import { ProjectsPreview } from '@/components/sections/projects-preview'
 import { CtaBanner } from '@/components/sections/cta-banner'
@@ -24,23 +18,22 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const [categories, brandCounts, featured, fallbackProducts, projects] = await Promise.all([
+  const [categories, lanes, projects] = await Promise.all([
     getCategories(),
-    getBrandProductCounts(),
-    getFeaturedProducts(8),
-    getProducts({ limit: 8 }),
+    getBrandLanes(4),
     getProjects({ limit: 3 }),
   ])
 
-  // If nothing is flagged featured yet, show the latest products instead.
-  const products = featured.length > 0 ? featured : fallbackProducts
+  // The lanes already counted every brand, so the showcase reuses those totals
+  // instead of issuing its own count queries.
+  const brandCounts = Object.fromEntries(lanes.map((l) => [String(l.brand.id), l.total]))
 
   return (
     <>
       <Hero />
       <ValueProps />
       <CategoryShowcase categories={categories} counts={brandCounts} />
-      <FeaturedProducts products={products} />
+      <BrandLanes lanes={lanes} />
       <Stats />
       <ProjectsPreview projects={projects} />
       <CtaBanner />

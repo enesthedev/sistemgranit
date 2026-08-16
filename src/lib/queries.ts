@@ -139,6 +139,72 @@ export async function getProductPage(opts?: {
   }
 }
 
+export type BrandLane = {
+  brand: Category
+  /** Total products in the brand, for the "37 model" label. */
+  total: number
+  products: Product[]
+}
+
+/**
+ * One lane of products per brand for the homepage.
+ *
+ * Takes the brand's featured products first, then backfills with its newest
+ * remaining ones. Without the backfill the homepage would be lopsided: only 5
+ * of 158 products are flagged featured and they belong to just two brands, so
+ * half the portfolio would never appear. Flagging products in the panel still
+ * wins — those are simply taken first.
+ */
+export async function getBrandLanes(perBrand = 4): Promise<BrandLane[]> {
+  const payload = await getPayloadClient()
+  const categories = await getCategories()
+
+  const lanes = await Promise.all(
+    categories.map(async (brand): Promise<BrandLane> => {
+      const featured = await payload.find({
+        collection: 'products',
+        where: { and: [{ category: { equals: brand.id } }, { featured: { equals: true } }] },
+        sort: '-updatedAt',
+        limit: perBrand,
+        depth: 2,
+      })
+
+      const products = [...featured.docs]
+      const missing = perBrand - products.length
+
+      if (missing > 0) {
+        const seen = products.map((p) => p.id)
+        const filler = await payload.find({
+          collection: 'products',
+          where: {
+            and: [
+              { category: { equals: brand.id } },
+              ...(seen.length > 0 ? [{ id: { not_in: seen } }] : []),
+            ],
+          },
+          sort: '-updatedAt',
+          limit: missing,
+          depth: 2,
+        })
+        products.push(...filler.docs)
+        // `filler` counts every remaining product, so add back what we already
+        // held to get the brand total without a separate count query.
+        return { brand, total: filler.totalDocs + seen.length, products }
+      }
+
+      const { totalDocs } = await payload.find({
+        collection: 'products',
+        where: { category: { equals: brand.id } },
+        depth: 0,
+        limit: 0,
+      })
+      return { brand, total: totalDocs, products }
+    }),
+  )
+
+  return lanes.filter((lane) => lane.products.length > 0)
+}
+
 export async function getFeaturedProducts(limit = 6): Promise<Product[]> {
   const payload = await getPayloadClient()
   const { docs } = await payload.find({

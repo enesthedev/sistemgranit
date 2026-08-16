@@ -5,7 +5,9 @@ import { ChevronRight } from 'lucide-react'
 
 import { SITE_URL } from '@/lib/site'
 import { jsonLd } from '@/lib/json-ld'
+import { brandTone } from '@/lib/brands'
 import { getCategories, getCategoryBySlug, getProductPage } from '@/lib/queries'
+import { PayloadImage } from '@/components/media/payload-image'
 import { PageHero } from '@/components/page-hero'
 import { CategoryFilter } from '@/components/products/category-filter'
 import { ProductGrid } from '@/components/products/product-grid'
@@ -111,6 +113,18 @@ export default async function CategoryPage({ params, searchParams }: Params) {
       <PageHero
         eyebrow="Marka"
         title={category.name}
+        accent={brandTone(category.slug).accent}
+        logo={
+          category.logo ? (
+            <PayloadImage
+              media={category.logo}
+              size="logo"
+              alt={`${category.name} logosu`}
+              sizes="260px"
+              className="mt-6 h-9 w-auto max-w-[13rem] object-contain object-left md:h-11"
+            />
+          ) : undefined
+        }
         description={
           category.description ||
           `${category.name} markası kompozit taş (quartz) tezgah çeşitlerimizi inceleyin.`
@@ -129,7 +143,8 @@ export default async function CategoryPage({ params, searchParams }: Params) {
               <h2 className="sr-only">
                 {category.name} tezgah modelleri — sayfa {page}/{totalPages}
               </h2>
-              <ProductGrid products={products} />
+              {/* Single-brand page — the hero already names the brand. */}
+              <ProductGrid products={products} showBrand={false} />
               <Pagination
                 page={page}
                 totalPages={totalPages}
