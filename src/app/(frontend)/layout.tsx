@@ -55,7 +55,8 @@ export const metadata: Metadata = {
     description: site.description,
     images: [ogImage.url],
   },
-  icons: { icon: '/favicon.ico' },
+  // Favicon is provided by the App Router file convention (src/app/icon.png,
+  // src/app/apple-icon.png), generated via `bun run generate:favicon`.
 }
 
 /** Organization schema for rich results. Contact fields are still PLACEHOLDER in site.ts. */
