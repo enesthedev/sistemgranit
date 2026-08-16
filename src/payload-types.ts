@@ -140,6 +140,13 @@ export interface Category {
    * Shown on category pages and cards.
    */
   description?: string | null;
+  /**
+   * Transparent PNG, 1600×480 px canvas, artwork centred inside 1280×320 px. Dark artwork only — cards sit on an off-white surface. Run scripts/normalize-brand-logo.mjs to produce it.
+   */
+  logo?: (number | null) | Media;
+  /**
+   * Optional photo used as a soft backdrop behind the logo on brand cards.
+   */
   image?: (number | null) | Media;
   /**
    * Lower values are shown first.
@@ -170,6 +177,14 @@ export interface Media {
   focalX?: number | null;
   focalY?: number | null;
   sizes?: {
+    logo?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
     thumbnail?: {
       url?: string | null;
       width?: number | null;
@@ -452,6 +467,7 @@ export interface CategoriesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   description?: T;
+  logo?: T;
   image?: T;
   order?: T;
   updatedAt?: T;
@@ -530,6 +546,16 @@ export interface MediaSelect<T extends boolean = true> {
   sizes?:
     | T
     | {
+        logo?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
         thumbnail?:
           | T
           | {

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import type { Media } from '@/payload-types'
 import { cn } from '@/lib/utils'
 
-type SizeName = 'thumbnail' | 'card' | 'feature' | 'hero'
+type SizeName = 'logo' | 'thumbnail' | 'card' | 'feature' | 'hero'
 
 type MediaLike = Media | number | null | undefined
 

@@ -36,6 +36,7 @@ export const site = {
 export const nav = [
   { label: 'Ana Sayfa', href: '/' },
   { label: 'Ürünler', href: '/urunler' },
+  { label: 'Markalar', href: '/markalar' },
   { label: 'Projeler', href: '/projeler' },
   { label: 'Hakkımızda', href: '/hakkimizda' },
   { label: 'İletişim', href: '/iletisim' },

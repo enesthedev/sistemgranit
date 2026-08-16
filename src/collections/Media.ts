@@ -31,6 +31,8 @@ export const Media: CollectionConfig = {
     mimeTypes: ['image/*'],
     focalPoint: true,
     imageSizes: [
+      // Width-only: keeps the aspect ratio, so brand logos are never cropped.
+      { name: 'logo', width: 800 },
       { name: 'thumbnail', width: 400, height: 400, position: 'centre' },
       { name: 'card', width: 768, height: 1024, position: 'centre' },
       { name: 'feature', width: 1280, height: 900, position: 'centre' },
