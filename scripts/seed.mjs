@@ -47,6 +47,16 @@ async function img(file, alt) {
   return doc.id
 }
 
+/** Seed a brand asset (logo, favicon) into the Media collection from a repo-root path. */
+async function asset(repoPath, alt) {
+  const doc = await payload.create({
+    collection: 'media',
+    data: { alt },
+    filePath: path.resolve(repoPath),
+  })
+  return doc.id
+}
+
 if (FORCE) {
   for (const c of ['products', 'projects', 'categories', 'media', 'contact-submissions']) {
     await payload.delete({ collection: c, where: { id: { exists: true } } })
@@ -59,6 +69,11 @@ if (FORCE) {
     process.exit(0)
   }
 }
+
+// ── Brand assets (logo + favicon) ─────────────────────────────
+await asset('public/sistem-granit.png', 'Sistem Granit logo')
+await asset('src/app/icon.png', 'Sistem Granit favicon')
+console.log('Brand assets created.')
 
 // ── Categories ────────────────────────────────────────────────
 const categoryDefs = [
