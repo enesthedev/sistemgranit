@@ -37,6 +37,11 @@ export function ProductCard({ product }: { product: Product }) {
             {[product.color, product.origin].filter(Boolean).join(' · ')}
           </p>
         )}
+        {typeof product.price === 'number' && (
+          <p className="font-mono text-xs text-brand">
+            {product.price.toLocaleString('tr-TR')} ₺’den başlayan
+          </p>
+        )}
       </div>
     </Link>
   )

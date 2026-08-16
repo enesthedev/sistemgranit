@@ -38,7 +38,14 @@ export default async function ProductDetailPage({ params }: Params) {
   const applications = labelsFrom(APPLICATION_LABELS, product.applications)
 
   const specs = [
-    { k: 'Kategori', v: category?.name },
+    {
+      k: 'Başlangıç fiyatı',
+      v:
+        typeof product.price === 'number'
+          ? `${product.price.toLocaleString('tr-TR')} ₺’den başlayan`
+          : undefined,
+    },
+    { k: 'Marka', v: category?.name },
     { k: 'Renk', v: product.color },
     { k: 'Menşei', v: product.origin },
     { k: 'Kalınlık', v: product.specs?.thickness },

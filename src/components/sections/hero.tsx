@@ -1,16 +1,20 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Phone } from 'lucide-react'
 
-import { heroFacts, site } from '@/lib/site'
+import { heroFacts, site, siteMedia } from '@/lib/site'
+import { getMediaById } from '@/lib/queries'
 import { Button } from '@/components/ui/button'
+import { PayloadImage } from '@/components/media/payload-image'
 import { Reveal } from '@/components/motion/reveal'
 
-export function Hero() {
+export async function Hero() {
+  const cover = await getMediaById(siteMedia.hero)
+
   return (
     <section className="relative isolate flex min-h-svh flex-col justify-end overflow-hidden bg-graphite">
-      <Image
-        src="/seed/hero.jpg"
+      <PayloadImage
+        media={cover}
+        size="hero"
         alt="Cilalı doğal taş yüzey"
         fill
         priority

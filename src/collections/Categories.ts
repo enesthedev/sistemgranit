@@ -5,8 +5,8 @@ import { GROUP_CONTENT } from '@/fields/groups'
 export const Categories: CollectionConfig = {
   slug: 'categories',
   labels: {
-    singular: { en: 'Category', tr: 'Kategori' },
-    plural: { en: 'Categories', tr: 'Kategoriler' },
+    singular: { en: 'Brand', tr: 'Marka' },
+    plural: { en: 'Brands', tr: 'Markalar' },
   },
   access: { read: () => true },
   admin: {
@@ -16,7 +16,7 @@ export const Categories: CollectionConfig = {
   },
   defaultSort: 'order',
   fields: [
-    { name: 'name', label: { en: 'Name', tr: 'Ad' }, type: 'text', required: true },
+    { name: 'name', label: { en: 'Brand name', tr: 'Marka adı' }, type: 'text', required: true },
     slugField('name'),
     {
       name: 'description',
@@ -30,10 +30,28 @@ export const Categories: CollectionConfig = {
       },
     },
     {
+      name: 'logo',
+      label: { en: 'Brand logo', tr: 'Marka logosu' },
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: {
+          en: 'Transparent PNG, 1600×480 px canvas, artwork centred inside 1280×320 px. Dark artwork only — cards sit on an off-white surface.',
+          tr: 'Şeffaf PNG, 1600×480 px tuval, logo 1280×320 px alan içinde ortalanmış. Kartlar kırık beyaz zemin üzerinde durduğu için logo koyu renk olmalı.',
+        },
+      },
+    },
+    {
       name: 'image',
       label: { en: 'Image', tr: 'Görsel' },
       type: 'upload',
       relationTo: 'media',
+      admin: {
+        description: {
+          en: 'Optional photo used as a soft backdrop behind the logo on brand cards.',
+          tr: 'İsteğe bağlı. Marka kartlarında logonun arkasında hafif bir doku olarak kullanılır.',
+        },
+      },
     },
     {
       name: 'order',

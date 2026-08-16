@@ -36,6 +36,7 @@ export const site = {
 export const nav = [
   { label: 'Ana Sayfa', href: '/' },
   { label: 'Ürünler', href: '/urunler' },
+  { label: 'Markalar', href: '/markalar' },
   { label: 'Projeler', href: '/projeler' },
   { label: 'Hakkımızda', href: '/hakkimizda' },
   { label: 'İletişim', href: '/iletisim' },
@@ -76,6 +77,15 @@ export const valueProps = [
     body: 'Ebatlama, pah, su kanalı ve özel yüzey işlemleri ile şantiyeye hazır teslim.',
   },
 ] as const
+
+/**
+ * Media IDs for the two fixed page images, uploaded through the admin panel.
+ * They are not editable per-page yet, so they live here rather than in a global.
+ */
+export const siteMedia = {
+  hero: 243,
+  about: 244,
+} as const
 
 export function whatsappUrl(message?: string) {
   const base = `https://api.whatsapp.com/send?phone=${site.whatsapp}`

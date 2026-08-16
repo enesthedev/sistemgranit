@@ -53,7 +53,7 @@ export function SiteHeader() {
           </Link>
 
           {/* Right — search + menu */}
-          <div className={cn('flex items-center gap-1 sm:gap-2', tone)}>
+          <div className={cn('flex items-center gap-5 sm:gap-8', tone)}>
             <HeaderSearch transparent={transparent} />
             <NavOverlay triggerClassName="transition-colors hover:text-brand" />
           </div>

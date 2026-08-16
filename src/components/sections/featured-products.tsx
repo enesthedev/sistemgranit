@@ -21,7 +21,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
             href="/urunler"
             className="group inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-vein px-5 py-2.5 text-sm font-medium tracking-wide text-foreground transition-colors hover:border-brand hover:bg-brand hover:text-white"
           >
-            Tümünü gör
+            Tüm Ürünler
             <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         </div>

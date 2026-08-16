@@ -10,7 +10,7 @@ import { ProductGrid } from '@/components/products/product-grid'
 export const metadata: Metadata = {
   title: 'Ürünler',
   description:
-    'Mermer, granit, traverten ve oniks koleksiyonumuzu keşfedin. Renk, menşei ve yüzey işlemine göre doğal taş çeşitlerimizi inceleyin.',
+    'ARTEO, BELENCO, ÇİMSTONE ve COANTE markalı kompozit taş (quartz) tezgah koleksiyonumuzu keşfedin. Markaya ve başlangıç fiyatına göre inceleyin.',
 }
 
 export default async function ProductsPage({
@@ -29,8 +29,8 @@ export default async function ProductsPage({
     <>
       <PageHero
         eyebrow="Koleksiyon"
-        title="Doğal taş ürünlerimiz"
-        description="Ocaktan seçilip tesisimizde işlenen taşlar. Numune ve fiyat için ürün sayfasından bize ulaşabilirsiniz."
+        title="Kompozit taş tezgah ürünlerimiz"
+        description="ARTEO, BELENCO, ÇİMSTONE ve COANTE markalarının tezgah modelleri. Kesin fiyat ve numune için ürün sayfasından bize ulaşabilirsiniz."
       />
       <div className="container-page py-12 md:py-16">
         {query ? (
@@ -55,7 +55,7 @@ export default async function ProductsPage({
             <p className="py-16 text-center text-stone-muted">
               {query
                 ? `“${query}” için sonuç bulunamadı. Farklı bir arama deneyin.`
-                : 'Bu kategoride henüz ürün bulunmuyor.'}
+                : 'Bu markada henüz ürün bulunmuyor.'}
             </p>
           ) : (
             <ProductGrid products={products} />

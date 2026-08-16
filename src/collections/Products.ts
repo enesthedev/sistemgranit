@@ -21,7 +21,7 @@ export const Products: CollectionConfig = {
         { name: 'title', label: { en: 'Product name', tr: 'Ürün adı' }, type: 'text', required: true },
         {
           name: 'category',
-          label: { en: 'Category', tr: 'Kategori' },
+          label: { en: 'Brand', tr: 'Marka' },
           type: 'relationship',
           relationTo: 'categories',
           required: true,
@@ -39,6 +39,32 @@ export const Products: CollectionConfig = {
         description: {
           en: 'Shown among the featured items on the homepage.',
           tr: 'Ana sayfada öne çıkanlarda gösterilir.',
+        },
+      },
+    },
+    {
+      name: 'price',
+      label: { en: 'Starting price (₺)', tr: 'Başlangıç fiyatı (₺)' },
+      type: 'number',
+      min: 0,
+      admin: {
+        position: 'sidebar',
+        step: 50,
+        description: {
+          en: 'Displayed as a “starting from” price. Leave empty to hide.',
+          tr: 'Sitede “…’den başlayan” olarak gösterilir. Boş bırakılırsa gizlenir.',
+        },
+      },
+    },
+    {
+      name: 'code',
+      label: { en: 'Product code', tr: 'Ürün kodu' },
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description: {
+          en: 'Manufacturer reference code (e.g. 10115).',
+          tr: 'Üretici referans kodu (örn. 10115).',
         },
       },
     },

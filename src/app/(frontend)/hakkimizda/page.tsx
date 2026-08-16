@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 
-import { site } from '@/lib/site'
+import { site, siteMedia } from '@/lib/site'
+import { getMediaById } from '@/lib/queries'
 import { PageHero } from '@/components/page-hero'
+import { PayloadImage } from '@/components/media/payload-image'
 import { SectionHeading } from '@/components/section-heading'
 import { Stats } from '@/components/sections/stats'
 import { CtaBanner } from '@/components/sections/cta-banner'
@@ -35,7 +36,9 @@ const steps = [
   { n: '03', title: 'Teslimat', body: 'Şantiyeye hazır şekilde, güvenli ambalajla yurt içi ve yurt dışına sevk ederiz.' },
 ]
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const story = await getMediaById(siteMedia.about)
+
   return (
     <>
       <PageHero
@@ -48,8 +51,9 @@ export default function AboutPage() {
       <section className="container-page grid items-center gap-12 py-16 md:py-24 lg:grid-cols-2 lg:gap-16">
         <Reveal>
           <div className="relative aspect-[4/5] overflow-hidden rounded-md bg-secondary">
-            <Image
-              src="/seed/about.jpg"
+            <PayloadImage
+              media={story}
+              size="card"
               alt="Doğal taş işleme tesisi"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
