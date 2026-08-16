@@ -1,5 +1,6 @@
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { en } from '@payloadcms/translations/languages/en'
 import { tr } from '@payloadcms/translations/languages/tr'
 import path from 'path'
@@ -63,5 +64,17 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    vercelBlobStorage({
+      enabled: true,
+      // Serve media through Payload (/api/media/file/...) rather than direct
+      // blob URLs, so access control is preserved and next.config stays unchanged.
+      collections: {
+        media: true,
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      // Upload directly from the browser to bypass Vercel's 4.5MB server limit.
+      clientUploads: true,
+    }),
+  ],
 })
