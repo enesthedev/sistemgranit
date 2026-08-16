@@ -36,8 +36,8 @@ export const Categories: CollectionConfig = {
       relationTo: 'media',
       admin: {
         description: {
-          en: 'Transparent PNG, 1600×480 px canvas, artwork centred inside 1280×320 px. Dark artwork only — cards sit on an off-white surface. Run scripts/normalize-brand-logo.mjs to produce it.',
-          tr: 'Şeffaf PNG, 1600×480 px tuval, logo 1280×320 px alan içinde ortalanmış. Kartlar kırık beyaz zemin üzerinde durduğu için logo koyu renk olmalı. Dosyayı scripts/normalize-brand-logo.mjs ile hazırlayabilirsiniz.',
+          en: 'Transparent PNG, 1600×480 px canvas, artwork centred inside 1280×320 px. Dark artwork only — cards sit on an off-white surface.',
+          tr: 'Şeffaf PNG, 1600×480 px tuval, logo 1280×320 px alan içinde ortalanmış. Kartlar kırık beyaz zemin üzerinde durduğu için logo koyu renk olmalı.',
         },
       },
     },

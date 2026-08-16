@@ -141,7 +141,7 @@ export interface Category {
    */
   description?: string | null;
   /**
-   * Transparent PNG, 1600×480 px canvas, artwork centred inside 1280×320 px. Dark artwork only — cards sit on an off-white surface. Run scripts/normalize-brand-logo.mjs to produce it.
+   * Transparent PNG, 1600×480 px canvas, artwork centred inside 1280×320 px. Dark artwork only — cards sit on an off-white surface.
    */
   logo?: (number | null) | Media;
   /**
