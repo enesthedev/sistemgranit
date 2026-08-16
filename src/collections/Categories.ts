@@ -1,37 +1,52 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
+import { GROUP_CONTENT } from '@/fields/groups'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
-  labels: { singular: 'Kategori', plural: 'Kategoriler' },
+  labels: {
+    singular: { en: 'Category', tr: 'Kategori' },
+    plural: { en: 'Categories', tr: 'Kategoriler' },
+  },
   access: { read: () => true },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'order', 'updatedAt'],
-    group: 'İçerik',
+    group: GROUP_CONTENT,
   },
   defaultSort: 'order',
   fields: [
-    { name: 'name', label: 'Ad', type: 'text', required: true },
+    { name: 'name', label: { en: 'Name', tr: 'Ad' }, type: 'text', required: true },
     slugField('name'),
     {
       name: 'description',
-      label: 'Açıklama',
+      label: { en: 'Description', tr: 'Açıklama' },
       type: 'textarea',
-      admin: { description: 'Kategori sayfalarında ve kartlarda gösterilir.' },
+      admin: {
+        description: {
+          en: 'Shown on category pages and cards.',
+          tr: 'Kategori sayfalarında ve kartlarda gösterilir.',
+        },
+      },
     },
     {
       name: 'image',
-      label: 'Görsel',
+      label: { en: 'Image', tr: 'Görsel' },
       type: 'upload',
       relationTo: 'media',
     },
     {
       name: 'order',
-      label: 'Sıra',
+      label: { en: 'Order', tr: 'Sıra' },
       type: 'number',
       defaultValue: 0,
-      admin: { position: 'sidebar', description: 'Küçük değer önce gösterilir.' },
+      admin: {
+        position: 'sidebar',
+        description: {
+          en: 'Lower values are shown first.',
+          tr: 'Küçük değer önce gösterilir.',
+        },
+      },
     },
   ],
 }

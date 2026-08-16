@@ -133,16 +133,16 @@ export interface Category {
   id: number;
   name: string;
   /**
-   * Boş bırakılırsa başlıktan otomatik üretilir.
+   * Auto-generated from the title if left blank.
    */
   slug?: string | null;
   /**
-   * Kategori sayfalarında ve kartlarda gösterilir.
+   * Shown on category pages and cards.
    */
   description?: string | null;
   image?: (number | null) | Media;
   /**
-   * Küçük değer önce gösterilir.
+   * Lower values are shown first.
    */
   order?: number | null;
   updatedAt: string;
@@ -155,7 +155,7 @@ export interface Category {
 export interface Media {
   id: number;
   /**
-   * Erişilebilirlik ve SEO için görseli kısaca tanımlayın.
+   * Briefly describe the image for accessibility and SEO.
    */
   alt: string;
   updatedAt: string;
@@ -213,15 +213,15 @@ export interface Product {
   title: string;
   category: number | Category;
   /**
-   * Boş bırakılırsa başlıktan otomatik üretilir.
+   * Auto-generated from the title if left blank.
    */
   slug?: string | null;
   /**
-   * Ana sayfada öne çıkanlarda gösterilir.
+   * Shown among the featured items on the homepage.
    */
   featured?: boolean | null;
   /**
-   * İlk görsel kapak olarak kullanılır.
+   * The first image is used as the cover.
    */
   images?:
     | {
@@ -231,18 +231,18 @@ export interface Product {
     | null;
   color?: string | null;
   /**
-   * Örn. Afyon, Marmara
+   * e.g. Afyon, Marmara
    */
   origin?: string | null;
   finish?: ('cilali' | 'honlanmis' | 'patinato' | 'eskitme' | 'fircali' | 'kumlanmis')[] | null;
   applications?: ('zemin' | 'duvar' | 'tezgah' | 'banyo' | 'merdiven' | 'cephe' | 'somine')[] | null;
   specs?: {
     /**
-     * Örn. 2 cm / 3 cm
+     * e.g. 2 cm / 3 cm
      */
     thickness?: string | null;
     /**
-     * Örn. 60×60, serbest plaka
+     * e.g. 60×60, free slab
      */
     sizes?: string | null;
   };
@@ -272,7 +272,7 @@ export interface Project {
   id: number;
   title: string;
   /**
-   * Boş bırakılırsa başlıktan otomatik üretilir.
+   * Auto-generated from the title if left blank.
    */
   slug?: string | null;
   featured?: boolean | null;
@@ -305,7 +305,7 @@ export interface Project {
   createdAt: string;
 }
 /**
- * İletişim formundan gelen mesajlar.
+ * Messages received from the contact form.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-submissions".

@@ -7,6 +7,13 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    // Old English admin base path → Turkish /panel (keeps existing bookmarks working).
+    return [
+      { source: '/admin', destination: '/panel', permanent: true },
+      { source: '/admin/:path*', destination: '/panel/:path*', permanent: true },
+    ]
+  },
   images: {
     localPatterns: [
       { pathname: '/api/media/file/**' },
