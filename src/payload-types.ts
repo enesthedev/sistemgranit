@@ -236,7 +236,7 @@ export interface Product {
    */
   featured?: boolean | null;
   /**
-   * Displayed as a “starting from” price. Leave empty to hide.
+   * Shown on the product card and page, and published as the Offer price in structured data. Leave empty to hide.
    */
   price?: number | null;
   /**

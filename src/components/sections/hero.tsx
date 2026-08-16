@@ -15,7 +15,7 @@ export async function Hero() {
       <PayloadImage
         media={cover}
         size="hero"
-        alt="Cilalı doğal taş yüzey"
+        alt="Kompozit taş mutfak tezgahı yüzeyi"
         fill
         priority
         sizes="100vw"
@@ -27,15 +27,15 @@ export async function Hero() {
       <div className="container-page relative z-10 pb-12 pt-32">
         <Reveal delay={0.08} immediate>
           <h1 className="max-w-4xl font-display text-[2.75rem] leading-[1.02] tracking-tight text-marble text-balance sm:text-6xl lg:text-7xl">
-            Milyonlarca yılın değeri, projenizin imzası.
+            Mutfağınızın en çok dokunulan yüzeyi.
           </h1>
         </Reveal>
 
         <Reveal delay={0.16} immediate>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-marble/70 text-pretty">
-            Mermeri, graniti ve traverteni ocaktan şantiyeye kendi tesisimizde işliyoruz.
-            İhracat kalitesindeki doğal taşı, projenize özel kesim ve yüzey işleriyle
-            şantiyeye hazır teslim ediyoruz.
+            ARTEO, BELENCO, ÇİMSTONE ve COANTE kompozit taş (quartz) tezgahlarını
+            yerinde ölçüden CNC kesime, kesimden montaja kendi atölyemizde hazırlıyoruz.
+            Lekelenmeyen, çizilmeye dayanıklı bir mutfak tezgahı için doğru adres.
           </p>
         </Reveal>
 

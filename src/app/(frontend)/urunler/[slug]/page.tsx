@@ -3,9 +3,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronRight, MessageCircle, Phone } from 'lucide-react'
 
-import { SITE_URL } from '@/app/(frontend)/layout'
+import type { Product } from '@/payload-types'
+
 import { getProductBySlug, getProducts } from '@/lib/queries'
-import { site, whatsappUrl } from '@/lib/site'
+import { SITE_URL, site, whatsappUrl } from '@/lib/site'
+import { jsonLd } from '@/lib/json-ld'
 import { APPLICATION_LABELS, FINISH_LABELS, labelsFrom } from '@/lib/labels'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -16,15 +18,62 @@ import { SectionHeading } from '@/components/section-heading'
 
 type Params = { params: Promise<{ slug: string }> }
 
+// The 158 product pages are the catalogue's main organic entry points, so they
+// are prerendered and then kept fresh with ISR rather than hitting Postgres on
+// every request. `dynamicParams` stays on by default, so a product added in the
+// panel still resolves on first request and is cached from then on.
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  const products = await getProducts({ limit: 1000 })
+  return products.filter((p) => p.slug).map((p) => ({ slug: p.slug as string }))
+}
+
+/**
+ * Builds a distinct, intent-carrying description per product. The old template
+ * ("X — Sistem Granit doğal taş koleksiyonu.") was 45 characters and identical
+ * across all 158 pages, so every SERP snippet looked like a duplicate.
+ */
+function productDescription(product: Product, brand?: string | null) {
+  const facts = [
+    brand && `${brand} markalı kompozit taş (quartz) tezgah`,
+    product.color && `${product.color} rengi`,
+    product.specs?.thickness && `${product.specs.thickness} kalınlık`,
+  ].filter(Boolean)
+
+  const price =
+    typeof product.price === 'number'
+      ? ` Fiyat: ${product.price.toLocaleString('tr-TR')} ₺.`
+      : ''
+
+  return `${product.title}: ${facts.join(', ')}. Mutfak ve banyo tezgahı için ölçü, kesim ve montaj dahil.${price}`.slice(
+    0,
+    300,
+  )
+}
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params
   const product = await getProductBySlug(slug)
-  if (!product) return { title: 'Ürün bulunamadı' }
+  if (!product) return { title: 'Ürün bulunamadı', robots: { index: false, follow: true } }
+
+  const brand = typeof product.category === 'object' ? product.category?.name : null
+  const description = productDescription(product, brand)
+  const title = brand ? `${product.title} — ${brand} Kompozit Tezgah` : `${product.title} Tezgah`
+  const cover = product.images?.[0]?.image
+  const coverUrl = typeof cover === 'object' && cover ? cover.url : null
+
   return {
-    title: product.title,
-    description:
-      [product.color, product.origin].filter(Boolean).join(' · ') ||
-      `${product.title} — Sistem Granit doğal taş koleksiyonu.`,
+    title,
+    description,
+    alternates: { canonical: `/urunler/${slug}` },
+    openGraph: {
+      type: 'website',
+      title,
+      description,
+      url: `/urunler/${slug}`,
+      ...(coverUrl ? { images: [{ url: coverUrl, alt: product.title }] } : {}),
+    },
   }
 }
 
@@ -39,10 +88,10 @@ export default async function ProductDetailPage({ params }: Params) {
 
   const specs = [
     {
-      k: 'Başlangıç fiyatı',
+      k: 'Fiyat',
       v:
         typeof product.price === 'number'
-          ? `${product.price.toLocaleString('tr-TR')} ₺’den başlayan`
+          ? `${product.price.toLocaleString('tr-TR')} ₺`
           : undefined,
     },
     { k: 'Marka', v: category?.name },
@@ -62,18 +111,36 @@ export default async function ProductDetailPage({ params }: Params) {
 
   const cover = product.images?.[0]?.image
   const coverUrl = typeof cover === 'object' && cover ? cover.url : null
+  const productUrl = `${SITE_URL}/urunler/${product.slug}`
+
   const productLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.title,
-    ...(coverUrl ? { image: [coverUrl] } : {}),
+    // Absolute — schema.org image URLs must be resolvable on their own.
+    ...(coverUrl ? { image: [`${SITE_URL}${coverUrl}`] } : {}),
     ...(product.color ? { color: product.color } : {}),
-    description:
-      [product.color, product.origin].filter(Boolean).join(' · ') ||
-      `${product.title} — Sistem Granit doğal taş koleksiyonu.`,
+    ...(product.code ? { sku: product.code, mpn: product.code } : {}),
+    description: productDescription(product, category?.name),
     ...(category ? { category: category.name } : {}),
-    brand: { '@type': 'Brand', name: site.name },
-    url: `${SITE_URL}/urunler/${product.slug}`,
+    // The manufacturer's brand, not ours — we fabricate and install it.
+    brand: { '@type': 'Brand', name: category?.name ?? site.name },
+    ...(typeof product.price === 'number'
+      ? {
+          // A plain Offer, matching the definite price shown on the page.
+          // Google flags structured data whose price disagrees with the visible
+          // one, so these two must be changed together.
+          offers: {
+            '@type': 'Offer',
+            priceCurrency: 'TRY',
+            price: product.price,
+            availability: 'https://schema.org/InStock',
+            url: productUrl,
+            seller: { '@type': 'Organization', name: site.name },
+          },
+        }
+      : {}),
+    url: productUrl,
   }
   const breadcrumbLd = {
     '@context': 'https://schema.org',
@@ -102,20 +169,27 @@ export default async function ProductDetailPage({ params }: Params) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(productLd)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbLd)} />
 
       <div className="container-page pt-10">
-        <nav className="flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-stone-muted">
+        {/* Mirrors breadcrumbLd exactly — Google expects the visible trail and
+            the BreadcrumbList to agree, so the brand step belongs here too. */}
+        <nav
+          aria-label="Site haritası"
+          className="flex flex-wrap items-center gap-1 font-mono text-xs uppercase tracking-widest text-stone-muted"
+        >
           <Link href="/" className="hover:text-foreground">Ana Sayfa</Link>
           <ChevronRight className="size-3.5" />
           <Link href="/urunler" className="hover:text-foreground">Ürünler</Link>
+          {category?.slug && (
+            <>
+              <ChevronRight className="size-3.5" />
+              <Link href={`/urunler/kategori/${category.slug}`} className="hover:text-foreground">
+                {category.name}
+              </Link>
+            </>
+          )}
           <ChevronRight className="size-3.5" />
           <span className="text-foreground">{product.title}</span>
         </nav>

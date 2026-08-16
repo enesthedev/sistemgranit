@@ -1,6 +1,5 @@
 import type { Product } from '@/payload-types'
 import { ProductCard } from './product-card'
-import { Reveal } from '@/components/motion/reveal'
 
 export function ProductGrid({ products }: { products: Product[] }) {
   if (products.length === 0) {
@@ -14,9 +13,11 @@ export function ProductGrid({ products }: { products: Product[] }) {
   return (
     <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
       {products.map((product, i) => (
-        <Reveal key={product.id} delay={(i % 4) * 0.08}>
+        // CSS-only stagger — see `.rise-in` in globals.css. Using the JS Reveal
+        // here would mean one hydrating client component per card.
+        <div key={product.id} className="rise-in" style={{ animationDelay: `${(i % 4) * 80}ms` }}>
           <ProductCard product={product} />
-        </Reveal>
+        </div>
       ))}
     </div>
   )

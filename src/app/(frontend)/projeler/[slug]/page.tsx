@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronRight } from 'lucide-react'
 
-import { getProjectBySlug } from '@/lib/queries'
+import { getProjectBySlug, getProjects } from '@/lib/queries'
 import { PROJECT_TYPE_LABELS } from '@/lib/labels'
 import { PayloadImage } from '@/components/media/payload-image'
 import { RichText } from '@/components/rich-text'
@@ -11,6 +11,13 @@ import { Reveal } from '@/components/motion/reveal'
 import { CtaBanner } from '@/components/sections/cta-banner'
 
 type Params = { params: Promise<{ slug: string }> }
+
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  const projects = await getProjects({ limit: 1000 })
+  return projects.filter((p) => p.slug).map((p) => ({ slug: p.slug as string }))
+}
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params
@@ -99,7 +106,7 @@ export default async function ProjectDetailPage({ params }: Params) {
 
       <CtaBanner
         title="Benzer bir proje mi planlıyorsunuz?"
-        description="Doğru taş seçimi, kesim ve uygulama desteği için ekibimizle görüşün."
+        description="Doğru model seçimi, ölçü ve montaj desteği için ekibimizle görüşün."
       />
     </>
   )

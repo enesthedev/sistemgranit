@@ -2,27 +2,44 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { X } from 'lucide-react'
 
-import { getCategories, getProducts } from '@/lib/queries'
+import { getCategories, getProductPage } from '@/lib/queries'
 import { PageHero } from '@/components/page-hero'
 import { CategoryFilter } from '@/components/products/category-filter'
 import { ProductGrid } from '@/components/products/product-grid'
+import { Pagination } from '@/components/products/pagination'
 
-export const metadata: Metadata = {
-  title: 'Ürünler',
-  description:
-    'ARTEO, BELENCO, ÇİMSTONE ve COANTE markalı kompozit taş (quartz) tezgah koleksiyonumuzu keşfedin. Markaya ve başlangıç fiyatına göre inceleyin.',
-}
+type SearchParams = Promise<{ kategori?: string; q?: string; sayfa?: string }>
 
-export default async function ProductsPage({
+const TITLE = 'Kompozit Taş Tezgah Modelleri ve Fiyatları'
+const DESCRIPTION =
+  'ARTEO, BELENCO, ÇİMSTONE ve COANTE kompozit taş (quartz) tezgah koleksiyonumuzu keşfedin. Mutfak ve banyo tezgahı modellerini markaya ve fiyata göre inceleyin.'
+
+export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ kategori?: string; q?: string }>
-}) {
-  const { kategori, q } = await searchParams
+  searchParams: SearchParams
+}): Promise<Metadata> {
+  const { kategori, q, sayfa } = await searchParams
+  const page = Number(sayfa) || 1
+
+  // Filtered and search views duplicate /urunler and the brand pages, so they
+  // stay out of the index while still passing link equity to the products.
+  const faceted = Boolean(kategori || q)
+
+  return {
+    title: page > 1 ? `${TITLE} — Sayfa ${page}` : TITLE,
+    description: DESCRIPTION,
+    alternates: { canonical: page > 1 ? `/urunler?sayfa=${page}` : '/urunler' },
+    ...(faceted ? { robots: { index: false, follow: true } } : {}),
+  }
+}
+
+export default async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
+  const { kategori, q, sayfa } = await searchParams
   const query = q?.trim()
-  const [categories, products] = await Promise.all([
+  const [categories, { products, page, totalPages, totalDocs }] = await Promise.all([
     getCategories(),
-    getProducts({ category: kategori, search: query }),
+    getProductPage({ category: kategori, search: query, page: Number(sayfa) || 1 }),
   ])
 
   return (
@@ -36,8 +53,7 @@ export default async function ProductsPage({
         {query ? (
           <div className="mb-8 flex flex-wrap items-center justify-between gap-3 border-b border-vein pb-5">
             <p className="text-sm text-stone-muted">
-              <span className="font-medium text-foreground">“{query}”</span> için{' '}
-              {products.length} sonuç
+              <span className="font-medium text-foreground">“{query}”</span> için {totalDocs} sonuç
             </p>
             <Link
               href="/urunler"
@@ -58,7 +74,20 @@ export default async function ProductsPage({
                 : 'Bu markada henüz ürün bulunmuyor.'}
             </p>
           ) : (
-            <ProductGrid products={products} />
+            <>
+              {/* Gives the grid a real h2 so the outline doesn't jump h1 → h3. */}
+              <h2 className="sr-only">
+                {query ? `“${query}” arama sonuçları` : 'Tezgah modelleri'} — sayfa {page}/
+                {totalPages}
+              </h2>
+              <ProductGrid products={products} />
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                basePath="/urunler"
+                params={{ kategori, q: query }}
+              />
+            </>
           )}
         </div>
       </div>

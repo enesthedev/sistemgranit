@@ -7,8 +7,6 @@ import { PayloadImage } from '@/components/media/payload-image'
 
 type Props = {
   brand: Category
-  /** 1-based position, rendered as the mono index in the corner. */
-  index: number
   /** Product count for the brand; the label falls back to "Koleksiyon" when absent. */
   count?: number
   className?: string
@@ -22,7 +20,7 @@ type Props = {
  * canvas standard (transparent PNG, 1600×480, artwork inside 1280×320), which
  * is what makes marks of different shapes read at the same optical weight.
  */
-export function BrandCard({ brand, index, count, className, sizes }: Props) {
+export function BrandCard({ brand, count, className, sizes }: Props) {
   const hasLogo = Boolean(brand.logo)
 
   return (
@@ -42,10 +40,6 @@ export function BrandCard({ brand, index, count, className, sizes }: Props) {
           className="opacity-[0.09] grayscale transition-opacity duration-500 group-hover:opacity-[0.16]"
         />
       )}
-
-      <span className="absolute left-4 top-4 z-10 font-mono text-[11px] tracking-[0.2em] text-stone-muted/60">
-        {String(index).padStart(2, '0')}
-      </span>
 
       <div className="relative z-10 flex flex-1 items-center justify-center px-5">
         {hasLogo ? (

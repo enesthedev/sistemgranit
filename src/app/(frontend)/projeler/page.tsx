@@ -5,12 +5,12 @@ import { getProjects } from '@/lib/queries'
 export const revalidate = 60
 import { PageHero } from '@/components/page-hero'
 import { ProjectCard } from '@/components/projects/project-card'
-import { Reveal } from '@/components/motion/reveal'
 
 export const metadata: Metadata = {
-  title: 'Projeler',
+  title: 'Projeler — Tezgah Uygulama Referanslarımız',
   description:
-    'Konut, otel, ticari ve kamu projelerinde doğal taş uygulamalarımız. Sistem Granit referans projeleri.',
+    'Konut, otel, ticari ve kamu projelerinde tamamladığımız kompozit taş tezgah uygulamaları. Sistem Granit referans projeleri.',
+  alternates: { canonical: '/projeler' },
 }
 
 export default async function ProjectsPage() {
@@ -21,7 +21,7 @@ export default async function ProjectsPage() {
       <PageHero
         eyebrow="Referanslar"
         title="Projelerimiz"
-        description="Taşımızın mimariyle buluştuğu mekânlardan bir seçki. Konuttan otele uzanan uygulamalarımızı inceleyin."
+        description="Tamamladığımız tezgah uygulamalarından bir seçki. Konuttan otele uzanan projelerimizi inceleyin."
       />
       <div className="container-page py-12 md:py-16">
         {projects.length === 0 ? (
@@ -31,9 +31,13 @@ export default async function ProjectsPage() {
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project, i) => (
-              <Reveal key={project.id} delay={(i % 3) * 0.08}>
+              <div
+                key={project.id}
+                className="rise-in"
+                style={{ animationDelay: `${(i % 3) * 80}ms` }}
+              >
                 <ProjectCard project={project} />
-              </Reveal>
+              </div>
             ))}
           </div>
         )}

@@ -39,7 +39,7 @@ export function ProductCard({ product }: { product: Product }) {
         )}
         {typeof product.price === 'number' && (
           <p className="font-mono text-xs text-brand">
-            {product.price.toLocaleString('tr-TR')} ₺’den başlayan
+            {product.price.toLocaleString('tr-TR')} ₺
           </p>
         )}
       </div>

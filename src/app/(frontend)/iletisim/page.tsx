@@ -7,9 +7,10 @@ import { Button } from '@/components/ui/button'
 import { ContactForm } from '@/components/contact/contact-form'
 
 export const metadata: Metadata = {
-  title: 'İletişim',
+  title: 'İletişim — Tezgah Fiyat Teklifi ve Numune',
   description:
-    'Sistem Granit ile iletişime geçin. Telefon, WhatsApp veya formla numune ve fiyat teklifi talep edin.',
+    'Sistem Granit ile iletişime geçin. Kompozit taş tezgah fiyat teklifi, numune ve ölçü randevusu için telefon, WhatsApp veya formu kullanın.',
+  alternates: { canonical: '/iletisim' },
 }
 
 export default function ContactPage() {

@@ -3,7 +3,8 @@ import type { Metadata } from 'next'
 import { Fraunces, Inter, Space_Grotesk } from 'next/font/google'
 
 import './globals.css'
-import { site } from '@/lib/site'
+import { SITE_URL, site } from '@/lib/site'
+import { jsonLd } from '@/lib/json-ld'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SiteFooter } from '@/components/layout/site-footer'
 import { Toaster } from '@/components/ui/sonner'
@@ -27,8 +28,7 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 })
 
-export const SITE_URL = 'https://sistemgranit.com'
-const homeTitle = `${site.name} — Mermer, Granit & Doğal Taş`
+const homeTitle = `${site.name} — Kompozit Taş & Mutfak Tezgahı`
 
 // PLACEHOLDER — replace with a dedicated 1200×630 /og.jpg before launch.
 // Points at the hero upload (siteMedia.hero) by filename: metadata is static,
@@ -47,7 +47,9 @@ export const metadata: Metadata = {
     template: `%s · ${site.name}`,
   },
   description: site.description,
-  alternates: { canonical: '/' },
+  // NOTE: no `alternates` here on purpose. Next merges metadata shallowly, so a
+  // canonical set on the root layout would be inherited verbatim by every page
+  // that doesn't override it. Each page declares its own self-canonical.
   openGraph: {
     type: 'website',
     locale: 'tr_TR',
@@ -66,24 +68,41 @@ export const metadata: Metadata = {
   // src/app/apple-icon.png), generated via `bun run generate:favicon`.
 }
 
-/** Organization schema for rich results. Contact fields are still PLACEHOLDER in site.ts. */
-const organizationJsonLd = {
+/**
+ * LocalBusiness schema — a fabricator with a showroom and service area, not a
+ * generic Organization.
+ *
+ * `telephone` and `sameAs` are deliberately omitted while the values in site.ts
+ * are still PLACEHOLDER: publishing no NAP is far better for local SEO than
+ * publishing a fake number or social links pointing at platform homepages.
+ * Re-add both here once the real values land.
+ */
+const businessJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': 'HomeAndConstructionBusiness',
+  '@id': `${SITE_URL}/#business`,
   name: site.name,
   legalName: site.legalName,
+  description: site.description,
   url: SITE_URL,
   logo: `${SITE_URL}/sistem-granit.png`,
+  image: `${SITE_URL}/sistem-granit.png`,
   foundingDate: String(site.foundedYear),
   email: site.email,
-  telephone: site.phoneDisplay,
+  priceRange: '₺₺',
   address: {
     '@type': 'PostalAddress',
     streetAddress: site.address.line,
     addressLocality: site.address.district,
     addressCountry: site.address.country,
   },
-  sameAs: Object.values(site.social),
+  areaServed: site.areaServed.map((name) => ({ '@type': 'Place', name })),
+  openingHoursSpecification: site.hours.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.days,
+    opens: h.opens,
+    closes: h.closes,
+  })),
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
@@ -93,7 +112,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body className="flex min-h-svh flex-col">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={jsonLd(businessJsonLd)}
         />
         <SiteHeader />
         <main className="flex-1">{children}</main>

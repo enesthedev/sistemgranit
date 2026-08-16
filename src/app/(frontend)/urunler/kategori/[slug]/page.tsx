@@ -3,47 +3,61 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronRight } from 'lucide-react'
 
-import { SITE_URL } from '@/app/(frontend)/layout'
-import { getCategories, getCategoryBySlug, getProducts } from '@/lib/queries'
+import { SITE_URL } from '@/lib/site'
+import { jsonLd } from '@/lib/json-ld'
+import { getCategories, getCategoryBySlug, getProductPage } from '@/lib/queries'
 import { PageHero } from '@/components/page-hero'
 import { CategoryFilter } from '@/components/products/category-filter'
 import { ProductGrid } from '@/components/products/product-grid'
+import { Pagination } from '@/components/products/pagination'
 
-type Params = { params: Promise<{ slug: string }> }
+type Params = {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ sayfa?: string }>
+}
 
 export async function generateStaticParams() {
   const categories = await getCategories()
   return categories.filter((c) => c.slug).map((c) => ({ slug: c.slug as string }))
 }
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Params): Promise<Metadata> {
   const { slug } = await params
+  const { sayfa } = await searchParams
   const category = await getCategoryBySlug(slug)
-  if (!category) return { title: 'Marka bulunamadı' }
+  if (!category) return { title: 'Marka bulunamadı', robots: { index: false, follow: true } }
 
+  const page = Number(sayfa) || 1
+  const base = `/urunler/kategori/${slug}`
+  const title = `${category.name} Kompozit Tezgah Modelleri ve Fiyatları`
   const description =
-    category.description || `${category.name} — Sistem Granit kompozit taş koleksiyonu.`
+    category.description ||
+    `${category.name} kompozit taş (quartz) tezgah modelleri, renkleri ve fiyatları. Mutfak ve banyo tezgahı için ölçü, kesim ve montaj Sistem Granit güvencesiyle.`
   const cover = typeof category.image === 'object' ? category.image : null
 
   return {
-    title: category.name,
+    title: page > 1 ? `${title} — Sayfa ${page}` : title,
     description,
-    alternates: { canonical: `/urunler/kategori/${slug}` },
+    alternates: { canonical: page > 1 ? `${base}?sayfa=${page}` : base },
     openGraph: {
-      title: category.name,
+      title,
       description,
-      url: `/urunler/kategori/${slug}`,
-      ...(cover?.url ? { images: [{ url: cover.url }] } : {}),
+      url: base,
+      ...(cover?.url ? { images: [{ url: cover.url, alt: category.name }] } : {}),
     },
   }
 }
 
-export default async function CategoryPage({ params }: Params) {
+export default async function CategoryPage({ params, searchParams }: Params) {
   const { slug } = await params
+  const { sayfa } = await searchParams
   const [category, categories] = await Promise.all([getCategoryBySlug(slug), getCategories()])
   if (!category) notFound()
 
-  const products = await getProducts({ category: slug })
+  const { products, page, totalPages, totalDocs } = await getProductPage({
+    category: slug,
+    page: Number(sayfa) || 1,
+  })
 
   const breadcrumbLd = {
     '@context': 'https://schema.org',
@@ -64,7 +78,7 @@ export default async function CategoryPage({ params }: Params) {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: `${category.name} — Ürünler`,
-    numberOfItems: products.length,
+    numberOfItems: totalDocs,
     itemListElement: products
       .filter((p) => p.slug)
       .map((p, i) => ({
@@ -77,14 +91,8 @@ export default async function CategoryPage({ params }: Params) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbLd)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(itemListLd)} />
 
       <div className="container-page pt-10">
         <nav className="flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-stone-muted">
@@ -117,7 +125,17 @@ export default async function CategoryPage({ params }: Params) {
               Bu markada henüz ürün bulunmuyor.
             </p>
           ) : (
-            <ProductGrid products={products} />
+            <>
+              <h2 className="sr-only">
+                {category.name} tezgah modelleri — sayfa {page}/{totalPages}
+              </h2>
+              <ProductGrid products={products} />
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                basePath={`/urunler/kategori/${slug}`}
+              />
+            </>
           )}
         </div>
       </div>

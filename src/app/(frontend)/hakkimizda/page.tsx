@@ -10,30 +10,43 @@ import { CtaBanner } from '@/components/sections/cta-banner'
 import { Reveal } from '@/components/motion/reveal'
 
 export const metadata: Metadata = {
-  title: 'Hakkımızda',
+  title: 'Hakkımızda — Kompozit Taş Tezgah Üretimi',
   description:
-    'Sistem Granit; ocaktan şantiyeye uzanan üretim gücüyle mermer, granit ve traverten sunan bir doğal taş üreticisidir.',
+    'Sistem Granit; ARTEO, BELENCO, ÇİMSTONE ve COANTE kompozit taş (quartz) tezgahlarını ölçüden montaja kendi atölyesinde işleyen bir tezgah üreticisidir.',
+  alternates: { canonical: '/hakkimizda' },
 }
 
 const principles = [
   {
-    title: 'Ocaktan başlayan kalite',
-    body: 'Blokları kaynağında seçer, kendi tesisimizde işleriz. Böylece renk ve doku tutarlılığını uçtan uca koruruz.',
+    title: 'Orijinal plaka, marka garantisi',
+    body: 'Plakaları yetkili kanaldan tedarik ederiz. Aldığınız tezgah, seçtiğiniz markanın kendi garantisiyle gelir.',
   },
   {
-    title: 'Söz verdiğimiz gün teslim',
-    body: 'Planlanan üretim takvimi ve ihracat tecrübesiyle projelerin zamanında ilerlemesini önceliklendiririz.',
+    title: 'Ölçü hatası bizim sorunumuz',
+    body: 'Ölçüyü şablonla biz alırız. Eviye, ocak ve duvar payı tutmazsa düzeltmek müşterinin değil bizim işimizdir.',
   },
   {
-    title: 'Projeye özel çözüm',
-    body: 'Ebatlama, yüzey işlemi ve özel kesimlerle taşı, mekânın ve uygulamacının ihtiyacına göre hazırlarız.',
+    title: 'Tek elden sorumluluk',
+    body: 'Kesim de montaj da bize ait. Arada taşeron olmadığı için sorun çıktığında muhatap aramak zorunda kalmazsınız.',
   },
 ]
 
 const steps = [
-  { n: '01', title: 'Seçim & Numune', body: 'İhtiyacınıza uygun taşı belirler, numune ve blok görsellerini paylaşırız.' },
-  { n: '02', title: 'Üretim & Kesim', body: 'Onaylanan ürünü tesisimizde ebatlar, yüzey işlemlerini uygularız.' },
-  { n: '03', title: 'Teslimat', body: 'Şantiyeye hazır şekilde, güvenli ambalajla yurt içi ve yurt dışına sevk ederiz.' },
+  {
+    n: '01',
+    title: 'Seçim & Numune',
+    body: 'Mutfağınıza uygun markayı ve modeli birlikte belirler, karar öncesi elinize numune ulaştırırız.',
+  },
+  {
+    n: '02',
+    title: 'Yerinde Ölçü',
+    body: 'Dolaplar takıldıktan sonra şablonla ölçü alır; eviye, ocak ve armatür boşluklarını netleştiririz.',
+  },
+  {
+    n: '03',
+    title: 'Kesim & Montaj',
+    body: 'Plakayı atölyemizde CNC ile keser, pah ve damlalık kanalını açar, tezgahı yerine monte edip teslim ederiz.',
+  },
 ]
 
 export default async function AboutPage() {
@@ -43,8 +56,8 @@ export default async function AboutPage() {
     <>
       <PageHero
         eyebrow="Hakkımızda"
-        title="Doğal taşı, mimarinin kalıcı diline çeviriyoruz"
-        description={`${site.foundedYear} yılından bu yana mermer, granit ve travertende üretici güvencesiyle çalışıyoruz.`}
+        title="Tezgahı baştan sona kendi işimiz olarak görüyoruz"
+        description={`${site.foundedYear} yılından bu yana kompozit taş tezgahta ölçü, kesim ve montajı tek elden yapıyoruz.`}
       />
 
       {/* Story */}
@@ -54,7 +67,7 @@ export default async function AboutPage() {
             <PayloadImage
               media={story}
               size="card"
-              alt="Doğal taş işleme tesisi"
+              alt="Kompozit taş tezgah kesim atölyesi"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
@@ -64,24 +77,25 @@ export default async function AboutPage() {
         <div>
           <SectionHeading
             eyebrow="Hikâyemiz"
-            title="Taşı tanıyan bir ekibin işi"
+            title="Taşı da mutfağı da tanıyan bir ekip"
           />
           <div className="mt-6 space-y-4 text-base leading-relaxed text-stone-muted">
             <p>
-              Sistem Granit, küçük bir atölyeden bugünün modern üretim tesisine uzanan bir yolda,
-              doğal taşı işleme sanatını nesilden nesile aktararak büyüdü. Mermerin damarını,
-              granitin sertliğini ve travertenin sıcaklığını tanıyan bir ekiple çalışıyoruz.
+              Sistem Granit, küçük bir taş atölyesi olarak başladı. Yıllar içinde işin ağırlığı
+              mutfak ve banyo tezgahına kaydı; bugün kompozit taş (quartz) tezgah üretimi ve
+              montajı yapan bir atölyeyiz.
             </p>
             <p>
-              Ocaktan seçtiğimiz blokları kendi tesisimizde plakaya, ebada ve yüzeye dönüştürüyor;
-              konut projelerinden otellere, ticari alanlardan kamu yapılarına kadar geniş bir
-              yelpazede doğal taş tedarik ediyoruz. Otuza yakın ülkeye yaptığımız sevkiyatlarla
-              uluslararası kalite standartlarını günlük işimizin parçası hâline getirdik.
+              ARTEO, BELENCO, ÇİMSTONE ve COANTE plakalarını yetkili kanaldan tedarik ediyor,
+              işin geri kalanını kendimiz yapıyoruz: mutfağınızın ölçüsünü şablonla alıyor,
+              plakayı atölyemizde CNC ile kesiyor, pah ve damlalık kanalını açıyor, eviyeyi
+              monte edip tezgahı yerine yerleştiriyoruz.
             </p>
             <p>
-              Bizim için doğal taş yalnızca bir malzeme değil; mekâna kalıcılık ve karakter katan
-              bir imzadır. Her projede bu imzanın arkasında durmak için üretimin her adımını kendi
-              kontrolümüzde tutarız.
+              Kompozit taşı tercih etmemizin sebebi basit: gözeneksiz olduğu için leke tutmaz,
+              doğal taşa göre çok daha az bakım ister ve renk tutarlılığı plakadan plakaya
+              değişmez. Mutfak tezgahı günde onlarca kez dokunulan bir yüzey; bizim işimiz onu
+              yıllarca ilk günkü gibi tutmak.
             </p>
           </div>
         </div>
@@ -114,7 +128,7 @@ export default async function AboutPage() {
         <SectionHeading
           eyebrow="Süreç"
           title="Numuneden teslimata"
-          description="Doğru taş seçiminden şantiyeye teslime kadar şeffaf ve takip edilebilir bir akış."
+          description="Model seçiminden montaja kadar şeffaf ve takip edilebilir bir akış."
         />
         <ol className="mt-12 grid gap-8 md:grid-cols-3">
           {steps.map((s, i) => (

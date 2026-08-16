@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function CtaBanner({
-  title = 'Projeniz için doğru taşı birlikte seçelim',
+  title = 'Mutfağınız için doğru tezgahı birlikte seçelim',
   description = 'Numune, stok durumu ve fiyat teklifi için ekibimizle iletişime geçin. Aynı gün dönüş yapıyoruz.',
 }: Props) {
   return (

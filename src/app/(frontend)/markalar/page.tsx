@@ -2,16 +2,16 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 
-import { SITE_URL } from '@/app/(frontend)/layout'
+import { SITE_URL } from '@/lib/site'
+import { jsonLd } from '@/lib/json-ld'
 import { getBrandProductCounts, getCategories } from '@/lib/queries'
 import { PageHero } from '@/components/page-hero'
 import { BrandCard } from '@/components/brands/brand-card'
-import { Reveal } from '@/components/motion/reveal'
 
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'Markalar',
+  title: 'Markalar — ARTEO, BELENCO, ÇİMSTONE, COANTE',
   description:
     'Çalıştığımız kompozit taş (quartz) markaları — ARTEO, BELENCO, ÇİMSTONE ve COANTE tezgah koleksiyonlarını keşfedin.',
   alternates: { canonical: '/markalar' },
@@ -48,11 +48,11 @@ export default async function MarkalarPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        dangerouslySetInnerHTML={jsonLd(breadcrumbLd)}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
+        dangerouslySetInnerHTML={jsonLd(itemListLd)}
       />
 
       <div className="container-page pt-10">
@@ -77,14 +77,17 @@ export default async function MarkalarPage() {
         ) : (
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {categories.map((category, i) => (
-              <Reveal key={category.id} delay={(i % 4) * 0.06} className="min-h-0">
+              <div
+                key={category.id}
+                className="rise-in min-h-0"
+                style={{ animationDelay: `${(i % 4) * 60}ms` }}
+              >
                 <BrandCard
                   brand={category}
-                  index={i + 1}
                   count={counts[String(category.id)] ?? 0}
                   sizes="(max-width: 768px) 45vw, (max-width: 1024px) 30vw, 22vw"
                 />
-              </Reveal>
+              </div>
             ))}
           </div>
         )}

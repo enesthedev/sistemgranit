@@ -41,7 +41,7 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 
 export function Stats() {
   return (
-    <section className="bg-graphite py-20 text-marble md:py-28">
+    <section className="bg-graphite py-16 text-marble md:py-20">
       <div className="container-page">
         <h2 className="sr-only">Rakamlarla Sistem Granit</h2>
         <dl className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4">

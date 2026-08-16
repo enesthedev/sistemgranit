@@ -1,5 +1,7 @@
 export const revalidate = 60
 
+import type { Metadata } from 'next'
+
 import {
   getBrandProductCounts,
   getCategories,
@@ -14,6 +16,12 @@ import { FeaturedProducts } from '@/components/sections/featured-products'
 import { Stats } from '@/components/sections/stats'
 import { ProjectsPreview } from '@/components/sections/projects-preview'
 import { CtaBanner } from '@/components/sections/cta-banner'
+
+// Title and description come from the root layout; only the canonical is
+// page-specific (the layout no longer sets one, so every page declares its own).
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
 
 export default async function HomePage() {
   const [categories, brandCounts, featured, fallbackProducts, projects] = await Promise.all([

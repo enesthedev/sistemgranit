@@ -44,15 +44,15 @@ export const Products: CollectionConfig = {
     },
     {
       name: 'price',
-      label: { en: 'Starting price (₺)', tr: 'Başlangıç fiyatı (₺)' },
+      label: { en: 'Price (₺)', tr: 'Fiyat (₺)' },
       type: 'number',
       min: 0,
       admin: {
         position: 'sidebar',
         step: 50,
         description: {
-          en: 'Displayed as a “starting from” price. Leave empty to hide.',
-          tr: 'Sitede “…’den başlayan” olarak gösterilir. Boş bırakılırsa gizlenir.',
+          en: 'Shown on the product card and page, and published as the Offer price in structured data. Leave empty to hide.',
+          tr: 'Ürün kartında ve sayfasında gösterilir, yapısal veride Offer fiyatı olarak yayınlanır. Boş bırakılırsa gizlenir.',
         },
       },
     },

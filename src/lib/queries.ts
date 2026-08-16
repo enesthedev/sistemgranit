@@ -36,29 +36,40 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
   return docs[0] ?? null
 }
 
+/**
+ * Product count per brand. Uses one `limit: 0` count query per brand rather
+ * than pulling every product row just to tally four integers.
+ */
 export async function getBrandProductCounts(): Promise<Record<string, number>> {
   const payload = await getPayloadClient()
-  const { docs } = await payload.find({
-    collection: 'products',
-    depth: 0,
-    limit: 1000,
-    pagination: false,
-  })
-  const counts: Record<string, number> = {}
-  for (const p of docs) {
-    const id = typeof p.category === 'object' ? p.category?.id : p.category
-    if (id != null) counts[String(id)] = (counts[String(id)] ?? 0) + 1
-  }
-  return counts
+  const categories = await getCategories()
+
+  const results = await Promise.all(
+    categories.map(async (c) => {
+      const { totalDocs } = await payload.find({
+        collection: 'products',
+        where: { category: { equals: c.id } },
+        depth: 0,
+        limit: 0,
+      })
+      return [String(c.id), totalDocs] as const
+    }),
+  )
+
+  return Object.fromEntries(results)
 }
 
-export async function getProducts(opts?: {
-  category?: string
-  search?: string
-  limit?: number
-}): Promise<Product[]> {
-  const payload = await getPayloadClient()
+/** How many products a listing page shows before paginating. */
+export const PRODUCTS_PER_PAGE = 24
 
+export type ProductPage = {
+  products: Product[]
+  page: number
+  totalPages: number
+  totalDocs: number
+}
+
+function productWhere(opts?: { category?: string; search?: string }): Where | undefined {
   const conditions: Where[] = []
   if (opts?.category) {
     conditions.push({ 'category.slug': { equals: opts.category } })
@@ -73,21 +84,59 @@ export async function getProducts(opts?: {
       ],
     })
   }
-  const where: Where | undefined =
-    conditions.length === 0
-      ? undefined
-      : conditions.length === 1
-        ? conditions[0]
-        : { and: conditions }
+  return conditions.length === 0
+    ? undefined
+    : conditions.length === 1
+      ? conditions[0]
+      : { and: conditions }
+}
 
+export async function getProducts(opts?: {
+  category?: string
+  search?: string
+  limit?: number
+}): Promise<Product[]> {
+  const payload = await getPayloadClient()
   const { docs } = await payload.find({
     collection: 'products',
-    where,
+    where: productWhere(opts),
     sort: '-updatedAt',
     limit: opts?.limit ?? 100,
     depth: 2,
   })
   return docs
+}
+
+/**
+ * Paginated variant for the listing pages. The unpaginated `getProducts` capped
+ * at 100, which silently hid 58 of the 158 products from both users and
+ * crawlers — every product must be reachable by following links.
+ */
+export async function getProductPage(opts?: {
+  category?: string
+  search?: string
+  page?: number
+  perPage?: number
+}): Promise<ProductPage> {
+  const payload = await getPayloadClient()
+  const perPage = opts?.perPage ?? PRODUCTS_PER_PAGE
+  const requested = Math.max(1, Math.trunc(opts?.page ?? 1) || 1)
+
+  const result = await payload.find({
+    collection: 'products',
+    where: productWhere(opts),
+    sort: '-updatedAt',
+    limit: perPage,
+    page: requested,
+    depth: 2,
+  })
+
+  return {
+    products: result.docs,
+    page: result.page ?? requested,
+    totalPages: result.totalPages,
+    totalDocs: result.totalDocs,
+  }
 }
 
 export async function getFeaturedProducts(limit = 6): Promise<Product[]> {
