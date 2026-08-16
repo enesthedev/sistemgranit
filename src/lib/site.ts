@@ -78,6 +78,15 @@ export const valueProps = [
   },
 ] as const
 
+/**
+ * Media IDs for the two fixed page images, uploaded through the admin panel.
+ * They are not editable per-page yet, so they live here rather than in a global.
+ */
+export const siteMedia = {
+  hero: 243,
+  about: 244,
+} as const
+
 export function whatsappUrl(message?: string) {
   const base = `https://api.whatsapp.com/send?phone=${site.whatsapp}`
   return message ? `${base}&text=${encodeURIComponent(message)}` : base

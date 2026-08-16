@@ -1,7 +1,18 @@
 import type { Where } from 'payload'
 
 import { getPayloadClient } from './payload'
-import type { Category, Product, Project } from '@/payload-types'
+import type { Category, Media, Product, Project } from '@/payload-types'
+
+/** Resolves one media doc, e.g. the fixed page imagery listed in `siteMedia`. */
+export async function getMediaById(id: number): Promise<Media | null> {
+  const payload = await getPayloadClient()
+  try {
+    return await payload.findByID({ collection: 'media', id })
+  } catch {
+    // Deleted or replaced in the panel — callers fall back to a placeholder.
+    return null
+  }
+}
 
 export async function getCategories(): Promise<Category[]> {
   const payload = await getPayloadClient()

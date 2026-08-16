@@ -17,7 +17,6 @@ const nextConfig: NextConfig = {
   images: {
     localPatterns: [
       { pathname: '/api/media/file/**' },
-      { pathname: '/seed/**' },
       { pathname: '/sistem-granit.png' },
     ],
   },

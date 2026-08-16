@@ -31,7 +31,14 @@ export const SITE_URL = 'https://sistemgranit.com'
 const homeTitle = `${site.name} — Mermer, Granit & Doğal Taş`
 
 // PLACEHOLDER — replace with a dedicated 1200×630 /og.jpg before launch.
-const ogImage = { url: '/seed/hero.jpg', width: 1200, height: 630, alt: homeTitle }
+// Points at the hero upload (siteMedia.hero) by filename: metadata is static,
+// so it cannot resolve the media doc at request time.
+const ogImage = {
+  url: '/api/media/file/mountains-screw.jpg',
+  width: 1200,
+  height: 630,
+  alt: homeTitle,
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
