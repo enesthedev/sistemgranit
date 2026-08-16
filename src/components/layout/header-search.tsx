@@ -146,7 +146,10 @@ export function HeaderSearch({ transparent = false }: { transparent?: boolean })
           aria-controls="header-search-results"
           autoComplete="off"
           spellCheck={false}
-          className="w-36 bg-transparent text-sm outline-none placeholder:opacity-60 sm:w-56"
+          className={cn(
+            'w-36 bg-transparent text-sm outline-none sm:w-56',
+            transparent ? 'placeholder:text-marble/70' : 'placeholder:text-stone-muted',
+          )}
         />
         {value && (
           <button

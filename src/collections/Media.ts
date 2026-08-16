@@ -1,21 +1,29 @@
 import type { CollectionConfig } from 'payload'
+import { GROUP_CONTENT } from '@/fields/groups'
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  labels: {
+    singular: { en: 'Media', tr: 'Medya' },
+    plural: { en: 'Media', tr: 'Medya' },
+  },
   access: {
     read: () => true,
   },
   admin: {
-    group: 'İçerik',
+    group: GROUP_CONTENT,
   },
   fields: [
     {
       name: 'alt',
-      label: 'Alternatif metin',
+      label: { en: 'Alt text', tr: 'Alternatif metin' },
       type: 'text',
       required: true,
       admin: {
-        description: 'Erişilebilirlik ve SEO için görseli kısaca tanımlayın.',
+        description: {
+          en: 'Briefly describe the image for accessibility and SEO.',
+          tr: 'Erişilebilirlik ve SEO için görseli kısaca tanımlayın.',
+        },
       },
     },
   ],

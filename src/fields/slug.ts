@@ -8,12 +8,16 @@ import { slugify } from '@/lib/slugify'
 export function slugField(sourceField = 'title'): Field {
   return {
     name: 'slug',
+    label: { en: 'Slug', tr: 'Kısa ad (slug)' },
     type: 'text',
     unique: true,
     index: true,
     admin: {
       position: 'sidebar',
-      description: 'Boş bırakılırsa başlıktan otomatik üretilir.',
+      description: {
+        en: 'Auto-generated from the title if left blank.',
+        tr: 'Boş bırakılırsa başlıktan otomatik üretilir.',
+      },
     },
     hooks: {
       beforeValidate: [
