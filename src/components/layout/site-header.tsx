@@ -44,7 +44,9 @@ export function SiteHeader() {
               alt={site.name}
               width={160}
               height={60}
-              priority
+              // Only the home page preloads the mark. Elsewhere it would compete
+              // with the page's real LCP element for early bandwidth.
+              priority={isHome}
               className={cn(
                 'h-10 w-auto md:h-12',
                 transparent && 'brightness-0 invert',
