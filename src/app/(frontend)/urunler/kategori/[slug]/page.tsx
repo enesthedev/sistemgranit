@@ -19,10 +19,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params
   const category = await getCategoryBySlug(slug)
-  if (!category) return { title: 'Kategori bulunamadı' }
+  if (!category) return { title: 'Marka bulunamadı' }
 
   const description =
-    category.description || `${category.name} — Sistem Granit doğal taş koleksiyonu.`
+    category.description || `${category.name} — Sistem Granit kompozit taş koleksiyonu.`
   const cover = typeof category.image === 'object' ? category.image : null
 
   return {
@@ -101,11 +101,11 @@ export default async function CategoryPage({ params }: Params) {
       </div>
 
       <PageHero
-        eyebrow="Koleksiyon"
+        eyebrow="Marka"
         title={category.name}
         description={
           category.description ||
-          `${category.name} grubundaki doğal taş çeşitlerimizi inceleyin.`
+          `${category.name} markası kompozit taş (quartz) tezgah çeşitlerimizi inceleyin.`
         }
       />
 
@@ -114,7 +114,7 @@ export default async function CategoryPage({ params }: Params) {
         <div className="mt-12">
           {products.length === 0 ? (
             <p className="py-16 text-center text-stone-muted">
-              Bu kategoride henüz ürün bulunmuyor.
+              Bu markada henüz ürün bulunmuyor.
             </p>
           ) : (
             <ProductGrid products={products} />

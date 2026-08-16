@@ -25,6 +25,22 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
   return docs[0] ?? null
 }
 
+export async function getBrandProductCounts(): Promise<Record<string, number>> {
+  const payload = await getPayloadClient()
+  const { docs } = await payload.find({
+    collection: 'products',
+    depth: 0,
+    limit: 1000,
+    pagination: false,
+  })
+  const counts: Record<string, number> = {}
+  for (const p of docs) {
+    const id = typeof p.category === 'object' ? p.category?.id : p.category
+    if (id != null) counts[String(id)] = (counts[String(id)] ?? 0) + 1
+  }
+  return counts
+}
+
 export async function getProducts(opts?: {
   category?: string
   search?: string

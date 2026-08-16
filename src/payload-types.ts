@@ -221,6 +221,14 @@ export interface Product {
    */
   featured?: boolean | null;
   /**
+   * Displayed as a “starting from” price. Leave empty to hide.
+   */
+  price?: number | null;
+  /**
+   * Manufacturer reference code (e.g. 10115).
+   */
+  code?: string | null;
+  /**
    * The first image is used as the cover.
    */
   images?:
@@ -458,6 +466,8 @@ export interface ProductsSelect<T extends boolean = true> {
   category?: T;
   slug?: T;
   featured?: T;
+  price?: T;
+  code?: T;
   images?:
     | T
     | {

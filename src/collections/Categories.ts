@@ -5,8 +5,8 @@ import { GROUP_CONTENT } from '@/fields/groups'
 export const Categories: CollectionConfig = {
   slug: 'categories',
   labels: {
-    singular: { en: 'Category', tr: 'Kategori' },
-    plural: { en: 'Categories', tr: 'Kategoriler' },
+    singular: { en: 'Brand', tr: 'Marka' },
+    plural: { en: 'Brands', tr: 'Markalar' },
   },
   access: { read: () => true },
   admin: {
@@ -16,7 +16,7 @@ export const Categories: CollectionConfig = {
   },
   defaultSort: 'order',
   fields: [
-    { name: 'name', label: { en: 'Name', tr: 'Ad' }, type: 'text', required: true },
+    { name: 'name', label: { en: 'Brand name', tr: 'Marka adı' }, type: 'text', required: true },
     slugField('name'),
     {
       name: 'description',
