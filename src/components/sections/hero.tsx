@@ -11,7 +11,9 @@ export async function Hero() {
   const cover = await getMediaById(siteMedia.hero)
 
   return (
-    <section className="relative isolate flex min-h-svh flex-col justify-end overflow-hidden bg-graphite">
+    // `-mt-20` cancels the header offset `main` reserves, pulling the hero back
+    // up so the fixed header floats over it. See src/app/(frontend)/layout.tsx.
+    <section className="relative isolate -mt-20 flex min-h-svh flex-col justify-end overflow-hidden bg-graphite">
       <PayloadImage
         media={cover}
         size="hero"

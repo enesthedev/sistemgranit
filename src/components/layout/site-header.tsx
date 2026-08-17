@@ -27,43 +27,38 @@ export function SiteHeader() {
   const tone = transparent ? 'text-marble' : 'text-foreground'
 
   return (
-    <>
-      <header
-        className={cn(
-          'fixed inset-x-0 top-0 z-50 transition-colors duration-300',
-          transparent
-            ? 'bg-transparent'
-            : 'border-b border-vein bg-marble/90 backdrop-blur-md',
-        )}
-      >
-        <div className="container-page flex h-20 items-center justify-between">
-          {/* Left — logo */}
-          <Link href="/" aria-label={site.name} className="flex">
-            <Image
-              src="/sistem-granit.png"
-              alt={site.name}
-              width={160}
-              height={60}
-              // Only the home page preloads the mark. Elsewhere it would compete
-              // with the page's real LCP element for early bandwidth.
-              priority={isHome}
-              className={cn(
-                'h-10 w-auto md:h-12',
-                transparent && 'brightness-0 invert',
-              )}
-            />
-          </Link>
+    <header
+      className={cn(
+        'fixed inset-x-0 top-0 z-50 transition-colors duration-300',
+        transparent
+          ? 'bg-transparent'
+          : 'border-b border-vein bg-marble/90 backdrop-blur-md',
+      )}
+    >
+      <div className="container-page flex h-20 items-center justify-between">
+        {/* Left — logo */}
+        <Link href="/" aria-label={site.name} className="flex">
+          <Image
+            src="/sistem-granit.png"
+            alt={site.name}
+            width={160}
+            height={60}
+            // Only the home page preloads the mark. Elsewhere it would compete
+            // with the page's real LCP element for early bandwidth.
+            priority={isHome}
+            className={cn(
+              'h-10 w-auto md:h-12',
+              transparent && 'brightness-0 invert',
+            )}
+          />
+        </Link>
 
-          {/* Right — search + menu */}
-          <div className={cn('flex items-center gap-5 sm:gap-8', tone)}>
-            <HeaderSearch transparent={transparent} />
-            <NavOverlay triggerClassName="transition-colors hover:text-brand" />
-          </div>
+        {/* Right — search + menu */}
+        <div className={cn('flex items-center gap-5 sm:gap-8', tone)}>
+          <HeaderSearch transparent={transparent} />
+          <NavOverlay triggerClassName="transition-colors hover:text-brand" />
         </div>
-      </header>
-
-      {/* Spacer pushes inner-page content below the fixed header (home hero sits behind it). */}
-      {!isHome && <div className="h-20" aria-hidden />}
-    </>
+      </div>
+    </header>
   )
 }

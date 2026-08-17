@@ -108,7 +108,14 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           dangerouslySetInnerHTML={jsonLd(businessJsonLd)}
         />
         <SiteHeader />
-        <main className="flex-1">{children}</main>
+        {/*
+          The header is `fixed`, so it takes no space in the flow. The 80px it
+          covers is reserved here — on the server, for every route — rather than
+          by the header itself: a client component that mis-reads its own route
+          would otherwise shift the whole page. The home hero opts back out with
+          a matching `-mt-20` so it can sit behind the header.
+        */}
+        <main className="flex-1 pt-20">{children}</main>
         <SiteFooter />
         <Toaster position="top-center" richColors />
       </body>
