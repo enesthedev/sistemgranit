@@ -35,17 +35,16 @@ export async function generateMetadata({ params, searchParams }: Params): Promis
   const description =
     category.description ||
     `${category.name} kompozit taş (quartz) tezgah modelleri, renkleri ve fiyatları. Mutfak ve banyo tezgahı için ölçü, kesim ve montaj Sistem Granit güvencesiyle.`
-  const cover = typeof category.image === 'object' ? category.image : null
 
   return {
     title: page > 1 ? `${title} — Sayfa ${page}` : title,
     description,
     alternates: { canonical: page > 1 ? `${base}?sayfa=${page}` : base },
+    // No `images`: `opengraph-image.tsx` in this segment renders the brand card.
     openGraph: {
       title,
       description,
       url: base,
-      ...(cover?.url ? { images: [{ url: cover.url, alt: category.name }] } : {}),
     },
   }
 }

@@ -20,6 +20,16 @@ const nextConfig: NextConfig = {
       { pathname: '/sistem-granit.png' },
     ],
   },
+  // The OG cards read their fonts and the logo mark off disk at request time.
+  // Next's tracer can't follow those `fs.readFile` calls, so without this the
+  // files are missing from the deployed bundle and the cards fail in production
+  // only. See src/lib/og/fonts.ts. The key is deliberately every route rather
+  // than the image routes alone: their paths carry a build-generated hash
+  // (`/urunler/[slug]/opengraph-image-1o7b5p`) that no glob here can rely on,
+  // and 100 KB in each bundle is the cheaper mistake.
+  outputFileTracingIncludes: {
+    '/**': ['./src/lib/og/fonts/**', './public/sistem-granit.png'],
+  },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],

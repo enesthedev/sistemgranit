@@ -60,19 +60,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const brand = typeof product.category === 'object' ? product.category?.name : null
   const description = productDescription(product, brand)
   const title = brand ? `${product.title} — ${brand} Kompozit Tezgah` : `${product.title} Tezgah`
-  const cover = product.images?.[0]?.image
-  const coverUrl = typeof cover === 'object' && cover ? cover.url : null
 
   return {
     title,
     description,
     alternates: { canonical: `/urunler/${slug}` },
+    // No `images`: `opengraph-image.tsx` in this segment renders the card, and
+    // declaring images here would suppress it.
     openGraph: {
       type: 'website',
       title,
       description,
       url: `/urunler/${slug}`,
-      ...(coverUrl ? { images: [{ url: coverUrl, alt: product.title }] } : {}),
     },
   }
 }
